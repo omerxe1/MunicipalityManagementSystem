@@ -42,10 +42,7 @@ ASP.NET MVC ve SQL Server kullanılarak geliştirilmiş kurumsal belediye web si
 - Veritabanı Entegrasyonu
 - Kimlik Doğrulama ve Yetkilendirme
 
-## Ekran Görüntüleri
-
-
 
 ## Geliştirici
 
-Ömer Akyol
+Ömer Faruk Akyol
