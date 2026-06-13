@@ -1,0 +1,191 @@
+@model List<string>
+
+@{
+    // Fotoğraflar sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Fotoğraflar";
+    ViewData["PageTitle"] = "Fotoğraflar";
+    ViewData["ContentTitle"] = "FOTOĞRAFLAR";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Kocaali", Url = (string?)"#" },
+        new { Text = "Galeri", Url = (string?)(Url.Action("Galeri", "Kocaali") ?? "#") },
+        new { Text = "Fotoğraflar", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<style>
+    .fotograflar-container {
+        padding: 20px 0;
+    }
+
+    .fotograflar-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .fotograf-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        aspect-ratio: 1;
+    }
+
+    .fotograf-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .fotograf-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @@media (max-width: 768px) {
+        .fotograflar-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+    }
+</style>
+
+<!-- Fotoğraflar İçerik Alanı -->
+<div class="fotograflar-container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="fotograflar-grid">
+            @foreach (var fotograf in Model)
+            {
+                <div class="fotograf-item" onclick="openLightbox('@Url.Content($"~/images/KocaaliFotolar/{fotograf}")')">
+                    <img src="@Url.Content($"~/images/KocaaliFotolar/{fotograf}")" alt="Kocaali Fotoğraf" loading="lazy" />
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alt-sayfa-content-body">
+            <p>Henüz fotoğraf bulunmamaktadır.</p>
+        </div>
+    }
+</div>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="Fotoğraf">
+</div>
+
+<style>
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        cursor: pointer;
+    }
+
+    .lightbox-content {
+        margin: auto;
+        display: block;
+        width: auto;
+        max-width: 90%;
+        max-height: 90%;
+        margin-top: 5%;
+        animation: zoom 0.3s;
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10000;
+    }
+
+    .lightbox-close:hover {
+        color: #bbb;
+    }
+
+    @@keyframes zoom {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+</style>
+
+<script>
+    function openLightbox(imageSrc) {
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightbox-img');
+        lightbox.style.display = 'block';
+        lightboxImg.src = imageSrc;
+    }
+
+    function closeLightbox() {
+        var lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
+    }
+
+    // ESC tuşu ile kapatma
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

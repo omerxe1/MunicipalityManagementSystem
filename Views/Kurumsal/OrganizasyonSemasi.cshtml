@@ -1,0 +1,456 @@
+@{
+    // Organizasyon Şeması sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Organizasyon Şeması";
+    ViewData["PageTitle"] = "Organizasyon Şeması";
+    ViewData["ContentTitle"] = "Organizasyon Şeması";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Belediyemiz", Url = (string?)"#" },
+        new { Text = "Kurumsal Yapı", Url = (string?)(Url.Action("KurumsalYapi", "Kurumsal") ?? "#") },
+        new { Text = "Organizasyon Şeması", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<style>
+    .organizasyon-semasi-container {
+        padding: 20px 0;
+    }
+
+    .org-panel-wrapper {
+        position: relative;
+        width: 100%;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .org-panel-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 20px 0;
+        scrollbar-width: thin;
+        scrollbar-color: #041655 #f0f0f0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .org-panel-scroll::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .org-panel-scroll::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        border-radius: 4px;
+    }
+
+    .org-panel-scroll::-webkit-scrollbar-thumb {
+        background: #041655;
+        border-radius: 4px;
+    }
+
+    .org-panel-scroll::-webkit-scrollbar-thumb:hover {
+        background: #052a7a;
+    }
+
+    .org-chart {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        min-width: fit-content;
+        padding: 15px 30px;
+        width: 100%;
+    }
+
+    .org-level {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        min-width: fit-content;
+    }
+
+    .org-box {
+        background: linear-gradient(135deg, #041655 0%, #052a7a 100%);
+        color: white;
+        padding: 12px 15px;
+        border-radius: 6px;
+        text-align: center;
+        width: 140px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .org-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .org-box.baskan {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        width: 160px;
+        font-size: 14px;
+        padding: 15px 18px;
+    }
+
+    .org-box.baskan-yardimcisi {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        width: 140px;
+    }
+
+    .org-box-title {
+        font-weight: 700;
+        font-size: 10px;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        line-height: 1.2;
+    }
+
+    .org-box.baskan .org-box-title {
+        font-size: 12px;
+    }
+
+    .org-box.baskan-yardimcisi .org-box-title {
+        font-size: 10px;
+    }
+
+    .org-box-name {
+        font-size: 9px;
+        font-weight: 500;
+        opacity: 0.95;
+        line-height: 1.3;
+    }
+
+    .org-box.baskan .org-box-name {
+        font-size: 11px;
+    }
+
+    .org-connector {
+        width: 2px;
+        height: 25px;
+        background: #041655;
+        flex-shrink: 0;
+    }
+
+    .org-connector-vertical {
+        width: 2px;
+        height: 25px;
+        background: #041655;
+        margin: 0 auto;
+    }
+
+    .org-connector-horizontal {
+        width: 100%;
+        height: 2px;
+        background: #041655;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+    }
+
+    .org-baskan-yardimcilari-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        position: relative;
+    }
+
+    .org-baskan-yardimcilari-header {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        width: 140px;
+        text-align: center;
+    }
+
+    .org-baskan-yardimcilari-list {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .org-baskan-yardimcisi-item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .org-baskan-yardimcisi-mudurlukler {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .org-mudurluk-box {
+        background: linear-gradient(135deg, #041655 0%, #052a7a 100%);
+        color: white;
+        padding: 10px 12px;
+        border-radius: 5px;
+        text-align: center;
+        width: 140px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .org-mudurluk-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .org-mudurluk-title {
+        font-weight: 600;
+        font-size: 9px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+    }
+
+    .org-mudurluk-name {
+        font-size: 8px;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+
+    .org-connector-small {
+        width: 2px;
+        height: 15px;
+        background: #041655;
+    }
+
+    .org-level-2 {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .org-level-3 {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+</style>
+
+<!-- Organizasyon Şeması İçerik Alanı -->
+<div class="organizasyon-semasi-container">
+    <div class="org-panel-wrapper">
+        <div class="org-panel-scroll" id="orgPanelScroll">
+            <div class="org-chart">
+                <!-- Seviye 1: Belediye Başkanı -->
+                <div class="org-level org-level-1">
+                    <div class="org-box baskan">
+                        <div class="org-box-title">Belediye Başkanı</div>
+                        <div class="org-box-name">Turan Yüzücü</div>
+                    </div>
+                </div>
+
+                <!-- Bağlayıcı Çizgi -->
+                <div class="org-connector"></div>
+
+                <!-- Seviye 2: Belediye Meclisi, Belediye Encümeni, Basın Yayın ve Halkla İlişkiler, Başkan Yardımcıları -->
+                <div class="org-level org-level-2">
+                    <div class="org-box">
+                        <div class="org-box-title">Belediye Meclisi</div>
+                        <div class="org-box-name">-</div>
+                    </div>
+                    
+                    <div class="org-box">
+                        <div class="org-box-title">Belediye Encümeni</div>
+                        <div class="org-box-name">-</div>
+                    </div>
+                    
+                    <div class="org-box">
+                        <div class="org-box-title">Basın Yayın ve Halkla İlişkiler Müdürlüğü</div>
+                        <div class="org-box-name">-</div>
+                    </div>
+
+                    <div class="org-baskan-yardimcilari-header">Başkan Yardımcıları</div>
+                </div>
+
+                <!-- Bağlayıcı Çizgi -->
+                <div class="org-connector"></div>
+
+                <!-- Seviye 3: Başkan Yardımcıları Listesi -->
+                <div class="org-level org-level-3">
+                    <div class="org-baskan-yardimcilari-list">
+                            <!-- Başkan Yardımcısı 1 -->
+                            <div class="org-baskan-yardimcisi-item">
+                                <div class="org-box baskan-yardimcisi">
+                                    <div class="org-box-title">Başkan Yardımcısı</div>
+                                    <div class="org-box-name"> </div>
+                                </div>
+                                <div class="org-connector-small"></div>
+                                <div class="org-baskan-yardimcisi-mudurlukler">
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Yazı İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Fatma GÜLER</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Destek Hizmetleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Süleyman ŞİMŞEK</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Kültür ve Sosyal İşler Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Taner TAŞTEKİN</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Gençlik ve Spor Hizmetleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Bilal SEVEN</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">İnsan Kaynakları ve Eğitim Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Coşkun CERRAH</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Başkan Yardımcısı 2 -->
+                            <div class="org-baskan-yardimcisi-item">
+                                <div class="org-box baskan-yardimcisi">
+                                    <div class="org-box-title">Başkan Yardımcısı</div>
+                                    <div class="org-box-name">Mehmet ÇALIK</div>
+                                </div>
+                                <div class="org-connector-small"></div>
+                                <div class="org-baskan-yardimcisi-mudurlukler">
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Zabıta Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Rifat AMİL</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Sağlık İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Şahimerdan ASKER</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Muhtarlık İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Yavuz ERDEN</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Temizlik İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Yaşar TAKIM</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Afet İşleri ve Risk Yönetimi Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Mehmet Şah TAŞDEMİR</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Başkan Yardımcısı 3 -->
+                            <div class="org-baskan-yardimcisi-item">
+                                <div class="org-box baskan-yardimcisi">
+                                    <div class="org-box-title">Başkan Yardımcısı</div>
+                                    <div class="org-box-name">Adem Orhan YILMAZ</div>
+                                </div>
+                                <div class="org-connector-small"></div>
+                                <div class="org-baskan-yardimcisi-mudurlukler">
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Fen İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Burhan KAKAÇ</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Yapı Kontrol Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Ali PEKSÖZ</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Park ve Bahçeler Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Ali CEBECİ</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Veteriner İşleri Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Buse BUDAKLI</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Başkan Yardımcısı 4 -->
+                            <div class="org-baskan-yardimcisi-item">
+                                <div class="org-box baskan-yardimcisi">
+                                    <div class="org-box-title">Başkan Yardımcısı</div>
+                                    <div class="org-box-name">Mert Vahit ARSLAN</div>
+                                </div>
+                                <div class="org-connector-small"></div>
+                                <div class="org-baskan-yardimcisi-mudurlukler">
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Bilgi İşlem Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Ömer DOĞAN</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">İmar ve Şehircilik Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">İsa SAĞIROĞLU</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">Emlak ve İstimlak Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">Ahmet Haşim ERDOĞAN</div>
+                                    </div>
+                                    <div class="org-mudurluk-box">
+                                        <div class="org-mudurluk-title">İklim Değişikliği ve Sıfır Atık Müdürlüğü</div>
+                                        <div class="org-mudurluk-name">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Panel scroll özelliği - mouse wheel ile yatay kaydırma
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollPanel = document.getElementById('orgPanelScroll');
+        if (scrollPanel) {
+            scrollPanel.addEventListener('wheel', function(e) {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    scrollPanel.scrollLeft += e.deltaY;
+                }
+            });
+        }
+    });
+</script>
+

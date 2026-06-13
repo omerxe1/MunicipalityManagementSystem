@@ -1,0 +1,103 @@
+@model kocaaliv2.Models.QuickMenuItem
+@{
+    ViewData["Title"] = "Hızlı Menü Öğesi Düzenle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-edit me-2"></i>Hızlı Menü Öğesi Düzenle</h4>
+    <a href="@Url.Action("Index", "QuickMenuItem", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Baslik" class="form-label">Başlık <span class="text-danger">*</span></label>
+                <input asp-for="Baslik" class="form-control" />
+                <span asp-validation-for="Baslik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MenuKategori" class="form-label">Menü Kategorisi <span class="text-danger">*</span></label>
+                <select asp-for="MenuKategori" class="form-control">
+                    <option value="">Seçiniz</option>
+                    <option value="KOCAALİ">KOCAALİ</option>
+                    <option value="BELEDİYE_REHBERİ">BELEDİYE REHBERİ</option>
+                    <option value="E_BELEDİYE">E-BELEDİYE</option>
+                    <option value="E_PORTAL">E-PORTAL</option>
+                    <option value="HIZLI_MENÜ">HIZLI MENÜ</option>
+                </select>
+                <span asp-validation-for="MenuKategori" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Url" class="form-label">URL</label>
+                <input asp-for="Url" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Controller" class="form-label">Controller</label>
+                    <input asp-for="Controller" class="form-control" />
+                    <span asp-validation-for="Controller" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Action" class="form-label">Action</label>
+                    <input asp-for="Action" class="form-control" />
+                    <span asp-validation-for="Action" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Icon" class="form-label">İkon Sınıfı</label>
+                <input asp-for="Icon" class="form-control" placeholder="fas fa-home" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SiraNo" class="form-label">Sıra No</label>
+                    <input asp-for="SiraNo" type="number" class="form-control" />
+                    <span asp-validation-for="SiraNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                        <input asp-for="AktifMi" class="form-check-input" type="checkbox" />
+                        <label asp-for="AktifMi" class="form-check-label">Aktif</label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input asp-for="YeniSekmedeAc" class="form-check-input" type="checkbox" />
+                        <label asp-for="YeniSekmedeAc" class="form-check-label">Yeni Sekmede Aç</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Güncelle
+                </button>
+                <a href="@Url.Action("Index", "QuickMenuItem", new { area = "Admin" })" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+

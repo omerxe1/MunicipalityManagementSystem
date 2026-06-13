@@ -1,0 +1,134 @@
+@model List<kocaaliv2.Models.Calisma>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Projeler";
+    ViewData["PageTitle"] = null;
+    ViewData["ContentTitle"] = "PROJELER";
+}
+
+<div class="projeler-container">
+    <div class="projeler-kategori-kartlari">
+        <a href="@Url.Action("ProjeListesi", "HizmetRehberi", new { durum = "Devam Eden" })" class="proje-kategori-kart-link">
+            <div class="proje-kategori-kart" data-kategori="Devam Eden">
+                <div class="proje-kategori-kart-bg">
+                    <img src="~/images/Kocaali_Belediyesi_logo.svg.png" alt="Kocaali Belediyesi" class="proje-kategori-logo" />
+                </div>
+                <h3 class="proje-kategori-baslik">Devam Eden Projeler</h3>
+            </div>
+        </a>
+        
+        <a href="@Url.Action("ProjeListesi", "HizmetRehberi", new { durum = "Tamamlanan" })" class="proje-kategori-kart-link">
+            <div class="proje-kategori-kart" data-kategori="Tamamlanan">
+                <div class="proje-kategori-kart-bg">
+                    <img src="~/images/Kocaali_Belediyesi_logo.svg.png" alt="Kocaali Belediyesi" class="proje-kategori-logo" />
+                </div>
+                <h3 class="proje-kategori-baslik">Tamamlanan Projeler</h3>
+            </div>
+        </a>
+        
+        <a href="@Url.Action("ProjeListesi", "HizmetRehberi", new { durum = "Planlanan" })" class="proje-kategori-kart-link">
+            <div class="proje-kategori-kart" data-kategori="Planlanan">
+                <div class="proje-kategori-kart-bg">
+                    <img src="~/images/Kocaali_Belediyesi_logo.svg.png" alt="Kocaali Belediyesi" class="proje-kategori-logo" />
+                </div>
+                <h3 class="proje-kategori-baslik">Planlanan Projeler</h3>
+            </div>
+        </a>
+    </div>
+</div>
+
+<style>
+    .projeler-container {
+        padding: 2rem 0;
+    }
+
+    .projeler-kategori-kartlari {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .proje-kategori-kart-link {
+        text-decoration: none;
+        display: block;
+    }
+
+    .proje-kategori-kart {
+        position: relative;
+        background: linear-gradient(180deg, #e9ecef 0%, #6c757d 100%);
+        border-radius: 12px;
+        padding: 3rem 2rem;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .proje-kategori-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .proje-kategori-kart-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    .proje-kategori-logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+    }
+
+    .proje-kategori-baslik {
+        position: relative;
+        z-index: 2;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    @@media (max-width: 992px) {
+        .projeler-kategori-kartlari {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .projeler-kategori-kartlari {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .proje-kategori-kart {
+            min-height: 250px;
+            padding: 2rem 1.5rem;
+        }
+
+        .proje-kategori-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .proje-kategori-baslik {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+

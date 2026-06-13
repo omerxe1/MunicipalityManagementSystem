@@ -1,0 +1,358 @@
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İstek ve Öneri";
+}
+
+<div class="istek-ve-oneri-container">
+    <!-- Mesajlar -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert" style="margin-bottom: 1.5rem;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert" style="margin-bottom: 1.5rem;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Form -->
+    <div class="istek-ve-oneri-form-wrapper">
+        <form id="istekVeOneriForm" class="istek-ve-oneri-form" method="post" asp-controller="Iletisim" asp-action="IstekVeOneriGonder">
+            <div class="form-group">
+                <label for="KimlikNo">Kimlik No <span class="required-star">*</span></label>
+                <input type="text" id="KimlikNo" name="KimlikNo" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="DogumTarihi">
+                    Doğum Tarihi <span class="required-star">*</span>
+                    <i class="fas fa-question-circle help-icon" title="Doğum tarihinizi gün, ay ve yıl olarak seçiniz"></i>
+                </label>
+                <div class="date-input-group">
+                    <select id="DogumGunu" name="DogumGunu" class="form-control date-select">
+                        <option value="">Gün</option>
+                        @for (int i = 1; i <= 31; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <select id="DogumAyi" name="DogumAyi" class="form-control date-select">
+                        <option value="">Ay</option>
+                        <option value="1">Ocak</option>
+                        <option value="2">Şubat</option>
+                        <option value="3">Mart</option>
+                        <option value="4">Nisan</option>
+                        <option value="5">Mayıs</option>
+                        <option value="6">Haziran</option>
+                        <option value="7">Temmuz</option>
+                        <option value="8">Ağustos</option>
+                        <option value="9">Eylül</option>
+                        <option value="10">Ekim</option>
+                        <option value="11">Kasım</option>
+                        <option value="12">Aralık</option>
+                    </select>
+                    <input type="text" id="DogumYili" name="DogumYili" class="form-control date-year" placeholder="Yıl giriniz.">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Ad">Ad <span class="required-star">*</span></label>
+                <input type="text" id="Ad" name="Ad" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="Soyad">Soyad <span class="required-star">*</span></label>
+                <input type="text" id="Soyad" name="Soyad" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="CepTelefonu">Cep Telefonu <span class="required-star">*</span></label>
+                <input type="tel" id="CepTelefonu" name="CepTelefonu" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" name="Email" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="BasvuruMetni">Başvuru Metni <span class="required-star">*</span></label>
+                <textarea id="BasvuruMetni" name="BasvuruMetni" class="form-control" rows="6"></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="toggle-group">
+                    <label for="KisiBilgilerimiGizle">Kişi Bilgilerimi Gizle</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="KisiBilgilerimiGizle" name="KisiBilgilerimiGizle" value="true">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-text" id="toggleText">HAYIR</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="captcha-group">
+                    <div class="captcha-image-wrapper">
+                        <img src="@Url.Action("Captcha", "Iletisim")" alt="Captcha" id="captchaImage" class="captcha-image">
+                        <button type="button" class="captcha-refresh" onclick="refreshCaptcha()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="CaptchaCode" name="CaptchaCode" class="form-control captcha-input" placeholder="Resimdekileri yazın" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-submit">Başvuru Oluştur</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .istek-ve-oneri-container {
+        padding: 2rem 0;
+    }
+
+    .istek-ve-oneri-form-wrapper {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .istek-ve-oneri-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .istek-ve-oneri-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .required-star {
+        color: #dc3545;
+        margin-left: 2px;
+    }
+
+    .istek-ve-oneri-form .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    .istek-ve-oneri-form .form-control:focus {
+        outline: none;
+        border-color: #1e3a8a;
+        box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+
+    .help-icon {
+        margin-left: 5px;
+        color: #666;
+        cursor: help;
+        font-size: 12px;
+    }
+
+    .date-input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .date-select {
+        flex: 1;
+    }
+
+    .date-year {
+        flex: 1;
+    }
+
+    .istek-ve-oneri-form textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    /* Toggle Switch */
+    .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+        margin: 0;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 30px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+        background-color: #1e3a8a;
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+        transform: translateX(30px);
+    }
+
+    .toggle-text {
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+        min-width: 50px;
+    }
+
+    /* Captcha */
+    .captcha-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .captcha-image-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .captcha-image {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        height: 50px;
+    }
+
+    .captcha-refresh {
+        background: none;
+        border: none;
+        color: #1e3a8a;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .captcha-refresh:hover {
+        background-color: #f0f0f0;
+    }
+
+    .captcha-input {
+        width: 100%;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        padding: 12px 24px;
+        background-color: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: #1e40af;
+    }
+
+    .btn-submit:active {
+        background-color: #1e3a8a;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .istek-ve-oneri-form-wrapper {
+            padding: 1.5rem;
+        }
+
+        .date-input-group {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSwitch = document.getElementById('KisiBilgilerimiGizle');
+        const toggleText = document.getElementById('toggleText');
+        const requiredFields = ['KimlikNo', 'DogumGunu', 'DogumAyi', 'DogumYili', 'Ad', 'Soyad', 'CepTelefonu'];
+
+        if (toggleSwitch && toggleText) {
+            toggleSwitch.addEventListener('change', function() {
+                if (this.checked) {
+                    toggleText.textContent = 'EVET';
+                    // Zorunlu alanları opsiyonel yap
+                    requiredFields.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            field.required = false;
+                            field.closest('.form-group').style.opacity = '0.6';
+                        }
+                    });
+                } else {
+                    toggleText.textContent = 'HAYIR';
+                    // Zorunlu alanları tekrar zorunlu yap
+                    requiredFields.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field) {
+                            field.required = true;
+                            field.closest('.form-group').style.opacity = '1';
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    function refreshCaptcha() {
+        const captchaImage = document.getElementById('captchaImage');
+        if (captchaImage) {
+            captchaImage.src = '@Url.Action("Captcha", "Iletisim")?t=' + new Date().getTime();
+        }
+    }
+</script>
+

@@ -1,0 +1,70 @@
+@{
+    // Galeri sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Galeri";
+    ViewData["PageTitle"] = "Galeri";
+    ViewData["ContentTitle"] = "GALERİ";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Kocaali", Url = (string?)"#" },
+        new { Text = "Galeri", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<style>
+    .galeri-kartlar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-top: 30px;
+        width: 100%;
+    }
+
+    @@media (max-width: 768px) {
+        .galeri-kartlar {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+</style>
+
+<!-- Galeri İçerik Kartları -->
+<div class="alt-sayfa-content-cards galeri-kartlar">
+    <!-- Galeri Kartı -->
+    <a asp-controller="Kocaali" asp-action="Fotograflar" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-images"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">FOTOĞRAFLAR</h5>
+    </a>
+    
+    <!-- Videolar Kartı -->
+    <a href="https://www.youtube.com/@@KocaaliBld" target="_blank" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-video"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">VİDEOLAR</h5>
+    </a>
+</div>
+

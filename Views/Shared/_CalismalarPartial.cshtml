@@ -1,0 +1,234 @@
+@model List<Calisma>
+@using kocaaliv2.Models
+
+
+<script>
+    window.calismalarData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+    
+    function goToProjectDetail() {
+        if (window.calismalarData && window.calismalarData.length > 0) {
+            // currentProjectIndex'i site.js'ten al
+            const currentIndex = (window.ProjectNavigation && window.ProjectNavigation.currentProjectIndex !== undefined) 
+                ? window.ProjectNavigation.currentProjectIndex 
+                : 0;
+            const currentProject = window.calismalarData[currentIndex];
+            if (currentProject && currentProject.id) {
+                window.location.href = '@Url.Action("ProjeDetay", "HizmetRehberi")?id=' + currentProject.id;
+            }
+        }
+    }
+</script>
+
+
+
+
+@if (Model != null && Model.Any())
+{
+    
+    <script>
+        window.calismalarData = @Html.Raw(Json.Serialize(Model));
+    </script>
+    
+    
+    <button class="nav-arrow nav-arrow-left" onclick="previousProject()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="nav-arrow nav-arrow-right" onclick="nextProject()">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    
+    
+    <div class="projects-stats-container">
+        
+        <div class="projects-display-container">
+            <div class="project-card-main">
+                
+                <div class="project-content-main">
+                    <div class="project-image-container">
+                        @if (!string.IsNullOrEmpty(Model[0].ImageUrl))
+                        {
+                            <img id="projectImage" src="@Model[0].ImageUrl" alt="@Model[0].Title">
+                        }
+                        else
+                        {
+                            <img id="projectImage" src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center" alt="Project Image">
+                        }
+                    </div>
+                    <div class="project-info-container">
+                        <h3 id="projectTitle" class="project-title-main">@Model[0].Title</h3>
+                        <div class="project-buttons-container">
+                            <div class="project-buttons-column">
+                                <button class="project-btn-main" id="projeDetayBtn" onclick="goToProjectDetail()">
+                                    <span>PROJE DETAYI</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                                <a asp-controller="HizmetRehberi" asp-action="Projeler" class="project-btn-main" style="text-decoration: none; display: inline-block;">
+                                    <span>TÜM PROJELER</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                            <div class="project-icon-placeholder">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="my-project-button-container">
+                <a asp-controller="Iletisim" asp-action="IstekVeOneri" class="my-project-btn" style="text-decoration: none; display: block;">
+                    <div class="my-project-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="my-project-text">
+                        <span class="my-project-title">Benim de bir</span>
+                        <span class="my-project-subtitle">PROJEM VAR!</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        
+        <div class="statistics-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-label">Nüfus</div>
+                <div class="stat-value">76.659</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="stat-label">Park</div>
+                <div class="stat-value">100</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <div class="stat-label">Tesis</div>
+                <div class="stat-value">65</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="stat-label">Yeşil Alan</div>
+                <div class="stat-value">502.151 MÂ²</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-road"></i>
+                </div>
+                <div class="stat-label">Asfalt</div>
+                <div class="stat-value">5.800.000</div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    
+    <button class="nav-arrow nav-arrow-left" onclick="previousProject()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="nav-arrow nav-arrow-right" onclick="nextProject()">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    
+    
+    <div class="projects-stats-container">
+        
+        <div class="projects-display-container">
+            <div class="project-card-main">
+                
+                <div class="project-content-main">
+                    <div class="project-image-container">
+                        <img id="projectImage" src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center" alt="Project Image">
+                    </div>
+                    <div class="project-info-container">
+                        <h3 id="projectTitle" class="project-title-main">Meydan Kocaali</h3>
+                        <div class="project-buttons-container">
+                            <div class="project-buttons-column">
+                                <button class="project-btn-main" id="projeDetayBtn" onclick="goToProjectDetail()">
+                                    <span>PROJE DETAYI</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                                <a asp-controller="HizmetRehberi" asp-action="Projeler" class="project-btn-main" style="text-decoration: none; display: inline-block;">
+                                    <span>TÜM PROJELER</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                            <div class="project-icon-placeholder">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="my-project-button-container">
+                <a asp-controller="Iletisim" asp-action="IstekVeOneri" class="my-project-btn" style="text-decoration: none; display: block;">
+                    <div class="my-project-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="my-project-text">
+                        <span class="my-project-title">Benim de bir</span>
+                        <span class="my-project-subtitle">PROJEM VAR!</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        
+        <div class="statistics-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-label">Nüfus</div>
+                <div class="stat-value">76.659</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="stat-label">Park</div>
+                <div class="stat-value">100</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <div class="stat-label">Tesis</div>
+                <div class="stat-value">65</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="stat-label">Yeşil Alan</div>
+                <div class="stat-value">502.151 MÂ²</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-road"></i>
+                </div>
+                <div class="stat-label">Asfalt</div>
+                <div class="stat-value">5.800.000</div>
+            </div>
+        </div>
+    </div>
+}

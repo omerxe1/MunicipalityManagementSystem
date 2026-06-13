@@ -1,0 +1,243 @@
+@model List<kocaaliv2.Models.Announcement>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Duyurular";
+}
+
+<div class="duyurular-container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="duyurular-grid">
+            @foreach (var duyuru in Model)
+            {
+                <div class="duyuru-kart">
+                    <div class="duyuru-kart-icerik">
+                        <h3 class="duyuru-baslik">@duyuru.Title</h3>
+                        @if (!string.IsNullOrEmpty(duyuru.Content))
+                        {
+                            var kisaIcerik = duyuru.Content.Length > 50 ? duyuru.Content.Substring(0, 50) + "..." : duyuru.Content;
+                            <p class="duyuru-alt-baslik">@kisaIcerik</p>
+                        }
+                        <a href="@Url.Action("DuyuruDetay", "Guncel", new { id = duyuru.Id })" class="duyuru-devam-link">Devamını Oku</a>
+                        <p class="duyuru-tarih">@duyuru.PublishDate.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</p>
+                    </div>
+                    <div class="duyuru-kart-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        @if (ViewBag.TotalPages > 1)
+        {
+            <div class="duyurular-pagination">
+                <nav aria-label="Duyuru sayfalama">
+                    <ul class="pagination">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Duyurular", "Guncel", new { page = ViewBag.CurrentPage - 1 })">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                        }
+                        
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            @if (i == ViewBag.CurrentPage)
+                            {
+                                <li class="page-item active">
+                                    <span class="page-link">@i</span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Duyurular", "Guncel", new { page = i })">@i</a>
+                                </li>
+                            }
+                        }
+                        
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Duyurular", "Guncel", new { page = ViewBag.CurrentPage + 1 })">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="duyuru-bos">
+            <p>Henüz duyuru bulunmamaktadır.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .duyurular-container {
+        padding: 2rem 0;
+    }
+
+    .duyurular-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .duyuru-kart {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .duyuru-kart:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .duyuru-kart-icerik {
+        flex: 1;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .duyuru-baslik {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .duyuru-alt-baslik {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .duyuru-devam-link {
+        font-size: 0.9rem;
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        align-self: flex-start;
+    }
+
+    .duyuru-devam-link:hover {
+        color: rgb(4, 22, 85);
+    }
+
+    .duyuru-tarih {
+        font-size: 0.85rem;
+        color: #999;
+        margin: 0;
+        margin-top: auto;
+    }
+
+    .duyuru-kart-icon {
+        width: 80px;
+        background: rgb(4, 22, 85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .duyuru-kart-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .duyuru-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .duyuru-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    .duyurular-pagination {
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 0.5rem;
+    }
+
+    .page-item {
+        display: flex;
+    }
+
+    .page-link {
+        padding: 0.5rem 1rem;
+        background: white;
+        border: 1px solid #dee2e6;
+        color: rgb(4, 22, 85);
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+    }
+
+    .page-link:hover {
+        background: rgb(4, 22, 85);
+        color: white;
+        border-color: rgb(4, 22, 85);
+    }
+
+    .page-item.active .page-link {
+        background: rgb(4, 22, 85);
+        color: white;
+        border-color: rgb(4, 22, 85);
+        cursor: default;
+    }
+
+    .page-item.active .page-link:hover {
+        background: rgb(4, 22, 85);
+        color: white;
+    }
+
+    @@media (max-width: 768px) {
+        .duyurular-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .duyuru-kart {
+            flex-direction: column;
+        }
+
+        .duyuru-kart-icon {
+            width: 100%;
+            height: 60px;
+        }
+    }
+</style>
+

@@ -1,0 +1,194 @@
+@model IEnumerable<kocaaliv2.Models.SifreYenilemeTalebi>
+@{
+    ViewData["Title"] = "Şifre Yenileme Talepleri";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-key me-2"></i>Şifre Yenileme Talepleri</h4>
+    <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <p class="text-muted mb-4">
+            <i class="fas fa-info-circle me-2"></i>Bekleyen şifre yenileme taleplerini buradan görüntüleyip onaylayabilir veya reddedebilirsiniz.
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Kullanıcı Adı</th>
+                        <th>Talep Tarihi</th>
+                        <th>IP Adresi</th>
+                        <th>Durum</th>
+                        <th>İşlem Yapan</th>
+                        <th>İşlem Tarihi</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var talep in Model)
+                        {
+                            <tr>
+                                <td><strong>@talep.KullaniciAdi</strong></td>
+                                <td>@talep.TalepTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>@(talep.IpAdresi ?? "-")</td>
+                                <td>
+                                    @if (talep.Durum == "Beklemede")
+                                    {
+                                        <span class="badge bg-warning">Beklemede</span>
+                                    }
+                                    else if (talep.Durum == "Onaylandı")
+                                    {
+                                        <span class="badge bg-success">Onaylandı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Reddedildi</span>
+                                    }
+                                </td>
+                                <td>@(talep.IslemYapan ?? "-")</td>
+                                <td>@(talep.IslemTarihi?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                                <td>
+                                    @if (talep.Durum == "Beklemede")
+                                    {
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#onaylaModal_@talep.Id">
+                                            <i class="fas fa-check"></i> Onayla
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#reddetModal_@talep.Id">
+                                            <i class="fas fa-times"></i> Reddet
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">İşlem tamamlandı</span>
+                                    }
+                                </td>
+                            </tr>
+
+                            <!-- Onayla Modal -->
+                            <div class="modal fade" id="onaylaModal_@talep.Id" tabindex="-1" aria-labelledby="onaylaModalLabel_@talep.Id" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="onaylaModalLabel_@talep.Id">Şifre Yenileme Talebini Onayla</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form method="post" asp-action="TalebiOnayla">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="talepId" value="@talep.Id" />
+                                            <div class="modal-body">
+                                                <div class="alert alert-info">
+                                                    <i class="fas fa-info-circle me-2"></i>
+                                                    <strong>@talep.KullaniciAdi</strong> kullanıcısının şifre yenileme talebini onaylamak üzeresiniz.
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="yeniSifre_@talep.Id" class="form-label">Yeni Şifre <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="yeniSifre_@talep.Id" name="yeniSifre" required minlength="6">
+                                                    <small class="form-text text-muted">En az 6 karakter olmalıdır.</small>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="yeniSifreTekrar_@talep.Id" class="form-label">Yeni Şifre (Tekrar) <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="yeniSifreTekrar_@talep.Id" name="yeniSifreTekrar" required minlength="6">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fas fa-check me-2"></i>Onayla ve Şifreyi Sıfırla
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reddet Modal -->
+                            <div class="modal fade" id="reddetModal_@talep.Id" tabindex="-1" aria-labelledby="reddetModalLabel_@talep.Id" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="reddetModalLabel_@talep.Id">Şifre Yenileme Talebini Reddet</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form method="post" asp-action="TalebiReddet">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="talepId" value="@talep.Id" />
+                                            <div class="modal-body">
+                                                <div class="alert alert-warning">
+                                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                                    <strong>@talep.KullaniciAdi</strong> kullanıcısının şifre yenileme talebini reddetmek üzeresiniz.
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="redNedeni_@talep.Id" class="form-label">Red Nedeni (Opsiyonel)</label>
+                                                    <textarea class="form-control" id="redNedeni_@talep.Id" name="redNedeni" rows="3" placeholder="Red nedeni..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-times me-2"></i>Reddet
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">
+                                <i class="fas fa-inbox me-2"></i>Henüz şifre yenileme talebi bulunmuyor.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Şifre eşleşme kontrolü (her modal için)
+    @foreach (var talep in Model ?? new List<kocaaliv2.Models.SifreYenilemeTalebi>())
+    {
+        <text>
+        document.getElementById('yeniSifreTekrar_@talep.Id')?.addEventListener('input', function() {
+            var yeniSifre = document.getElementById('yeniSifre_@talep.Id').value;
+            var yeniSifreTekrar = this.value;
+            
+            if (yeniSifre !== yeniSifreTekrar && yeniSifreTekrar.length > 0) {
+                this.setCustomValidity('Şifreler eşleşmiyor.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        </text>
+    }
+</script>
+
+
+

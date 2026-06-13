@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Hata";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <i class="fas fa-exclamation-triangle fa-5x text-warning mb-4"></i>
+                    <h1 class="display-4">@(ViewBag.StatusCode ?? 500)</h1>
+                    <p class="lead">@(ViewBag.ErrorMessage ?? "Bir hata oluştu.")</p>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">
+                        <i class="fas fa-home me-2"></i>Ana Sayfaya Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

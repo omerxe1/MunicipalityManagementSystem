@@ -1,0 +1,784 @@
+@model IEnumerable<kocaaliv2.Models.Photo>
+
+@{
+    ViewData["Title"] = "Başkan'ın Fotoğrafları";
+    ViewBag.HideNavbar = true;
+}
+
+<section class="baskan-section">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-lg-4 col-md-12">
+                <div class="baskan-left-panel">
+                    <div class="baskan-image-container">
+                        <img src="~/images/baskan.png" alt="Belediye Başkanı" class="baskan-image">
+                    </div>
+                    <div class="baskan-social-icons">
+                        <a href="https://www.facebook.com/kocaalibld/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/KocaaliBld" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/kocaali.bld/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12">
+                <div class="baskan-content-panel">
+                    <div class="baskan-nav-menu">
+                        <div class="baskan-nav-tabs">
+                            <a asp-controller="Kurumsal" asp-action="Baskan" class="baskan-nav-tab" data-tab="ozgecmis">Başkanın Özgeçmişi</a>
+                            <a asp-controller="Kurumsal" asp-action="BaskanMesaj" class="baskan-nav-tab" data-tab="mesaj">Başkana Mesaj Gönder</a>
+                            <a href="#" class="baskan-nav-tab active" data-tab="fotograflar">Başkan'ın Fotoğrafları</a>
+                            <a href="#" class="baskan-nav-tab" data-tab="videolar">Başkanın Videoları</a>
+                        </div>
+                        <button class="baskan-close-btn" onclick="window.history.back()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="baskan-content">
+                        <h1 class="baskan-name">Turan Yüzücü</h1>
+
+                        <div class="baskan-section-content" id="fotograflar-content">
+                            @if (Model != null && Model.Any())
+                            {
+                                <div class="baskan-photos-grid">
+                                    @foreach (var photo in Model)
+                                    {
+                                        <div class="baskan-photo-item" data-photo-url="@photo.ImageUrl" data-photo-title="@photo.Title">
+                                            <img src="@photo.ImageUrl" alt="@photo.Title" class="baskan-photo-img">
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="baskan-text">
+                                    <p>Henüz fotoğraf eklenmemiş.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .baskan-section {
+        padding: 0;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .baskan-left-panel {
+        background: linear-gradient(135deg, rgb(4, 22, 85) 0%, rgb(4, 22, 85) 100%);
+        padding: 80px 50px 60px;
+        height: 100vh;
+        min-height: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .baskan-left-panel::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: url('/images/Kocaali_Belediyesi_logo(4).svg.PNG') no-repeat center;
+        background-size: 130%;
+        opacity: 0.15;
+        z-index: 0;
+    }
+
+    .baskan-image-container {
+        text-align: center;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 50px 0;
+    }
+
+    .baskan-image {
+        width: 130%;
+        max-width: 900px;
+        height: auto;
+        object-fit: cover;
+        display: block;
+    }
+
+    .baskan-social-icons {
+        position: absolute;
+        bottom: 40px;
+        left: 50px;
+        display: flex;
+        gap: 20px;
+        z-index: 1;
+    }
+
+    .baskan-social-icons a {
+        color: white;
+        font-size: 24px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .baskan-social-icons a:hover {
+        background: white;
+        color: #1a237e;
+        transform: translateY(-3px);
+    }
+
+    .baskan-content-panel {
+        background: white;
+        padding: 0;
+        height: 100vh;
+        min-height: 800px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .baskan-nav-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        padding: 0;
+        position: relative;
+    }
+
+    .baskan-nav-tabs {
+        display: flex;
+        gap: 0;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+    }
+
+    .baskan-nav-tab {
+        padding: 25px 35px;
+        text-decoration: none;
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 15px;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        background: white;
+        border: none;
+        cursor: pointer;
+        min-height: 70px;
+    }
+
+    .baskan-nav-tab:hover {
+        color: rgb(4, 22, 85);
+        background: #f8f9fa;
+    }
+
+    .baskan-nav-tab.active {
+        color: rgb(4, 22, 85);
+        border-bottom-color: rgb(4, 22, 85);
+        background: white;
+        font-weight: 600;
+    }
+
+    .baskan-close-btn {
+        width: 70px;
+        height: 70px;
+        background: rgb(4, 22, 85);
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-right: 0;
+    }
+
+    .baskan-close-btn:hover {
+        background: rgb(3, 18, 70);
+        transform: scale(1.05);
+    }
+
+    .baskan-content {
+        padding: 50px 60px;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .baskan-name {
+        font-size: 42px;
+        font-weight: 700;
+        color: rgb(4, 22, 85);
+        margin-bottom: 30px;
+        line-height: 1.2;
+    }
+
+    .baskan-section-content {
+        margin-top: 20px;
+    }
+
+    .baskan-photos-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .baskan-photo-item {
+        position: relative;
+        width: 100%;
+        padding-bottom: 100%;
+        overflow: hidden;
+        border-radius: 0;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #f0f0f0;
+    }
+
+    .baskan-photo-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .baskan-photo-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .baskan-photo-item:hover .baskan-photo-img {
+        transform: scale(1.05);
+    }
+
+    @@media (max-width: 992px) {
+        .baskan-left-panel {
+            height: auto;
+            min-height: 600px;
+            padding: 60px 40px;
+        }
+
+        .baskan-image-container {
+            padding: 60px 40px 0;
+        }
+
+        .baskan-image {
+            max-width: 700px;
+        }
+
+        .baskan-social-icons {
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .baskan-content-panel {
+            height: auto;
+            min-height: auto;
+        }
+
+        .baskan-content {
+            padding: 40px 30px;
+        }
+
+        .baskan-name {
+            font-size: 32px;
+        }
+
+        .baskan-nav-tabs {
+            flex-wrap: wrap;
+        }
+
+        .baskan-nav-tab {
+            padding: 20px 25px;
+            font-size: 14px;
+            min-height: 60px;
+        }
+
+        .baskan-photos-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .baskan-left-panel {
+            padding: 40px 30px;
+            min-height: 500px;
+        }
+
+        .baskan-image-container {
+            padding: 40px 30px 0;
+        }
+
+        .baskan-image {
+            max-width: 550px;
+        }
+
+        .baskan-social-icons {
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .baskan-social-icons a {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .baskan-content {
+            padding: 30px 20px;
+        }
+
+        .baskan-name {
+            font-size: 28px;
+        }
+
+        .baskan-nav-tab {
+            padding: 18px 22px;
+            font-size: 13px;
+            min-height: 55px;
+        }
+
+        .baskan-close-btn {
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+        }
+
+        .baskan-photos-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+    }
+
+    /* Lightbox Modal Styles */
+    .baskan-lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.98);
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .baskan-lightbox.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .baskan-lightbox-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 320px 80px 100px;
+    }
+
+    .baskan-lightbox-image-container {
+        position: relative;
+        flex: 1;
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .baskan-lightbox-image {
+        max-width: 100%;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .baskan-lightbox-thumbnails {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 280px;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 100px 20px 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .baskan-lightbox-thumbnails::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .baskan-lightbox-thumbnails::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .baskan-lightbox-thumbnails::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+
+    .baskan-lightbox-thumbnail {
+        width: 100%;
+        padding-bottom: 75%;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .baskan-lightbox-thumbnail:hover {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+
+    .baskan-lightbox-thumbnail.active {
+        opacity: 1;
+        border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .baskan-lightbox-thumbnail img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .baskan-lightbox-thumbnails-label {
+        position: absolute;
+        top: 30px;
+        left: 20px;
+        right: 20px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .baskan-lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: white;
+        font-size: 28px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    }
+
+    .baskan-lightbox-nav:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .baskan-lightbox-nav.prev {
+        left: 20px;
+    }
+
+    .baskan-lightbox-nav.next {
+        right: 300px;
+    }
+
+    .baskan-lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 300px;
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: white;
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10001;
+        backdrop-filter: blur(5px);
+    }
+
+    .baskan-lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: scale(1.1);
+    }
+
+    .baskan-lightbox-counter {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        z-index: 10001;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 8px 16px;
+        border-radius: 0;
+        backdrop-filter: blur(5px);
+    }
+
+    @@media (max-width: 1200px) {
+        .baskan-lightbox-content {
+            padding: 80px 20px 80px 80px;
+        }
+
+        .baskan-lightbox-thumbnails {
+            width: 200px;
+            padding: 100px 15px 20px;
+        }
+
+        .baskan-lightbox-nav.next {
+            right: 220px;
+        }
+
+        .baskan-lightbox-close {
+            right: 220px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .baskan-lightbox-content {
+            padding: 60px 0 60px 0;
+        }
+
+        .baskan-lightbox-thumbnails {
+            display: none;
+        }
+
+        .baskan-lightbox-nav {
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+        }
+
+        .baskan-lightbox-nav.prev {
+            left: 10px;
+        }
+
+        .baskan-lightbox-nav.next {
+            right: 10px;
+        }
+
+        .baskan-lightbox-close {
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .baskan-lightbox-counter {
+            top: 15px;
+            left: 15px;
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+    }
+</style>
+
+<!-- Lightbox Modal -->
+<div class="baskan-lightbox" id="baskanLightbox">
+    <div class="baskan-lightbox-content">
+        <div class="baskan-lightbox-counter" id="lightboxCounter">1 / 1</div>
+        <button class="baskan-lightbox-close" id="lightboxClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="baskan-lightbox-nav prev" id="lightboxPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="baskan-lightbox-image-container">
+            <img class="baskan-lightbox-image" id="lightboxImage" src="" alt="">
+        </div>
+        <button class="baskan-lightbox-nav next" id="lightboxNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="baskan-lightbox-thumbnails" id="lightboxThumbnails">
+            <div class="baskan-lightbox-thumbnails-label">Başkan'ın Fotoğrafları</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const photoItems = document.querySelectorAll('.baskan-photo-item');
+        const lightbox = document.getElementById('baskanLightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        const lightboxThumbnails = document.getElementById('lightboxThumbnails');
+        
+        let currentIndex = 0;
+        const photos = Array.from(photoItems).map(item => ({
+            url: item.getAttribute('data-photo-url'),
+            title: item.getAttribute('data-photo-title') || ''
+        }));
+
+        // Create thumbnails
+        function createThumbnails() {
+            photos.forEach((photo, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'baskan-lightbox-thumbnail';
+                thumbnail.setAttribute('data-index', index);
+                const img = document.createElement('img');
+                img.src = photo.url;
+                img.alt = photo.title;
+                thumbnail.appendChild(img);
+                thumbnail.addEventListener('click', function() {
+                    openLightbox(index);
+                });
+                lightboxThumbnails.appendChild(thumbnail);
+            });
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            updateThumbnails();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightboxImage() {
+            if (photos.length > 0) {
+                lightboxImage.src = photos[currentIndex].url;
+                lightboxImage.alt = photos[currentIndex].title;
+                lightboxCounter.textContent = `${currentIndex + 1} / ${photos.length}`;
+            }
+        }
+
+        function updateThumbnails() {
+            const thumbnails = lightboxThumbnails.querySelectorAll('.baskan-lightbox-thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                if (index === currentIndex) {
+                    thumb.classList.add('active');
+                    // Scroll thumbnail into view
+                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+
+        function showNext() {
+            if (photos.length > 0) {
+                currentIndex = (currentIndex + 1) % photos.length;
+                updateLightboxImage();
+                updateThumbnails();
+            }
+        }
+
+        function showPrev() {
+            if (photos.length > 0) {
+                currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+                updateLightboxImage();
+                updateThumbnails();
+            }
+        }
+
+        // Initialize thumbnails
+        createThumbnails();
+
+        // Open lightbox on photo click
+        photoItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                openLightbox(index);
+            });
+        });
+
+        // Close lightbox
+        lightboxClose.addEventListener('click', closeLightbox);
+        
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Prevent closing when clicking on image or image container
+        lightboxImage.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        document.querySelector('.baskan-lightbox-image-container').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Navigation
+        lightboxNext.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showNext();
+        });
+
+        lightboxPrev.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showPrev();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowRight') {
+                    showNext();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrev();
+                }
+            }
+        });
+    });
+</script>

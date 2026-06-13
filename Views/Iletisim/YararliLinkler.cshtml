@@ -1,0 +1,221 @@
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Yararlı Linkler";
+}
+
+<div class="yararli-linkler-container">
+    <div class="yararli-linkler-categories">
+        <!-- Ulusal Linkler Kategorisi -->
+        <a asp-controller="Iletisim" asp-action="UlusalLinkler" class="link-category-card">
+            <div class="link-category-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <div class="link-category-title">Ulusal Linkler</div>
+        </a>
+
+        <!-- Yerel Linkler Kategorisi -->
+        <a asp-controller="Iletisim" asp-action="YerelLinkler" class="link-category-card">
+            <div class="link-category-icon">
+                <i class="fas fa-link"></i>
+            </div>
+            <div class="link-category-title">Yerel Linkler</div>
+        </a>
+    </div>
+</div>
+
+<style>
+    .yararli-linkler-container {
+        padding: 2rem 0;
+    }
+
+    /* Kategori Kartları */
+    .yararli-linkler-categories {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .link-category-card {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .link-category-card:hover {
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .link-category-card.active {
+        border-color: #1e3a8a;
+        background-color: #f0f4ff;
+    }
+
+    .link-category-icon {
+        font-size: 48px;
+        color: #666;
+        transition: color 0.3s ease;
+    }
+
+    .link-category-card:hover .link-category-icon,
+    .link-category-card.active .link-category-icon {
+        color: #1e3a8a;
+    }
+
+    .link-category-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .link-category-card:hover .link-category-title,
+    .link-category-card.active .link-category-title {
+        color: #1e3a8a;
+    }
+
+    /* Link Listesi */
+    .link-list-wrapper {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .link-list-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e3a8a;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    /* Link Kartları Grid */
+    .link-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+
+    .link-card {
+        background-color: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.3s ease;
+        min-height: 180px;
+    }
+
+    .link-card:hover {
+        background-color: white;
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+        transform: translateY(-4px);
+    }
+
+    .link-card-logo {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .link-card-logo img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .link-card-logo-placeholder {
+        width: 80px;
+        height: 80px;
+        background-color: #e0e0e0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 32px;
+    }
+
+    .link-card-title {
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        color: #333;
+        line-height: 1.4;
+    }
+
+    .link-card:hover .link-card-title {
+        color: #1e3a8a;
+    }
+
+    .link-list-empty {
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .link-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .yararli-linkler-categories {
+            grid-template-columns: 1fr;
+        }
+
+        .link-list-wrapper {
+            padding: 1.5rem;
+        }
+
+        .link-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .link-card {
+            min-height: 150px;
+            padding: 1rem;
+        }
+
+        .link-card-logo {
+            height: 80px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .link-cards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+

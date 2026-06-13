@@ -1,0 +1,73 @@
+@{
+    // Misyon ve Vizyon sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Misyon ve Vizyon";
+    ViewData["PageTitle"] = "Misyon ve Vizyon";
+    ViewData["ContentTitle"] = "Misyon ve Vizyon";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+new { Text = "Belediyemiz", Url = (string?)"#" },
+new { Text = "Kurumsal Yapı", Url = (string?)(Url.Action("KurumsalYapi", "Kurumsal") ?? "#") },
+new { Text = "Misyon ve Vizyon", Url = (string?)null }
+};
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+};
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Misyon ve Vizyon İçerik Alanı -->
+<div class="misyon-vizyon-container">
+    <!-- İçerik buraya eklenecek -->
+    Vizyonumuz
+
+    Rahat ve konforlu ulaşım sistemlerine sahip, afetlere karşı hazırlıklı, kültürel zenginliğinden güç alan,
+    engellileri ve muhtaçları toplum ile bütünleşmiş, çağdaş yönetim sistemlerini kullanan, temiz ve doğal çevre içinde
+    özgün nitelikleri öne çıkan bir kent olmak.
+
+    Misyonumuz
+
+    Yerel ve ortak nitelikli talepleri karşılayan, insana değer veren, çevreyle uyumlu, kaliteli ve çözüm odaklı
+    hizmetler üretmek ve halkın gündelik yaşamını kolaylaştırmak.
+
+    Kalite Politikamız
+
+    Vatandaş memnuniyetini odağına alan, kolayca erişilebilir hizmetler üretmek, dezavantajlı kesimleri desteklemek,
+    kentsel yaşam kalitesini ve kentlilik bilincini arttırmak, kültürel ve tarihi değerlere sahip çıkmak, tüm
+    faaliyetlerde çevreye duyarlı davranmak, katılımcı bir yönetim anlayışı sergilemek, şeffaf, tarafsız ve hesap
+    verebilir olmak, yönetimde ve hizmet süreçlerinde bilgi ve teknolojiyi etkin olarak kullanmak, kalite yönetim
+    sistemini sürekli iyileştirmek ve geliştirmek.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,114 @@
+@{
+    // Kurumsal Yapı sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Kurumsal Yapı";
+    ViewData["PageTitle"] = "Kurumsal Yapı";
+    ViewData["ContentTitle"] = "Kurumsal Yapı";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "İçerikler", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Kurumsal Yapı", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)"#", IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)"#", IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = true },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }  
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Kurumsal Yapı İçerik Kartları -->
+<div class="alt-sayfa-content-cards">
+    <!-- Nöbetçi Zabıta Listesi Kartı -->
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">NÖBETÇİ ZABITA LİSTESİ</h5>
+    </a>
+    
+    <!-- Banka Hesap Numaraları Kartı -->
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-university"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">BANKA HESAP NUMARALARIMIZ</h5>
+    </a>
+    
+    <!-- Mali Durum Raporları Kartı -->
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-file-invoice-dollar"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">MALİ DURUM RAPORLARI</h5>
+    </a>
+    
+    <!-- Organizasyon Şeması Kartı -->
+    <a asp-controller="Kurumsal" asp-action="OrganizasyonSemasi" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-sitemap"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">ORGANİZASYON ŞEMASI</h5>
+    </a>
+    
+    <!-- Meclis Üyeleri Kartı -->
+    <a asp-controller="Kurumsal" asp-action="MeclisUyeleri" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">MECLİS ÜYELERİ</h5>
+    </a>
+    
+    <!-- Meclis Kararları Kartı -->
+    <a asp-controller="Kurumsal" asp-action="MeclisKararlari" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-gavel"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">MECLİS KARARLARI</h5>
+    </a>
+    <a asp-controller="Kurumsal" asp-action="MisyonVizyon" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-link"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">Misyon ve Vizyon</h5>
+    </a>
+    <a asp-controller="Kurumsal" asp-action="IcKontrol" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-link"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">İç Kontrol</h5>
+    </a>
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-link"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">Stratejik Plan</h5>
+    </a>
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-link"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">Logo</h5>
+    </a>
+    <a href="#" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-link"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">Afad</h5>
+    </a>
+</div>

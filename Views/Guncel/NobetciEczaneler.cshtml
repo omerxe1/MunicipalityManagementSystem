@@ -1,0 +1,60 @@
+@{
+    // Nöbetçi Eczaneler sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Nöbetçi Eczaneler";
+    ViewData["PageTitle"] = "Nöbetçi Eczaneler";
+    ViewData["ContentTitle"] = "NÖBETÇİ ECZANELER";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+new { Text = "Güncel", Url = (string?)"#" },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)null }
+};
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)(Url.Action("NobetciEczaneler", "Guncel") ?? "#"), IsActive = true },
+new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+};
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Nöbetçi Eczaneler İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <!-- İçerik buraya eklenecek -->
+    <div style="margin:auto;text-align:center;width:100&#37;;max-width:400px;"><a
+            href="https://www.eczaneler.gen.tr/nobetci-sakarya-kocaali" target="_blank"><img
+                src="https://www.eczaneler.gen.tr/resimler/nobetci-eczane.jpg" alt="Kocaali nöbetçi eczaneleri"
+                style="width:100&#37;;border-radius:2px;"></a><iframe
+            src="https://www.eczaneler.gen.tr/iframe.php?lokasyon=1818" name="Kocaali nöbetçi eczaneleri"
+            style="width:100&#37;;height:240px;border:none;"></iframe></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

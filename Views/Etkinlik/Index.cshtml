@@ -1,0 +1,222 @@
+@{
+    ViewData["Title"] = "Etkinlikler";
+}
+
+
+
+<section class="takvim-etkinlikler-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            
+            <div class="col-lg-4 col-md-12">
+                <div class="takvim-container">
+                    <div class="takvim-header">
+                        <button class="takvim-today-btn">Bugün</button>
+                        <h2 class="takvim-month" id="currentMonth">Ocak 2024</h2>
+                        <div class="takvim-nav">
+                            <button class="takvim-nav-btn" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="takvim-nav-btn" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="takvim-weekdays">
+                        <div class="weekday">Pzt</div>
+                        <div class="weekday">Sal</div>
+                        <div class="weekday">Çar</div>
+                        <div class="weekday">Per</div>
+                        <div class="weekday">Cum</div>
+                        <div class="weekday">Cmt</div>
+                        <div class="weekday">Paz</div>
+                    </div>
+                    
+                    
+                    <div class="takvim-grid" id="calendarGrid">
+                        
+                    </div>
+                </div>
+            </div>
+            
+           
+            <div class="col-lg-8 col-md-12">
+                <div class="etkinlikler-container">
+                    <h2 class="etkinlikler-title">Etkinlikler</h2>
+                    
+                    
+                    <div class="etkinlikler-grid" id="etkinliklerGrid">
+                        
+                        <div class="etkinlik-card">
+                            <div class="etkinlik-image">
+                                <img src="https://via.placeholder.com/400x200/4A90E2/FFFFFF?text=Etkinlik+1" alt="Etkinlik 1">
+                                <div class="etkinlik-overlay">15 Ocak 2024</div>
+                            </div>
+                            <div class="etkinlik-content">
+                                <h3>Kültür ve Sanat Festivali</h3>
+                                <p class="etkinlik-date">15 Ocak 2024 - 18:00</p>
+                                <p>Şehrimizde düzenlenecek olan kültür ve sanat festivali tüm vatandaşlarımızı bekliyor.</p>
+                                <button class="etkinlik-btn">Detaylar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="etkinlik-card">
+                            <div class="etkinlik-image">
+                                <img src="https://via.placeholder.com/400x200/7ED321/FFFFFF?text=Etkinlik+2" alt="Etkinlik 2">
+                                <div class="etkinlik-overlay">20 Ocak 2024</div>
+                            </div>
+                            <div class="etkinlik-content">
+                                <h3>Çocuk Tiyatrosu</h3>
+                                <p class="etkinlik-date">20 Ocak 2024 - 14:00</p>
+                                <p>Çocuklarımız için özel olarak hazırlanan tiyatro gösterisi.</p>
+                                <button class="etkinlik-btn">Detaylar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="etkinlik-card">
+                            <div class="etkinlik-image">
+                                <img src="https://via.placeholder.com/400x200/F5A623/FFFFFF?text=Etkinlik+3" alt="Etkinlik 3">
+                                <div class="etkinlik-overlay">25 Ocak 2024</div>
+                            </div>
+                            <div class="etkinlik-content">
+                                <h3>Müzik Konseri</h3>
+                                <p class="etkinlik-date">25 Ocak 2024 - 19:30</p>
+                                <p>Yerel sanatçılarımızın katılacağı müzik konseri.</p>
+                                <button class="etkinlik-btn">Detaylar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="etkinlik-card">
+                            <div class="etkinlik-image">
+                                <img src="https://via.placeholder.com/400x200/E74C3C/FFFFFF?text=Etkinlik+4" alt="Etkinlik 4">
+                                <div class="etkinlik-overlay">30 Ocak 2024</div>
+                            </div>
+                            <div class="etkinlik-content">
+                                <h3>Spor Turnuvası</h3>
+                                <p class="etkinlik-date">30 Ocak 2024 - 10:00</p>
+                                <p>Belediyemiz tarafından düzenlenen spor turnuvası.</p>
+                                <button class="etkinlik-btn">Detaylar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    
+    const monthNames = [
+        'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+        'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    ];
+    
+    function updateCalendar() {
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay();
+        
+        
+        const adjustedStartingDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1;
+        
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthElement = document.getElementById('currentMonth');
+        
+        currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        
+        calendarGrid.innerHTML = '';
+        
+        
+        const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+        for (let i = adjustedStartingDay - 1; i >= 0; i--) {
+            const day = prevMonthLastDay - i;
+            const dayElement = document.createElement('div');
+            dayElement.className = 'takvim-day other-month';
+            dayElement.textContent = day;
+            calendarGrid.appendChild(dayElement);
+        }
+        
+        
+        const today = new Date();
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'takvim-day';
+            
+            
+            if (day === today.getDate() && 
+                currentMonth === today.getMonth() && 
+                currentYear === today.getFullYear()) {
+                dayElement.classList.add('today');
+            }
+            
+            dayElement.textContent = day;
+            dayElement.addEventListener('click', function() {
+               
+                document.querySelectorAll('.takvim-day').forEach(d => d.classList.remove('selected'));
+                dayElement.classList.add('selected');
+            });
+            
+            calendarGrid.appendChild(dayElement);
+        }
+        
+        
+        const totalCells = calendarGrid.children.length;
+        const remainingCells = 42 - totalCells; 
+        for (let day = 1; day <= remainingCells; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'takvim-day other-month';
+            dayElement.textContent = day;
+            calendarGrid.appendChild(dayElement);
+        }
+    }
+    
+    
+    document.getElementById('prevMonth').addEventListener('click', function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        updateCalendar();
+    });
+    
+    
+    document.getElementById('nextMonth').addEventListener('click', function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        updateCalendar();
+    });
+    
+    
+    document.querySelector('.takvim-today-btn').addEventListener('click', function() {
+        currentDate = new Date();
+        currentMonth = currentDate.getMonth();
+        currentYear = currentDate.getFullYear();
+        updateCalendar();
+    });
+    
+    
+    updateCalendar();
+});
+</script>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,166 @@
+/* Mobile Full-Screen Menu - Sadece max-width: 991px altında aktif */
+@media (max-width: 991px) {
+  /* Bootstrap collapse'ı devre dışı bırak */
+  .navbar-collapse {
+    display: none !important;
+  }
+
+  /* Burger menü butonunu gizle */
+  .mobile-menu-toggle,
+  .navbar-toggler,
+  #mobileMenuToggle {
+    display: none !important;
+  }
+
+  /* Mobile Menu Overlay - Başlangıçta gizli */
+  .mobile-full-menu {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    background-color: #163a5f !important;
+    z-index: 99999 !important;
+    display: none !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+
+  /* Active durumunda göster */
+  .mobile-full-menu.active {
+    display: flex !important;
+  }
+  
+  /* Inline style override için */
+  .mobile-full-menu[style*="display: flex"] {
+    display: flex !important;
+  }
+
+  /* Menu Header */
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-menu-home-link {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .mobile-menu-home-link:hover {
+    opacity: 0.8;
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .mobile-menu-close:hover {
+    opacity: 0.8;
+  }
+
+  /* Menu Content */
+  .mobile-menu-content {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+
+  .mobile-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-menu-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 25px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-menu-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .mobile-menu-link span {
+    flex: 1;
+  }
+
+  .mobile-menu-arrow {
+    font-size: 18px;
+    margin-left: 15px;
+    transition: transform 0.2s ease;
+  }
+
+  .mobile-menu-parent.active .mobile-menu-arrow {
+    transform: rotate(90deg);
+  }
+
+  /* Submenu */
+  .mobile-submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .mobile-submenu.active {
+    max-height: 1000px;
+  }
+
+  .mobile-submenu .mobile-menu-link {
+    padding-left: 45px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .mobile-submenu .mobile-menu-link::after {
+    content: "→";
+    margin-left: auto;
+    font-size: 16px;
+  }
+
+  /* Body scroll lock when menu is open */
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+}
+
+/* Masaüstü görünümde menüyü gizle */
+@media (min-width: 992px) {
+  .mobile-full-menu {
+    display: none !important;
+  }
+}

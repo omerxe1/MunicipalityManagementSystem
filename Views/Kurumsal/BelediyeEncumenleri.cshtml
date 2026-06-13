@@ -1,0 +1,111 @@
+@{
+    // Belediye Encümenleri sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Belediye Encümenleri";
+    ViewData["PageTitle"] = "Belediye Encümenleri";
+    ViewData["ContentTitle"] = "Belediye Encümenleri";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Belediyemiz", Url = (string?)"#" },
+        new { Text = "Belediye Encümenleri", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)"#", IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)"#", IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Belediye Encümenleri Kartları -->
+<div class="baskan-yardimcilari-cards">
+    <!-- Kart 1 -->
+    <div class="baskan-yardimcilari-card">
+        <div class="baskan-yardimcilari-card-image">
+            <img src="~/images/belediyeencumenleri/Ekran görüntüsü 2025-12-16 143540.png" alt="Belediye Encümeni" />
+        </div>
+        <div class="baskan-yardimcilari-card-content">
+            <h3 class="baskan-yardimcilari-card-name">Belediye Encümeni</h3>
+            <p class="baskan-yardimcilari-card-title">Belediye Encümeni</p>
+        </div>
+    </div>
+
+    <!-- Kart 2 -->
+    <div class="baskan-yardimcilari-card">
+        <div class="baskan-yardimcilari-card-image">
+            <img src="~/images/belediyeencumenleri/Ekran görüntüsü 2025-12-16 143546.png" alt="Belediye Encümeni" />
+        </div>
+        <div class="baskan-yardimcilari-card-content">
+            <h3 class="baskan-yardimcilari-card-name">Belediye Encümeni</h3>
+            <p class="baskan-yardimcilari-card-title">Belediye Encümeni</p>
+        </div>
+    </div>
+
+    <!-- Kart 3 -->
+    <div class="baskan-yardimcilari-card">
+        <div class="baskan-yardimcilari-card-image">
+            <img src="~/images/belediyeencumenleri/Ekran görüntüsü 2025-12-16 143551.png" alt="Belediye Encümeni" />
+        </div>
+        <div class="baskan-yardimcilari-card-content">
+            <h3 class="baskan-yardimcilari-card-name">Belediye Encümeni</h3>
+            <p class="baskan-yardimcilari-card-title">Belediye Encümeni</p>
+        </div>
+    </div>
+
+    <!-- Kart 4 -->
+    <div class="baskan-yardimcilari-card">
+        <div class="baskan-yardimcilari-card-image">
+            <img src="~/images/belediyeencumenleri/Ekran görüntüsü 2025-12-16 143557.png" alt="Belediye Encümeni" />
+        </div>
+        <div class="baskan-yardimcilari-card-content">
+            <h3 class="baskan-yardimcilari-card-name">Belediye Encümeni</h3>
+            <p class="baskan-yardimcilari-card-title">Belediye Encümeni</p>
+        </div>
+    </div>
+
+    <!-- Kart 5 -->
+    <div class="baskan-yardimcilari-card">
+        <div class="baskan-yardimcilari-card-image">
+            <img src="~/images/belediyeencumenleri/Ekran görüntüsü 2025-12-16 143603.png" alt="Belediye Encümeni" />
+        </div>
+        <div class="baskan-yardimcilari-card-content">
+            <h3 class="baskan-yardimcilari-card-name">Belediye Encümeni</h3>
+            <p class="baskan-yardimcilari-card-title">Belediye Encümeni</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

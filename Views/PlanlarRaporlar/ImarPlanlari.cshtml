@@ -1,0 +1,350 @@
+@model List<kocaaliv2.Models.ImarPlani>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İmar Planları";
+    ViewData["PageTitle"] = "İmar Planları";
+    ViewData["ContentTitle"] = "İMAR PLANLARI";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Planlar-Raporlar", Url = (string?)"#" },
+        new { Text = "İmar Planları", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)(Url.Action("NobetciEczaneler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)(Url.Action("Duyurular", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Etkinlikler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Faaliyet Raporları", Url = (string?)(Url.Action("FaaliyetRaporlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "Stratejik Planlar", Url = (string?)(Url.Action("StratejikPlanlar", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "İmar Planları", Url = (string?)(Url.Action("ImarPlanlari", "PlanlarRaporlar") ?? "#"), IsActive = true }
+    };
+
+    ViewBag.ShowBackButton = true;
+
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var totalPages = ViewBag.TotalPages ?? 1;
+    var totalImarPlanlari = ViewBag.TotalImarPlanlari ?? 0;
+}
+
+<!-- İmar Planları İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <div class="imar-planlari-container">
+        @if (Model != null && Model.Any())
+        {
+            <!-- İmar Planı Kartları -->
+            <div class="imar-planlari-grid">
+                @foreach (var plan in Model)
+                {
+                    <div class="imar-plani-card">
+                        <div class="imar-plani-content">
+                            <h4 class="imar-plani-baslik">@plan.Baslik</h4>
+                            <a href="@Url.Action("ImarPlaniDetay", "PlanlarRaporlar", new { id = plan.Id })" class="imar-plani-devamini-oku">
+                                Devamını Oku
+                            </a>
+                        </div>
+                        <div class="imar-plani-action">
+                            <a href="@Url.Action("ImarPlaniDetay", "PlanlarRaporlar", new { id = plan.Id })" class="imar-plani-btn">
+                                <i class="fas fa-bullhorn"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Sayfalama -->
+            @if (totalPages > 1)
+            {
+                <div class="imar-planlari-pagination">
+                    <nav aria-label="Sayfa navigasyonu">
+                        <ul class="pagination justify-content-center">
+                            <!-- İlk Sayfa -->
+                            @if (currentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = 1 })">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = currentPage - 1 })">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-angle-double-left"></i></span>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-angle-left"></i></span>
+                                </li>
+                            }
+
+                            <!-- Sayfa Numaraları -->
+                            @{
+                                int startPage = Math.Max(1, currentPage - 2);
+                                int endPage = Math.Min(totalPages, currentPage + 2);
+                            }
+
+                            @if (startPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = 1 })">1</a>
+                                </li>
+                                @if (startPage > 2)
+                                {
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+                            }
+
+                            @for (int i = startPage; i <= endPage; i++)
+                            {
+                                <li class="page-item @(i == currentPage ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = i })">@i</a>
+                                </li>
+                            }
+
+                            @if (endPage < totalPages)
+                            {
+                                @if (endPage < totalPages - 1)
+                                {
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = totalPages })">@totalPages</a>
+                                </li>
+                            }
+
+                            <!-- Son Sayfa -->
+                            @if (currentPage < totalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = currentPage + 1 })">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("ImarPlanlari", "PlanlarRaporlar", new { page = totalPages })">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-angle-right"></i></span>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><i class="fas fa-angle-double-right"></i></span>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                    <div class="pagination-info text-center mt-3">
+                        <span class="text-muted">Toplam @totalImarPlanlari kayıt, Sayfa @currentPage / @totalPages</span>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info imar-plani-bos">
+                <i class="fas fa-info-circle"></i> 
+                <p>Henüz imar planı bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .imar-planlari-container {
+        max-width: 100%;
+    }
+
+    .imar-planlari-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .imar-plani-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        min-height: 120px;
+    }
+
+    .imar-plani-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+
+    .imar-plani-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .imar-plani-baslik {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .imar-plani-devamini-oku {
+        font-size: 0.9rem;
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .imar-plani-devamini-oku:hover {
+        color: #0052a3;
+        text-decoration: underline;
+    }
+
+    .imar-plani-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .imar-plani-btn {
+        width: 70px;
+        height: 70px;
+        background: rgb(4, 22, 85);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .imar-plani-btn:hover {
+        background: rgb(3, 18, 70);
+        color: white;
+        text-decoration: none;
+        transform: scale(1.05);
+    }
+
+    .imar-plani-btn i {
+        font-size: 1.5rem;
+    }
+
+    .imar-planlari-pagination {
+        margin-top: 3rem;
+    }
+
+    .pagination {
+        margin-bottom: 0;
+    }
+
+    .page-link {
+        color: #0066cc;
+        border-color: #dee2e6;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .page-link:hover {
+        color: #0052a3;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+
+    .page-item.active .page-link {
+        background-color: #0066cc;
+        border-color: #0066cc;
+        color: white;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        cursor: auto;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
+
+    .pagination-info {
+        font-size: 0.9rem;
+    }
+
+    .imar-plani-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .imar-plani-bos i {
+        font-size: 3rem;
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .imar-plani-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .imar-planlari-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .imar-plani-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .imar-plani-action {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .imar-plani-btn {
+            width: 100%;
+        }
+
+        .pagination {
+            flex-wrap: wrap;
+        }
+
+        .page-link {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+

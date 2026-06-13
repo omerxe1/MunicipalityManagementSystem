@@ -1,0 +1,72 @@
+@{
+    // İklim ve Coğrafya sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İklim ve Coğrafya";
+    ViewData["PageTitle"] = "İklim ve Coğrafya";
+    ViewData["ContentTitle"] = "İKLİM VE COĞRAFYA";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+new { Text = "Kocaali", Url = (string?)"#" },
+new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#") },
+new { Text = "İklim ve Coğrafya", Url = (string?)null }
+};
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+};
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- İklim ve Coğrafya İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <!-- İçerik buraya eklenecek -->
+    <p>Kocaali, Sakarya ilinin kuzeyinde yer almakta olup Karadeniz kıyısında konumlanmıştır. İlçenin kuzeyinde Karadeniz,
+    güneyinde Hendek ve Karasu ilçeleri bulunmaktadır. Kocaali’nin yüzölçümü yaklaşık 315 km² olup, kıyıdan iç kesimlere
+    doğru uzanan düz ovalar ve hafif eğimli tepelerden oluşan bir coğrafi yapıya sahiptir.</p>
+
+    <p>İlçe genelinde alüvyal ve verimli topraklar yaygındır. Bu durum tarımsal faaliyetlerin gelişmesine imkân
+    sağlamıştır. Kocaali Ovası, özellikle fındık ve mısır başta olmak üzere birçok tarım ürününün yetiştirildiği önemli
+    bir tarım alanıdır. Kıyı kesimlerinde uzun ve geniş kumsallar bulunmakta olup bu alanlar doğal plaj özelliği
+    taşımaktadır.</p>
+
+    <p>Kocaali’de Karadeniz iklimi hâkimdir. Yazlar serin ve nemli, kışlar ise ılık ve yağışlı geçmektedir. Yıl boyunca
+    yağış görülmekte olup en fazla yağış sonbahar ve kış aylarında düşmektedir. Ortalama sıcaklık yaz aylarında 22–25
+    °C, kış aylarında ise 5–8 °C civarındadır. Yüksek nem oranı, bitki örtüsünün yıl boyunca canlı kalmasını
+    sağlamaktadır.</p>
+
+    <p>İklim ve coğrafi yapının elverişli olması sayesinde Kocaali, tarım, balıkçılık ve yaz turizmi açısından önemli bir
+    potansiyele sahiptir. Doğal yapısı, sahil şeridi ve verimli topraklarıyla bölgenin dikkat çeken ilçelerinden
+    biridir.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

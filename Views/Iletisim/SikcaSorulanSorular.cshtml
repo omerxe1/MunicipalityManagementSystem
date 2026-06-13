@@ -1,0 +1,184 @@
+@model List<kocaaliv2.Models.SikcaSorulanSoru>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["PageTitle"] = null;
+    ViewData["ContentTitle"] = "SİKÇA SORULAN SORULAR";
+}
+
+<style>
+    .faq-container {
+        max-width: 100%;
+    }
+
+    .faq-item {
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+        transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-header {
+        background: #0a4478;
+        color: white;
+        padding: 18px 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        font-size: 16px;
+        user-select: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .faq-header:hover {
+        background: #0d5a9a;
+    }
+
+    .faq-header.active {
+        background: #0a4478;
+    }
+
+    .faq-icon {
+        transition: transform 0.3s ease;
+        font-size: 14px;
+        margin-left: 15px;
+    }
+
+    .faq-header.active .faq-icon {
+        transform: rotate(180deg);
+    }
+
+    .faq-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 0 20px;
+        background: white;
+    }
+
+    .faq-content.active {
+        max-height: 2000px;
+        padding: 20px;
+    }
+
+    .faq-content-body {
+        color: #333;
+        line-height: 1.8;
+        font-size: 15px;
+    }
+
+    .faq-content-body h4 {
+        color: #0a4478;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    .faq-content-body h4:first-child {
+        margin-top: 0;
+    }
+
+    .faq-content-body ul {
+        margin: 10px 0;
+        padding-left: 25px;
+    }
+
+    .faq-content-body li {
+        margin-bottom: 8px;
+        line-height: 1.6;
+    }
+
+    .faq-content-body p {
+        margin: 10px 0;
+    }
+
+    .faq-content-body strong {
+        color: #0a4478;
+        font-weight: 600;
+    }
+
+    .faq-empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+
+    .faq-empty i {
+        font-size: 48px;
+        color: #ccc;
+        margin-bottom: 20px;
+    }
+
+    .faq-empty p {
+        font-size: 16px;
+    }
+</style>
+
+<div class="faq-container">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var soru in Model)
+        {
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <span>@soru.SoruBaslik</span>
+                    <i class="fas fa-chevron-up faq-icon"></i>
+                </div>
+                <div class="faq-content">
+                    <div class="faq-content-body">
+                        @Html.Raw(Html.Encode(soru.CevapIcerik))
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="faq-empty">
+            <i class="fas fa-question-circle"></i>
+            <p>Henüz soru eklenmemiş.</p>
+        </div>
+    }
+</div>
+
+<script>
+    function toggleFaq(header) {
+        const item = header.closest('.faq-item');
+        const content = item.querySelector('.faq-content');
+        const isActive = header.classList.contains('active');
+
+        // Tüm FAQ'ları kapat
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+            const faqHeader = faqItem.querySelector('.faq-header');
+            const faqContent = faqItem.querySelector('.faq-content');
+            faqHeader.classList.remove('active');
+            faqContent.classList.remove('active');
+        });
+
+        // Eğer tıklanan item zaten açıksa, kapat; değilse aç
+        if (!isActive) {
+            header.classList.add('active');
+            content.classList.add('active');
+        }
+    }
+
+    // Sayfa yüklendiğinde ilk item'ı aç (opsiyonel)
+    document.addEventListener('DOMContentLoaded', function() {
+        const firstItem = document.querySelector('.faq-item');
+        if (firstItem) {
+            const firstHeader = firstItem.querySelector('.faq-header');
+            if (firstHeader) {
+                toggleFaq(firstHeader);
+            }
+        }
+    });
+</script>
+

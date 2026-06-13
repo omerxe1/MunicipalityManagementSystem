@@ -1,0 +1,128 @@
+@model kocaaliv2.Models.Announcement
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="duyuru-detay-container">
+    <div class="duyuru-detay-card">
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="duyuru-detay-image">
+                <img src="@Model.ImageUrl" alt="@Model.Title" />
+            </div>
+        }
+        
+        <div class="duyuru-detay-content">
+            <div class="duyuru-detay-header">
+                <h1 class="duyuru-detay-baslik">@Model.Title</h1>
+                <p class="duyuru-detay-tarih">
+                    <i class="fas fa-calendar-alt"></i>
+                    @Model.PublishDate.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))
+                </p>
+            </div>
+            
+            <div class="duyuru-detay-icerik">
+                @Html.Raw(Model.Content.Replace("\n", "<br />"))
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .duyuru-detay-container {
+        padding: 2rem 0;
+    }
+
+    .duyuru-detay-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .duyuru-detay-image {
+        width: 100%;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f8f9fa;
+    }
+
+    .duyuru-detay-image img {
+        max-width: 600px;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: block;
+    }
+
+    .duyuru-detay-content {
+        padding: 2rem;
+    }
+
+    .duyuru-detay-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .duyuru-detay-baslik {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 1rem 0;
+        line-height: 1.3;
+    }
+
+    .duyuru-detay-tarih {
+        font-size: 1rem;
+        color: #666;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .duyuru-detay-tarih i {
+        color: rgb(4, 22, 85);
+    }
+
+    .duyuru-detay-icerik {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #444;
+    }
+
+    .duyuru-detay-icerik p {
+        margin-bottom: 1rem;
+    }
+
+    .duyuru-detay-icerik p:last-child {
+        margin-bottom: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .duyuru-detay-content {
+            padding: 1.5rem;
+        }
+
+        .duyuru-detay-baslik {
+            font-size: 1.5rem;
+        }
+
+        .duyuru-detay-icerik {
+            font-size: 1rem;
+        }
+
+        .duyuru-detay-image {
+            padding: 1rem;
+        }
+
+        .duyuru-detay-image img {
+            max-width: 100%;
+        }
+    }
+</style>
+

@@ -1,0 +1,20 @@
+/* Mobil görünümde çalışmalar ve istatistik kartlarını gizle */
+@media (max-width: 768px) {
+  .calismalar-section {
+    display: none !important;
+  }
+  
+  .statistics-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .calismalar-section {
+    display: none !important;
+  }
+  
+  .statistics-container {
+    display: none !important;
+  }
+}

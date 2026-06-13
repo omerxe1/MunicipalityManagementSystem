@@ -1,0 +1,46 @@
+@model List<kocaaliv2.Models.Yonetmelik>
+@{
+    // Yönetmelikler sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Yönetmelikler";
+    ViewData["PageTitle"] = "Yönetmelikler";
+    ViewData["ContentTitle"] = "Yönetmelikler";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Belediyemiz", Url = (string?)"#" },
+        new { Text = "Yönetmelikler", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)"#", IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)"#", IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Yönetmelikler Listesi -->
+<div class="mudurlukler-list">
+    @foreach (var item in Model)
+    {
+        <a href="@item.PdfUrl" target="_blank" class="mudurlukler-item">
+            <i class="fas fa-chevron-right"></i>
+            <span>@item.Baslik</span>
+        </a>
+    }
+</div>
+

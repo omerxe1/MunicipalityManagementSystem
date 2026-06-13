@@ -1,0 +1,93 @@
+@model kocaaliv2.Models.Haber
+@{
+    ViewData["Title"] = "Yeni Haber Ekle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-plus-circle me-2"></i>Yeni Haber Ekle</h4>
+    <a href="@Url.Action("Index", "Haber", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Baslik" class="form-label">Başlık <span class="text-danger">*</span></label>
+                <input asp-for="Baslik" class="form-control" />
+                <span asp-validation-for="Baslik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Icerik" class="form-label">İçerik <span class="text-danger">*</span></label>
+                <textarea asp-for="Icerik" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Icerik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="resimDosyasi" class="form-label">Resim Yükle</label>
+                <input type="file" name="resimDosyasi" id="resimDosyasi" class="form-control" accept="image/jpeg,image/jpg,image/png" />
+                <small class="form-text text-muted">Sadece JPG, JPEG ve PNG dosyaları yüklenebilir. Maksimum dosya boyutu: 5MB</small>
+                <div id="resimPreview" class="mt-2" style="display:none;">
+                    <img id="previewImg" src="" alt="Önizleme" style="max-width: 300px; max-height: 200px; border-radius: 8px;" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ResimYolu" class="form-label">Veya Resim URL'si</label>
+                <input asp-for="ResimYolu" class="form-control" placeholder="https://..." />
+                <small class="form-text text-muted">Dosya yükleme yerine manuel URL de girebilirsiniz</small>
+                <span asp-validation-for="ResimYolu" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Tarih" class="form-label">Tarih</label>
+                    <input asp-for="Tarih" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="Tarih" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                        <input asp-for="YayindaMi" class="form-check-input" type="checkbox" />
+                        <label asp-for="YayindaMi" class="form-check-label">Yayında</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Kaydet
+                </button>
+                <a href="@Url.Action("Index", "Haber", new { area = "Admin" })" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Resim önizleme
+        document.getElementById('resimDosyasi').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('resimPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('resimPreview').style.display = 'none';
+            }
+        });
+    </script>
+}
+

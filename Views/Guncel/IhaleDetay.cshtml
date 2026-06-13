@@ -1,0 +1,205 @@
+@model kocaaliv2.Models.Ihale
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İhale Detay";
+    ViewData["PageTitle"] = "İhale Detayı";
+    ViewData["ContentTitle"] = "İHALE DETAYI";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Güncel", Url = (string?)"#" },
+        new { Text = "İhaleler", Url = (string?)(Url.Action("Ihaleler", "Guncel") ?? "#") },
+        new { Text = "İhale Detayı", Url = (string?)null }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<div class="alt-sayfa-content-body">
+    <div class="ihale-detay-container">
+        @if (Model != null)
+        {
+            <div class="ihale-detay-card">
+                <div class="ihale-detay-header">
+                    <h2 class="ihale-detay-baslik">@Model.Baslik</h2>
+                    <div class="ihale-detay-meta">
+                        <span class="ihale-detay-tarih">
+                            <i class="fas fa-calendar"></i> @Model.Tarih.ToString("dd.MM.yyyy")
+                        </span>
+                        <span class="ihale-detay-durum ihale-durum-@Model.Durum.Replace(" ", "-").ToLower()">
+                            <i class="fas fa-info-circle"></i> @Model.Durum
+                        </span>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="ihale-detay-image">
+                        <img src="@Model.ImageUrl" alt="@Model.Baslik" class="img-fluid">
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Aciklama))
+                {
+                    <div class="ihale-detay-aciklama">
+                        <h4>İhale Açıklaması</h4>
+                        <p>@Html.Raw(Html.Encode(Model.Aciklama).Replace("\n", "<br>"))</p>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.PdfUrl))
+                {
+                    <div class="ihale-detay-actions">
+                        <a href="@Url.Action("IhalePdfGoruntule", "Guncel", new { id = Model.Id })" 
+                           target="_blank" 
+                           class="btn btn-primary btn-lg">
+                            <i class="fas fa-eye"></i> PDF'i Görüntüle
+                        </a>
+                        <a href="@Url.Action("IhalePdfIndir", "Guncel", new { id = Model.Id })" 
+                           class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-download"></i> PDF'i İndir
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> İhale bulunamadı.
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .ihale-detay-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .ihale-detay-card {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .ihale-detay-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .ihale-detay-baslik {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .ihale-detay-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .ihale-detay-tarih,
+    .ihale-detay-durum {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .ihale-detay-durum {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .ihale-durum-devam-eden {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .ihale-durum-tamamlanan {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .ihale-durum-planlanan {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .ihale-detay-image {
+        margin-bottom: 2rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .ihale-detay-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .ihale-detay-aciklama {
+        margin-bottom: 2rem;
+    }
+
+    .ihale-detay-aciklama h4 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .ihale-detay-aciklama p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+
+    .ihale-detay-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .ihale-detay-actions .btn {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    @@media (max-width: 768px) {
+        .ihale-detay-card {
+            padding: 1.5rem;
+        }
+
+        .ihale-detay-baslik {
+            font-size: 1.4rem;
+        }
+
+        .ihale-detay-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ihale-detay-actions {
+            flex-direction: column;
+        }
+
+        .ihale-detay-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+

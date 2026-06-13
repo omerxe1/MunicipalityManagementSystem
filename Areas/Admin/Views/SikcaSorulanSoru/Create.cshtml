@@ -1,0 +1,64 @@
+@model kocaaliv2.Models.SikcaSorulanSoru
+@{
+    ViewData["Title"] = "Yeni Soru Ekle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-plus-circle me-2"></i>Yeni Soru Ekle</h4>
+    <a href="@Url.Action("Index", "SikcaSorulanSoru", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="SoruBaslik" class="form-label">Soru Başlığı <span class="text-danger">*</span></label>
+                <input asp-for="SoruBaslik" class="form-control" placeholder="Örn: Nikah İşlemleri İçin Ne Yapmalıyım?" />
+                <span asp-validation-for="SoruBaslik" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CevapIcerik" class="form-label">Cevap İçeriği <span class="text-danger">*</span></label>
+                <textarea asp-for="CevapIcerik" class="form-control" rows="15" placeholder="HTML formatında içerik girebilirsiniz. Örn: &lt;h4&gt;Başlık&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;Madde 1&lt;/li&gt;&lt;/ul&gt;"></textarea>
+                <small class="form-text text-muted">HTML etiketleri kullanabilirsiniz (h4, ul, li, p, strong, br vb.)</small>
+                <span asp-validation-for="CevapIcerik" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SiraNo" class="form-label">Sıra No</label>
+                    <input asp-for="SiraNo" type="number" class="form-control" value="0" />
+                    <span asp-validation-for="SiraNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                        <input asp-for="AktifMi" class="form-check-input" type="checkbox" checked />
+                        <label asp-for="AktifMi" class="form-check-label">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Kaydet
+                </button>
+                <a href="@Url.Action("Index", "SikcaSorulanSoru", new { area = "Admin" })" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

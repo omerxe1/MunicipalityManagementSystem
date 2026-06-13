@@ -1,0 +1,134 @@
+@model kocaaliv2.Models.Calisma
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="proje-detay-container">
+    <div class="proje-detay-content">
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="proje-detay-image">
+                <img src="@Model.ImageUrl" alt="@Model.Title" />
+            </div>
+        }
+        
+        <div class="proje-detay-info">
+            <h1 class="proje-detay-baslik">@Model.Title</h1>
+            
+            <div class="proje-detay-meta">
+                <div class="proje-detay-tarih">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>@Model.PublishDate.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Durum))
+                {
+                    <div class="proje-detay-durum">
+                        <i class="fas fa-info-circle"></i>
+                        <span>@Model.Durum</span>
+                    </div>
+                }
+            </div>
+            
+            <div class="proje-detay-aciklama">
+                <p>@Model.Description</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .proje-detay-container {
+        padding: 2rem 0;
+    }
+
+    .proje-detay-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .proje-detay-image {
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        background: #f8f9fa;
+    }
+
+    .proje-detay-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .proje-detay-info {
+        padding: 2rem;
+    }
+
+    .proje-detay-baslik {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 1.5rem 0;
+        line-height: 1.3;
+    }
+
+    .proje-detay-meta {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .proje-detay-tarih,
+    .proje-detay-durum {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .proje-detay-tarih i,
+    .proje-detay-durum i {
+        color: rgb(4, 22, 85);
+    }
+
+    .proje-detay-aciklama {
+        font-size: 1.1rem;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .proje-detay-aciklama p {
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .proje-detay-info {
+            padding: 1.5rem;
+        }
+
+        .proje-detay-baslik {
+            font-size: 1.5rem;
+        }
+
+        .proje-detay-image {
+            height: 250px;
+        }
+
+        .proje-detay-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .proje-detay-aciklama {
+            font-size: 1rem;
+        }
+    }
+</style>
+

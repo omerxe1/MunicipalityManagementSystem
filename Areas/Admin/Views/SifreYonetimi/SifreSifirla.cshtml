@@ -1,0 +1,155 @@
+@model IEnumerable<kocaaliv2.Models.Admin>
+@{
+    ViewData["Title"] = "Şifre Sıfırlama";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-unlock-alt me-2"></i>Şifre Sıfırlama</h4>
+    <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <p class="text-muted mb-4">
+            <i class="fas fa-info-circle me-2"></i>Baş admin olarak diğer kullanıcıların şifrelerini sıfırlayabilirsiniz.
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Kullanıcı Adı</th>
+                        <th>Rol</th>
+                        <th>Durum</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var admin in Model)
+                        {
+                            <tr>
+                                <td><strong>@admin.KullaniciAdi</strong></td>
+                                <td>
+                                    @if (admin.Rol == "Admin")
+                                    {
+                                        <span class="badge bg-danger">Admin</span>
+                                    }
+                                    else if (admin.Rol == "BasAdmin")
+                                    {
+                                        <span class="badge bg-warning">Baş Admin</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">Editor</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (admin.AktifMi)
+                                    {
+                                        <span class="badge bg-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pasif</span>
+                                    }
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#sifreSifirlaModal_@admin.Id">
+                                        <i class="fas fa-key"></i> Şifre Sıfırla
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="sifreSifirlaModal_@admin.Id" tabindex="-1" aria-labelledby="sifreSifirlaModalLabel_@admin.Id" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="sifreSifirlaModalLabel_@admin.Id">Şifre Sıfırla - @admin.KullaniciAdi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form method="post" asp-action="SifreSifirla">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="adminId" value="@admin.Id" />
+                                            <div class="modal-body">
+                                                <div class="alert alert-warning">
+                                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                                    <strong>@admin.KullaniciAdi</strong> kullanıcısının şifresini sıfırlamak üzeresiniz.
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="yeniSifre_@admin.Id" class="form-label">Yeni Şifre <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="yeniSifre_@admin.Id" name="yeniSifre" required minlength="6">
+                                                    <small class="form-text text-muted">En az 6 karakter olmalıdır.</small>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="yeniSifreTekrar_@admin.Id" class="form-label">Yeni Şifre (Tekrar) <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="yeniSifreTekrar_@admin.Id" name="yeniSifreTekrar" required minlength="6">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <button type="submit" class="btn btn-warning">
+                                                    <i class="fas fa-key me-2"></i>Şifreyi Sıfırla
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                <i class="fas fa-inbox me-2"></i>Şifre sıfırlanabilecek kullanıcı bulunamadı.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Şifre eşleşme kontrolü (her modal için)
+    @foreach (var admin in Model ?? new List<kocaaliv2.Models.Admin>())
+    {
+        <text>
+        document.getElementById('yeniSifreTekrar_@admin.Id')?.addEventListener('input', function() {
+            var yeniSifre = document.getElementById('yeniSifre_@admin.Id').value;
+            var yeniSifreTekrar = this.value;
+            
+            if (yeniSifre !== yeniSifreTekrar && yeniSifreTekrar.length > 0) {
+                this.setCustomValidity('Şifreler eşleşmiyor.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        </text>
+    }
+</script>
+
+
+

@@ -1,0 +1,91 @@
+@model kocaaliv2.Models.KardesSehir
+@{
+    ViewData["Title"] = "Kardeş Şehir Düzenle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-edit me-2"></i>Kardeş Şehir Düzenle</h4>
+    <a href="@Url.Action("Index", "KardesSehir", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="BelediyeAdi" class="form-label">Belediye Adı <span class="text-danger">*</span></label>
+                <input asp-for="BelediyeAdi" class="form-control" />
+                <span asp-validation-for="BelediyeAdi" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="SehirAdi" class="form-label">Şehir Adı <span class="text-danger">*</span></label>
+                <input asp-for="SehirAdi" class="form-control" />
+                <span asp-validation-for="SehirAdi" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Ulke" class="form-label">Ülke</label>
+                <input asp-for="Ulke" class="form-control" />
+                <span asp-validation-for="Ulke" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="KararNo" class="form-label">Karar No</label>
+                <input asp-for="KararNo" class="form-control" />
+                <span asp-validation-for="KararNo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ResimYolu" class="form-label">Resim Yolu</label>
+                <input asp-for="ResimYolu" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="ResimYolu" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ProtokolTarihi" class="form-label">Protokol Tarihi</label>
+                <input asp-for="ProtokolTarihi" type="date" class="form-control" />
+                <span asp-validation-for="ProtokolTarihi" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SiraNo" class="form-label">Sıra No</label>
+                    <input asp-for="SiraNo" type="number" class="form-control" />
+                    <span asp-validation-for="SiraNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                        <input asp-for="AktifMi" class="form-check-input" type="checkbox" />
+                        <label asp-for="AktifMi" class="form-check-label">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Güncelle
+                </button>
+                <a href="@Url.Action("Index", "KardesSehir", new { area = "Admin" })" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+

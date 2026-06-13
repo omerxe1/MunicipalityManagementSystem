@@ -1,0 +1,71 @@
+@{
+    // İç Kontrol sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İç Kontrol";
+    ViewData["PageTitle"] = "İç Kontrol";
+    ViewData["ContentTitle"] = "İç Kontrol";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+new { Text = "Belediyemiz", Url = (string?)"#" },
+new { Text = "Kurumsal Yapı", Url = (string?)(Url.Action("KurumsalYapi", "Kurumsal") ?? "#") },
+new { Text = "İç Kontrol", Url = (string?)null }
+};
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+};
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- İç Kontrol İçerik Alanı -->
+<div class="ic-kontrol-container">
+    <!-- İçerik buraya eklenecek -->
+    <p>Kocaali Belediyesi bünyesinde yürütülen iç kontrol çalışmaları, 5018 sayılı Kamu Mali Yönetimi ve Kontrol
+        Kanunu’nun 24.12.2003 tarih ve 25326 sayılı Resmi Gazete’de yayımlanarak yürürlüğe girmesiyle başlayan kamu mali
+        yönetimi reformunun temel bir parçasını oluşturmaktadır. Bu kanunla birlikte mali yönetim sistemimize dahil olan
+        hesap verebilirlik, yönetim sorumluluğu, kaynakların etkili, ekonomik ve verimli kullanımı, stratejik planlama,
+        performans esaslı bütçeleme ve mali saydamlık gibi kavramlar, belediyemizin hizmet standartlarını ve yönetim
+        anlayışını belirlemektedir. İç kontrol sistemi; faaliyetlerin etkinliği, mali raporların güvenilirliği,
+        yürürlükteki mevzuata uyum ve belediye varlıklarının korunması amaçları doğrultusunda makul bir güvence sağlamak
+        üzere tasarlanmış dinamik bir yönetim aracıdır. Diğer bir ifadeyle iç kontrol, kurumun tüm kademelerindeki
+        personel ve yöneticiler tarafından hayata geçirilen, belirlenen hedeflere ulaşılmasında ve belediyemizin
+        misyonunun gerçekleştirilmesinde bütünleşik bir süreç niteliği taşımaktadır. Bu kapsamda kurum çalışanlarının iç
+        kontrol konusunda temel teşkil edecek bilgi birikimine sahip olması, sistemin sürdürülebilirliği açısından
+        esastır. Avrupa Birliği müzakere sürecindeki 32. Fasıl olan Mali Kontrol başlığı ve uluslararası standartlar
+        ışığında şekillenen bu yapı, Türkiye’deki yasal düzenlemelerle birlikte COSO modelini esas alan bir sistemin
+        kurulmasını hedeflemektedir. Kocaali Belediyesi olarak, bu normlar ve ikincil mevzuat çerçevesinde mali yönetim
+        ve kontrol sistemimizi yenileyerek, idari sorumluluk bilinciyle iç kontrol faaliyetlerimizi tasarlayıp
+        uygulamaya devam etmekteyiz.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

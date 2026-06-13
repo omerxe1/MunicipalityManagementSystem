@@ -1,0 +1,82 @@
+@model kocaaliv2.Models.IletisimBasvuru
+@{
+    ViewData["Title"] = "Başvuru Detayı";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-envelope-open me-2"></i>Başvuru Detayı</h4>
+    <a href="@Url.Action("Index", "Iletisim", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Ad Soyad:</strong>
+                <p>@Model.AdSoyad</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Email:</strong>
+                <p>@Model.Email</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Konu:</strong>
+                <p>@Model.Konu</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Tarih:</strong>
+                <p>@Model.Tarih.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <strong>Mesaj:</strong>
+            <div class="border p-3 mt-2" style="background-color: #f8f9fa; border-radius: 5px;">
+                @Model.Mesaj
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <strong>Durum:</strong>
+            @if (Model.OkunduMu)
+            {
+                <span class="badge bg-success">Okundu</span>
+            }
+            else
+            {
+                <span class="badge bg-warning">Okunmadı</span>
+            }
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("Index", "Iletisim", new { area = "Admin" })" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Geri Dön
+            </a>
+            <form method="post" action="@Url.Action("Delete", "Iletisim", new { area = "Admin", id = Model.Id })" style="display:inline;" onsubmit="return confirm('Bu başvuruyu silmek istediğinize emin misiniz?');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i>Sil
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

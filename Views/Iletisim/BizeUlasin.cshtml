@@ -1,0 +1,578 @@
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Bize Ulaşın";
+}
+
+<div class="bize-ulasin-container">
+    <!-- Harita - Üstte Tam Genişlikte -->
+    <div class="harita-section">
+        <div class="harita-wrapper">
+            <iframe 
+                src="https://www.google.com/maps?q=41.0547321,30.8521596&hl=tr&z=17&output=embed"
+                width="100%" 
+                height="500" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- İletişim Kartları - Altta Yatay Dizilmiş -->
+    <div class="iletisim-kartlari">
+        <div class="iletisim-kart">
+            <div class="iletisim-kart-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="iletisim-kart-content">
+                <h4>Adres</h4>
+                <p>Ağalar Mahallesi 15 Temmuz Zafer Meydanı <br>Kocaali / SAKARYA</p>
+            </div>
+        </div>
+
+        <div class="iletisim-kart">
+            <div class="iletisim-kart-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="iletisim-kart-content">
+                <h4>Mail</h4>
+                <p><a href="mailto:bilgi@kocaali.bel.tr">bilgi@kocaali.bel.tr</a></p>
+            </div>
+        </div>
+
+        <div class="iletisim-kart">
+            <div class="iletisim-kart-icon">
+                <i class="fas fa-phone"></i>
+            </div>
+            <div class="iletisim-kart-content">
+                <h4>Telefon</h4>
+                <p><a href="tel:02648121101">0264 812 11 01</a></p>
+            </div>
+        </div>
+
+        <div class="iletisim-kart">
+            <div class="iletisim-kart-icon">
+                <i class="fas fa-print"></i>
+            </div>
+            <div class="iletisim-kart-content">
+                <h4>Belge Geçer</h4>
+                <p>0264 812 11 11</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- İletişim Formu -->
+    <div class="iletisim-form-section">
+        <div class="iletisim-form-container">
+            <h3 class="iletisim-form-baslik">Bize Ulaşın</h3>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            <form id="bizeUlasinForm" class="bize-ulasin-form" method="post" asp-controller="Iletisim" asp-action="BizeUlasinGonder">
+                <div class="form-group">
+                    <label for="KimlikNo">Kimlik No <span class="required-star">*</span></label>
+                    <input type="text" id="KimlikNo" name="KimlikNo" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="DogumTarihi">
+                        Doğum Tarihi <span class="required-star">*</span>
+                        <i class="fas fa-question-circle help-icon" title="Doğum tarihinizi gün, ay ve yıl olarak seçiniz"></i>
+                    </label>
+                    <div class="date-input-group">
+                        <select id="DogumGunu" name="DogumGunu" class="form-control date-select" required>
+                            <option value="">Gün</option>
+                            @for (int i = 1; i <= 31; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <select id="DogumAyi" name="DogumAyi" class="form-control date-select" required>
+                            <option value="">Ay</option>
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6">Haziran</option>
+                            <option value="7">Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12">Aralık</option>
+                        </select>
+                        <input type="text" id="DogumYili" name="DogumYili" class="form-control date-year" placeholder="Yıl giriniz." required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Ad">Ad <span class="required-star">*</span></label>
+                    <input type="text" id="Ad" name="Ad" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Soyad">Soyad <span class="required-star">*</span></label>
+                    <input type="text" id="Soyad" name="Soyad" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="CepTelefonu">Cep Telefonu <span class="required-star">*</span></label>
+                    <input type="tel" id="CepTelefonu" name="CepTelefonu" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="BasvuruMetni">Başvuru Metni <span class="required-star">*</span></label>
+                    <textarea id="BasvuruMetni" name="BasvuruMetni" class="form-control textarea-field" rows="6" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="toggle-group">
+                        <label for="KisiBilgilerimiGizle">Kişi Bilgilerimi Gizle</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="KisiBilgilerimiGizle" name="KisiBilgilerimiGizle" value="true">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-text" id="toggleText">HAYIR</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="captcha-group">
+                        <div class="captcha-image-wrapper">
+                            <img src="@Url.Action("Captcha", "Iletisim")" alt="Captcha" id="captchaImage" class="captcha-image">
+                            <button type="button" class="captcha-refresh" onclick="refreshCaptcha()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <input type="text" id="CaptchaCode" name="CaptchaCode" class="form-control captcha-input" placeholder="Resimdekileri yazın" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-submit">Başvuru Oluştur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bize-ulasin-container {
+        padding: 2rem 0;
+    }
+
+    /* Harita Bölümü - Üstte Tam Genişlikte */
+    .harita-section {
+        margin-bottom: 2rem;
+    }
+
+    .harita-wrapper {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        height: 500px;
+    }
+
+    .harita-wrapper iframe {
+        display: block;
+        width: 100%;
+        height: 500px;
+        border: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    /* İletişim Kartları - Altta Yatay Dizilmiş */
+    .iletisim-kartlari {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .iletisim-kart {
+        background: white;
+        padding: 2rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .iletisim-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .iletisim-kart-icon {
+        width: 60px;
+        height: 60px;
+        background: rgb(4, 22, 85);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .iletisim-kart-content {
+        width: 100%;
+    }
+
+    .iletisim-kart-content h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #495057;
+        margin: 0 0 1rem 0;
+    }
+
+    .iletisim-kart-content p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .iletisim-kart-content a {
+        color: rgb(4, 22, 85);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .iletisim-kart-content a:hover {
+        color: rgb(3, 18, 70);
+        text-decoration: underline;
+    }
+
+    @@media (max-width: 992px) {
+        .iletisim-kartlari {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .harita-wrapper iframe {
+            height: 400px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .bize-ulasin-container {
+            padding: 1.5rem 0;
+        }
+
+        .iletisim-kartlari {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .iletisim-kart {
+            padding: 1.5rem 1rem;
+        }
+
+        .iletisim-kart-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .harita-wrapper iframe {
+            height: 350px;
+        }
+    }
+
+    /* İletişim Formu */
+    .iletisim-form-section {
+        margin-top: 3rem;
+    }
+
+    .iletisim-form-container {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .iletisim-form-baslik {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: rgb(4, 22, 85);
+        margin-bottom: 2rem;
+    }
+
+    .bize-ulasin-form {
+        max-width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .required-star {
+        color: #dc3545;
+    }
+
+    .help-icon {
+        color: #6c757d;
+        margin-left: 0.5rem;
+        font-size: 0.875rem;
+        cursor: help;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: rgb(4, 22, 85);
+        box-shadow: 0 0 0 0.2rem rgba(4, 22, 85, 0.25);
+    }
+
+    .date-input-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2fr;
+        gap: 0.75rem;
+    }
+
+    .date-select,
+    .date-year {
+        width: 100%;
+    }
+
+    .textarea-field {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.3s;
+        border-radius: 30px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+        background-color: rgb(4, 22, 85);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+        transform: translateX(30px);
+    }
+
+    .toggle-text {
+        font-weight: 600;
+        color: #495057;
+        min-width: 50px;
+    }
+
+    .captcha-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .captcha-image-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .captcha-image {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 0.5rem;
+        background: #f8f9fa;
+    }
+
+    .captcha-refresh {
+        background: rgb(4, 22, 85);
+        color: white;
+        border: none;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .captcha-refresh:hover {
+        background: rgb(3, 18, 70);
+    }
+
+    .captcha-input {
+        max-width: 300px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background-color: rgb(4, 22, 85);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: rgb(3, 18, 70);
+    }
+
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    @@media (max-width: 768px) {
+        .iletisim-form-container {
+            padding: 1.5rem;
+        }
+
+        .date-input-group {
+            grid-template-columns: 1fr;
+        }
+
+        .captcha-image-wrapper {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Year input validation (only numbers)
+        const yearInput = document.getElementById('DogumYili');
+        if (yearInput) {
+            yearInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4);
+                }
+            });
+        }
+
+        // Phone number formatting (only numbers)
+        const phoneInput = document.getElementById('CepTelefonu');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // ID number validation (only numbers)
+        const idInput = document.getElementById('KimlikNo');
+        if (idInput) {
+            idInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // Toggle switch text update
+        const toggleSwitch = document.getElementById('KisiBilgilerimiGizle');
+        const toggleText = document.getElementById('toggleText');
+        if (toggleSwitch && toggleText) {
+            toggleSwitch.addEventListener('change', function() {
+                toggleText.textContent = this.checked ? 'EVET' : 'HAYIR';
+            });
+        }
+    });
+
+    function refreshCaptcha() {
+        const captchaImage = document.getElementById('captchaImage');
+        if (captchaImage) {
+            var captchaUrl = '@Url.Action("Captcha", "Iletisim")';
+            captchaImage.src = captchaUrl + '?t=' + new Date().getTime();
+        }
+    }
+</script>
+

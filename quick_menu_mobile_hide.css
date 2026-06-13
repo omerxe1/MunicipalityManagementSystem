@@ -1,0 +1,17 @@
+  /* Quick menu'lerin açılan menülerini mobilde gizle */
+  .top-menu-section {
+    display: none !important;
+  }
+  
+  .top-menu-section.kocaali-menu,
+  .top-menu-section.belediye-menu,
+  .top-menu-section.ebelediye-menu,
+  .top-menu-section.eportal-menu,
+  .top-menu-section.hizli-menu {
+    display: none !important;
+  }
+  
+  /* Fullscreen mega menu mobilde gizle */
+  .fullscreen-mega-menu {
+    display: none !important;
+  }

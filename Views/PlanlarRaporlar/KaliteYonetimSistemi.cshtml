@@ -1,0 +1,254 @@
+@model List<kocaaliv2.Models.KaliteYonetimSistemi>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Kalite Yönetim Sistemi";
+    ViewData["PageTitle"] = "Kalite Yönetim Sistemi";
+    ViewData["ContentTitle"] = "KALİTE YÖNETİM SİSTEMİ";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Planlar-Raporlar", Url = (string?)"#" },
+        new { Text = "Kalite Yönetim Sistemi", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)(Url.Action("NobetciEczaneler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)(Url.Action("Duyurular", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Etkinlikler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Faaliyet Raporları", Url = (string?)(Url.Action("FaaliyetRaporlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "İmar Planları", Url = (string?)(Url.Action("ImarPlanlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "Kalite Yönetim Sistemi", Url = (string?)(Url.Action("KaliteYonetimSistemi", "PlanlarRaporlar") ?? "#"), IsActive = true }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Kalite Yönetim Sistemi İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <div class="kalite-yonetim-container">
+        @if (Model != null && Model.Any())
+        {
+            <div class="kalite-yonetim-grid">
+                @foreach (var kalite in Model)
+                {
+                    <div class="kalite-yonetim-card">
+                        <div class="kalite-yonetim-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="kalite-yonetim-content">
+                            <h4 class="kalite-yonetim-baslik">@kalite.Baslik</h4>
+                            @if (!string.IsNullOrEmpty(kalite.Url))
+                            {
+                                <div class="kalite-yonetim-actions">
+                                    <a href="@Url.Action("KaliteYonetimSistemiPdfGoruntule", "PlanlarRaporlar", new { id = kalite.Id })" 
+                                       target="_blank" 
+                                       class="kalite-yonetim-btn btn-goruntule">
+                                        <i class="fas fa-eye"></i> Görüntüle
+                                    </a>
+                                    <a href="@Url.Action("KaliteYonetimSistemiPdfIndir", "PlanlarRaporlar", new { id = kalite.Id })" 
+                                       class="kalite-yonetim-btn btn-indir">
+                                        <i class="fas fa-download"></i> İndir
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="kalite-yonetim-actions">
+                                    <span class="kalite-yonetim-btn btn-disabled">
+                                        <i class="fas fa-exclamation-circle"></i> PDF Yok
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info kalite-yonetim-bos">
+                <i class="fas fa-info-circle"></i> 
+                <p>Henüz kalite yönetim sistemi dokümanı bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .kalite-yonetim-container {
+        max-width: 100%;
+    }
+
+    .kalite-yonetim-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .kalite-yonetim-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-height: 250px;
+    }
+
+    .kalite-yonetim-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+
+    .kalite-yonetim-icon {
+        width: 80px;
+        height: 80px;
+        background: #f0f7ff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .kalite-yonetim-icon i {
+        font-size: 3rem;
+        color: #333;
+    }
+
+    .kalite-yonetim-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .kalite-yonetim-baslik {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 1.5rem 0;
+        line-height: 1.4;
+        min-height: 2.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .kalite-yonetim-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+        margin-top: auto;
+    }
+
+    .kalite-yonetim-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn-goruntule {
+        background: #0066cc;
+        color: white;
+    }
+
+    .btn-goruntule:hover {
+        background: #0052a3;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0,102,204,0.3);
+    }
+
+    .btn-indir {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-indir:hover {
+        background: #218838;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(40,167,69,0.3);
+    }
+
+    .btn-disabled {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .kalite-yonetim-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .kalite-yonetim-bos i {
+        font-size: 3rem;
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .kalite-yonetim-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 992px) {
+        .kalite-yonetim-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .kalite-yonetim-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .kalite-yonetim-card {
+            min-height: 220px;
+        }
+
+        .kalite-yonetim-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+        .kalite-yonetim-icon i {
+            font-size: 2.5rem;
+        }
+
+        .kalite-yonetim-baslik {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+

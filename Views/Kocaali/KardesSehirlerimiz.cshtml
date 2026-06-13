@@ -1,0 +1,207 @@
+@model List<kocaaliv2.Models.KardesSehir>
+
+@{
+    // Kardeş Belediyelerimiz sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Kardeş Belediyelerimiz";
+    ViewData["PageTitle"] = "Kardeş Belediyelerimiz";
+    ViewData["ContentTitle"] = "KARDEŞ BELEDİYELERİMİZ";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Kocaali", Url = (string?)"#" },
+        new { Text = "Kardeş Belediyelerimiz", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<style>
+    .kardes-sehirler-container {
+        padding: 20px 0;
+    }
+
+    .kardes-sehirler-table {
+        width: 100%;
+        background: white;
+        border-collapse: collapse;
+        margin-top: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .kardes-sehirler-table thead {
+        background: #f8f9fa;
+    }
+
+    .kardes-sehirler-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #041655;
+        border-bottom: 2px solid #dee2e6;
+        font-size: 14px;
+    }
+
+    .kardes-sehirler-table td {
+        padding: 15px;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+
+    .kardes-sehirler-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .kardes-sehir-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
+    }
+
+    .kardes-sehir-logo-placeholder {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #041655 0%, #052a7a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        border-radius: 4px;
+    }
+
+    .kardes-sehir-beldeiye-adi {
+        font-weight: 600;
+        color: #041655;
+    }
+
+    .kardes-sehir-sehir {
+        color: #495057;
+    }
+
+    .kardes-sehir-ulke {
+        color: #495057;
+    }
+
+    .kardes-sehir-karar-no {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .kardes-sehir-tarih {
+        color: #6c757d;
+    }
+
+    @@media (max-width: 768px) {
+        .kardes-sehirler-table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        .kardes-sehirler-table thead,
+        .kardes-sehirler-table tbody,
+        .kardes-sehirler-table tr,
+        .kardes-sehirler-table td,
+        .kardes-sehirler-table th {
+            display: block;
+        }
+
+        .kardes-sehirler-table thead {
+            display: none;
+        }
+
+        .kardes-sehirler-table tr {
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .kardes-sehirler-table td {
+            border: none;
+            padding: 8px 0;
+            text-align: left;
+        }
+
+        .kardes-sehirler-table td:before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: #041655;
+            display: inline-block;
+            width: 120px;
+        }
+    }
+</style>
+
+<!-- Kardeş Belediyelerimiz İçerik Alanı -->
+<div class="kardes-sehirler-container">
+    @if (Model != null && Model.Any())
+    {
+        <table class="kardes-sehirler-table">
+            <thead>
+                <tr>
+                    <th>Belediye Logo</th>
+                    <th>Belediye Adı</th>
+                    <th>Şehir</th>
+                    <th>Ülke</th>
+                    <th>Karar No</th>
+                    <th>Protokol Tarih</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sehir in Model)
+                {
+                    <tr>
+                        <td data-label="Belediye Logo">
+                            @if (!string.IsNullOrEmpty(sehir.ResimYolu))
+                            {
+                                <img src="@sehir.ResimYolu" alt="@sehir.BelediyeAdi" class="kardes-sehir-logo" />
+                            }
+                            else
+                            {
+                                <div class="kardes-sehir-logo-placeholder">
+                                    <i class="fas fa-city"></i>
+                                </div>
+                            }
+                        </td>
+                        <td data-label="Belediye Adı" class="kardes-sehir-beldeiye-adi">@sehir.BelediyeAdi</td>
+                        <td data-label="Şehir" class="kardes-sehir-sehir">@sehir.SehirAdi</td>
+                        <td data-label="Ülke" class="kardes-sehir-ulke">@(sehir.Ulke ?? "-")</td>
+                        <td data-label="Karar No" class="kardes-sehir-karar-no">@(sehir.KararNo ?? "-")</td>
+                        <td data-label="Protokol Tarih" class="kardes-sehir-tarih">
+                            @(sehir.ProtokolTarihi.HasValue ? sehir.ProtokolTarihi.Value.ToString("yyyy-MM-dd") : "-")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alt-sayfa-content-body">
+            <p>Henüz kardeş belediye bilgisi bulunmamaktadır.</p>
+        </div>
+    }
+</div>
+

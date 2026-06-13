@@ -1,0 +1,647 @@
+@{
+    ViewData["Title"] = "Başkana Mesaj Gönder";
+    ViewBag.HideNavbar = true;
+}
+
+<section class="baskan-section">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-lg-4 col-md-12">
+                <div class="baskan-left-panel">
+                    <div class="baskan-image-container">
+                        <img src="~/images/baskan.png" alt="Belediye Başkanı" class="baskan-image">
+                    </div>
+                    <div class="baskan-social-icons">
+                        <a href="https://www.facebook.com/kocaalibld/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/KocaaliBld" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/kocaali.bld/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12">
+                <div class="baskan-content-panel">
+                    <div class="baskan-nav-menu">
+                        <div class="baskan-nav-tabs">
+                            <a asp-controller="Kurumsal" asp-action="Baskan" class="baskan-nav-tab" data-tab="ozgecmis">Başkanın Özgeçmişi</a>
+                            <a asp-controller="Kurumsal" asp-action="BaskanMesaj" class="baskan-nav-tab active" data-tab="mesaj">Başkana Mesaj Gönder</a>
+                            <a asp-controller="Kurumsal" asp-action="BaskanFotograflari" class="baskan-nav-tab" data-tab="fotograflar">Başkan'ın Fotoğrafları</a>
+                            <a href="#" class="baskan-nav-tab" data-tab="videolar">Başkanın Videoları</a>
+                        </div>
+                        <button class="baskan-close-btn" onclick="window.history.back()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="baskan-content">
+                        <h1 class="baskan-name">Turan Yüzücü</h1>
+
+                        <div class="baskan-section-content" id="mesaj-content">
+                            <div class="form-panel">
+                                <h2 class="baskan-form-title">Kocaali Belediye Başkanı Turan Yüzücü'ye Mesaj Atın</h2>
+                                
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success" role="alert">
+                                        @TempData["SuccessMessage"]
+                                    </div>
+                                }
+                                
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @TempData["ErrorMessage"]
+                                    </div>
+                                }
+                                
+                                <form id="baskanMesajForm" class="baskan-mesaj-form" method="post" asp-controller="Kurumsal" asp-action="BaskanMesajGonder" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="KimlikNo">Kimlik No <span class="required-star">*</span></label>
+                                    <input type="text" id="KimlikNo" name="KimlikNo" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DogumTarihi">
+                                        Doğum Tarihi <span class="required-star">*</span>
+                                        <i class="fas fa-question-circle help-icon" title="Doğum tarihinizi gün, ay ve yıl olarak seçiniz"></i>
+                                    </label>
+                                    <div class="date-input-group">
+                                        <select id="DogumGunu" name="DogumGunu" class="form-control date-select" required>
+                                            <option value="">Gün</option>
+                                            @for (int i = 1; i <= 31; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                        <select id="DogumAyi" name="DogumAyi" class="form-control date-select" required>
+                                            <option value="">Ay</option>
+                                            <option value="1">Ocak</option>
+                                            <option value="2">Şubat</option>
+                                            <option value="3">Mart</option>
+                                            <option value="4">Nisan</option>
+                                            <option value="5">Mayıs</option>
+                                            <option value="6">Haziran</option>
+                                            <option value="7">Temmuz</option>
+                                            <option value="8">Ağustos</option>
+                                            <option value="9">Eylül</option>
+                                            <option value="10">Ekim</option>
+                                            <option value="11">Kasım</option>
+                                            <option value="12">Aralık</option>
+                                        </select>
+                                        <input type="text" id="DogumYili" name="DogumYili" class="form-control date-year" placeholder="Yıl giriniz." required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ad">Ad <span class="required-star">*</span></label>
+                                    <input type="text" id="Ad" name="Ad" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Soyad">Soyad <span class="required-star">*</span></label>
+                                    <input type="text" id="Soyad" name="Soyad" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="CepTelefonu">Cep Telefonu <span class="required-star">*</span></label>
+                                    <input type="tel" id="CepTelefonu" name="CepTelefonu" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Email">Email</label>
+                                    <input type="email" id="Email" name="Email" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Konu">Konu</label>
+                                    <input type="text" id="Konu" name="Konu" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="BasvuruMetni">Başvuru Metni <span class="required-star">*</span></label>
+                                    <textarea id="BasvuruMetni" name="BasvuruMetni" class="form-control textarea-field" rows="6" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dosya</label>
+                                    <div class="file-input-group">
+                                        <button type="button" class="btn-file-select" onclick="document.getElementById('Dosyalar').click()">Dosyaları Seç</button>
+                                        <input type="file" id="Dosyalar" name="Dosyalar" class="file-input" multiple style="display: none;">
+                                        <span class="file-selected-text" id="fileSelectedText">Dosya seçilmedi</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn-submit">Gönder</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .baskan-section {
+        padding: 0;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .baskan-left-panel {
+        background: linear-gradient(135deg, rgb(4, 22, 85) 0%, rgb(4, 22, 85) 100%);
+        padding: 80px 50px 60px;
+        height: 100vh;
+        min-height: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .baskan-left-panel::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: url('/images/Kocaali_Belediyesi_logo(4).svg.PNG') no-repeat center;
+        background-size: 130%;
+        opacity: 0.15;
+        z-index: 0;
+    }
+
+    .baskan-image-container {
+        text-align: center;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 50px 0;
+    }
+
+    .baskan-image {
+        width: 130%;
+        max-width: 900px;
+        height: auto;
+        object-fit: cover;
+        display: block;
+    }
+
+    .baskan-social-icons {
+        position: absolute;
+        bottom: 40px;
+        left: 50px;
+        display: flex;
+        gap: 20px;
+        z-index: 1;
+    }
+
+    .baskan-social-icons a {
+        color: white;
+        font-size: 24px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .baskan-social-icons a:hover {
+        background: white;
+        color: #1a237e;
+        transform: translateY(-3px);
+    }
+
+    .baskan-content-panel {
+        background: white;
+        padding: 0;
+        height: 100vh;
+        min-height: 800px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .baskan-nav-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        padding: 0;
+        position: relative;
+    }
+
+    .baskan-nav-tabs {
+        display: flex;
+        gap: 0;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+    }
+
+    .baskan-nav-tab {
+        padding: 25px 35px;
+        text-decoration: none;
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 15px;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        background: white;
+        border: none;
+        cursor: pointer;
+        min-height: 70px;
+    }
+
+    .baskan-nav-tab:hover {
+        color: rgb(4, 22, 85);
+        background: #f8f9fa;
+    }
+
+    .baskan-nav-tab.active {
+        color: rgb(4, 22, 85);
+        border-bottom-color: rgb(4, 22, 85);
+        background: white;
+        font-weight: 600;
+    }
+
+    .baskan-close-btn {
+        width: 70px;
+        height: 70px;
+        background: rgb(4, 22, 85);
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-right: 0;
+    }
+
+    .baskan-close-btn:hover {
+        background: rgb(3, 18, 70);
+        transform: scale(1.05);
+    }
+
+    .baskan-content {
+        padding: 50px 60px;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .baskan-name {
+        font-size: 42px;
+        font-weight: 700;
+        color: rgb(4, 22, 85);
+        margin-bottom: 30px;
+        line-height: 1.2;
+    }
+
+    .baskan-section-content {
+        margin-top: 20px;
+    }
+
+    /* Form Panel Styles */
+    .form-panel {
+        background: white;
+        padding: 40px;
+        border-radius: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .baskan-form-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: rgb(4, 22, 85);
+        margin-bottom: 25px;
+        line-height: 1.4;
+    }
+
+    .baskan-mesaj-form {
+        max-width: 100%;
+        margin-top: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #495057;
+        font-size: 14px;
+    }
+
+    .required-star {
+        color: #dc3545;
+        margin-left: 2px;
+    }
+
+    .help-icon {
+        color: #6c757d;
+        font-size: 14px;
+        margin-left: 5px;
+        cursor: help;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 0;
+        font-size: 14px;
+        color: #495057;
+        background-color: #fff;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: rgb(4, 22, 85);
+        box-shadow: 0 0 0 0.2rem rgba(4, 22, 85, 0.25);
+    }
+
+    .date-input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .date-select {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .date-year {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .textarea-field {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+    }
+
+    .file-input-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .btn-file-select {
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        color: #495057;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 0;
+        font-weight: 500;
+    }
+
+    .btn-file-select:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+
+    .file-selected-text {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 12px 40px;
+        background-color: rgb(4, 22, 85);
+        color: white;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .btn-submit:hover {
+        background-color: rgb(3, 18, 70);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+    .alert {
+        padding: 12px 18px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 0;
+        font-size: 14px;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    @@media (max-width: 992px) {
+        .baskan-left-panel {
+            height: auto;
+            min-height: 600px;
+            padding: 60px 40px;
+        }
+
+        .baskan-image-container {
+            padding: 60px 40px 0;
+        }
+
+        .baskan-image {
+            max-width: 700px;
+        }
+
+        .baskan-social-icons {
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .baskan-content-panel {
+            height: auto;
+            min-height: auto;
+        }
+
+        .baskan-content {
+            padding: 40px 30px;
+        }
+
+        .baskan-name {
+            font-size: 32px;
+        }
+
+        .form-panel {
+            padding: 30px 25px;
+        }
+
+        .baskan-nav-tabs {
+            flex-wrap: wrap;
+        }
+
+        .baskan-nav-tab {
+            padding: 20px 25px;
+            font-size: 14px;
+            min-height: 60px;
+        }
+
+        .date-input-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .date-select {
+            width: 100%;
+        }
+
+        .file-input-group {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .baskan-left-panel {
+            padding: 40px 30px;
+            min-height: 500px;
+        }
+
+        .baskan-image-container {
+            padding: 40px 30px 0;
+        }
+
+        .baskan-image {
+            max-width: 550px;
+        }
+
+        .baskan-social-icons {
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .baskan-social-icons a {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .baskan-content {
+            padding: 30px 20px;
+        }
+
+        .baskan-name {
+            font-size: 28px;
+        }
+
+        .form-panel {
+            padding: 25px 20px;
+        }
+
+        .baskan-form-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .baskan-nav-tab {
+            padding: 18px 22px;
+            font-size: 13px;
+            min-height: 55px;
+        }
+
+        .baskan-close-btn {
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // File input handling
+        const fileInput = document.getElementById('Dosyalar');
+        const fileSelectedText = document.getElementById('fileSelectedText');
+
+        if (fileInput && fileSelectedText) {
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                if (files && files.length > 0) {
+                    if (files.length === 1) {
+                        fileSelectedText.textContent = files[0].name;
+                    } else {
+                        fileSelectedText.textContent = files.length + ' dosya seçildi';
+                    }
+                } else {
+                    fileSelectedText.textContent = 'Dosya seçilmedi';
+                }
+            });
+        }
+
+        // Year input validation (only numbers)
+        const yearInput = document.getElementById('DogumYili');
+        if (yearInput) {
+            yearInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4);
+                }
+            });
+        }
+
+        // Phone number formatting (only numbers)
+        const phoneInput = document.getElementById('CepTelefonu');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // ID number validation (only numbers)
+        const idInput = document.getElementById('KimlikNo');
+        if (idInput) {
+            idInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+    });
+</script>
+

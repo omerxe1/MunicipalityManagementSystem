@@ -1,0 +1,108 @@
+═══════════════════════════════════════════════════════════════════════════════
+  METİNDE BAHSEDİLEN DEĞİŞİKLİKLERİN PROJEDEKİ KONUMLARI
+═══════════════════════════════════════════════════════════════════════════════
+
+Metinde bahsedilen değişiklikler ve projedeki karşılıkları:
+
+───────────────────────────────────────────────────────────────────────────────
+1. GlobalExceptionHandlerMiddleware
+───────────────────────────────────────────────────────────────────────────────
+
+METİNDE: "GlobalExceptionHandlerMiddleware yapısını kurarak, sistem genelindeki 
+         tüm istisnaları tek bir merkezden yönetecek mekanizmayı kodladık"
+
+PROJEDEKİ DURUM:
+❌ Middleware/GlobalExceptionHandlerMiddleware.cs dosyası BOŞ
+   → Dosya mevcut ama içeriği yok
+   → Konum: Middleware/GlobalExceptionHandlerMiddleware.cs
+
+NOT: Bu middleware'in Program.cs'de kayıtlı olması gerekir ama şu anda 
+     sadece UseExceptionHandler kullanılıyor.
+
+───────────────────────────────────────────────────────────────────────────────
+2. UseExceptionHandler Yapılandırması
+───────────────────────────────────────────────────────────────────────────────
+
+METİNDE: "kullanıcı dostu genel bir hata sayfasına yönlendirme yapan 
+         UseExceptionHandler yapılandırmasını sisteme entegre ettik"
+
+PROJEDEKİ DURUM:
+✅ Program.cs: Satır 29
+   → app.UseExceptionHandler("/Home/Error");
+   → Sadece Production ortamında aktif (if (!app.Environment.IsDevelopment()))
+
+KOD:
+┌─────────────────────────────────────────────────────────────────┐
+│ Program.cs - Satır 27-31                                       │
+├─────────────────────────────────────────────────────────────────┤
+│ if (!app.Environment.IsDevelopment())                          │
+│ {                                                               │
+│     app.UseExceptionHandler("/Home/Error");                     │
+│     app.UseHsts();                                              │
+│ }                                                               │
+└─────────────────────────────────────────────────────────────────┘
+
+───────────────────────────────────────────────────────────────────────────────
+3. appsettings.Production.json - Debug Ayarları
+───────────────────────────────────────────────────────────────────────────────
+
+METİNDE: "appsettings.Production.json dosyasını inceleyerek güvenlik 
+         sıkılaştırmaları yaptık. EnableDetailedErrors ve 
+         EnableSensitiveDataLogging ayarlarını false olarak güncelledik ve 
+         ShowExceptionDetails parametresini kapatarak hata detaylarının 
+         dışarıya sızmasını engelledik"
+
+PROJEDEKİ DURUM:
+⚠️ Root'taki appsettings.Production.json BOŞ
+✅ bin/Debug/net9.0/appsettings.Production.json'da MEVCUT
+   → Satır 29-32
+
+KOD (bin/Debug/net9.0/appsettings.Production.json):
+┌─────────────────────────────────────────────────────────────────┐
+│ appsettings.Production.json - Satır 29-32                      │
+├─────────────────────────────────────────────────────────────────┤
+│ "Debug": {                                                      │
+│   "EnableDetailedErrors": false,                                │
+│   "EnableSensitiveDataLogging": false,                          │
+│   "ShowExceptionDetails": false                                 │
+│ }                                                               │
+└─────────────────────────────────────────────────────────────────┘
+
+NOT: Root'taki appsettings.Production.json dosyasına bu ayarların 
+     eklenmesi gerekiyor.
+
+───────────────────────────────────────────────────────────────────────────────
+4. Release Build - Debug Sembolleri
+───────────────────────────────────────────────────────────────────────────────
+
+METİNDE: "Günün sonunda proje dosyasındaki derleme ayarlarını kontrol ederek, 
+         Release sürümü için debug sembollerinin oluşturulmasını engelledik 
+         ve performans optimizasyonunu sağladık"
+
+PROJEDEKİ DURUM:
+❌ kocaaliv2.csproj dosyasında Release build ayarları YOK
+
+OLMASI GEREKEN KOD:
+┌─────────────────────────────────────────────────────────────────┐
+│ kocaaliv2.csproj - Eklenmesi Gereken                            │
+├─────────────────────────────────────────────────────────────────┤
+│ <PropertyGroup Condition="'$(Configuration)'=='Release'">     │
+│   <DebugType>none</DebugType>                                   │
+│   <DebugSymbols>false</DebugSymbols>                            │
+│   <Optimize>true</Optimize>                                      │
+│ </PropertyGroup>                                                │
+└─────────────────────────────────────────────────────────────────┘
+
+───────────────────────────────────────────────────────────────────────────────
+ÖZET - PROJEDEKİ DURUM
+───────────────────────────────────────────────────────────────────────────────
+
+✅ UseExceptionHandler: Program.cs Satır 29 - MEVCUT
+⚠️ appsettings.Production.json Debug ayarları: bin/Debug klasöründe var, 
+   root'ta yok
+❌ GlobalExceptionHandlerMiddleware: Dosya boş, içerik yok
+❌ Release build ayarları: kocaaliv2.csproj'da yok
+
+═══════════════════════════════════════════════════════════════════════════════
+
+

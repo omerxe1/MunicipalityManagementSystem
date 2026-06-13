@@ -1,0 +1,97 @@
+@{
+    // Tarihçe sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Tarihçe";
+    ViewData["PageTitle"] = "Tarihçe";
+    ViewData["ContentTitle"] = "TARİHÇE";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+new { Text = "Kocaali", Url = (string?)"#" },
+new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#") },
+new { Text = "Tarihçe", Url = (string?)null }
+};
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+};
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Tarihçe İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <!-- İçerik buraya eklenecek -->
+    <p>Kocaali ismi, tarihte ilk olarak 16. yüzyılda 1520 yılına ait bir Osmanlı arşiv vesikasında karşımıza çıkmaktadır.
+    16. ve 17. yüzyıllarda bölgedeki en büyük yerleşim yeri olan Kocaali, Ada Kazası’na bağlı bir köy statüsünde
+    bulunmaktadır. Daha sonra 18. yüzyılda kurulan Karasu Kazası’na bağlanmış ve bu durum 1987 tarihinde Kocaali İlçe
+    olana kadar devam etmiştir.</p>
+
+    <p>Kocaali, Bolazar, Lâhna ve Melen Köyü, henüz Bizans İmpratatorluğu’na bağlı iken 1295-1305 tarihleri arasında
+    merkezi Kastamonu’da bulunan Çobanoğulları Beyliği’nin son beylerinden Ali Amourios tarafından denizden filolarla
+    çıkarma yapılarak ele geçirilmeye çalışılmış ve yağmalanmıştır. Sonrasında kısa süreliğine yeniden Bizans
+    hâkimiyetine giren bölge bu kez 1305-1315 tarihleri arasında Orhan Gazi’nin kumandanlarından Konur Alp tarafından
+    fethedilmiştir. Akabinde Türkmenlerin iskân edilmesiyle bölge Türkleştirilmiş ve İslam toprağı haline getirilmiştir.</p>
+
+    <p>15. yüzyılda Koca Ali Bey adında bir şahsiyet tarafından Kocaali Vakfı kurulmuş ve şehir merkezinde Kocaali Mescidi
+    inşa edilmiştir. Koca Ali Bey tarından bir vakıf köyü olarak kurulan Kocaali, bu sayede yüzyıllar boyunca istikrarlı
+    bir yerleşim yeri olmuştur. Halkın çoğu odunculuk, kereste tüccarlığı, denizcilik, madencilik, tarım ve
+    hayvancılıkla geçinmiştir.</p>
+
+    <p>16. ve 17. yüzyıllarda Sakarya’dan Melen’e kadar olan Kuzey Doğu Sakarya bölgesindeki en büyük şehirsel yapı
+    Kocaali’de bulunmaktaydı. Kuzeyde pazar sadece Kocaali’de kuruluyor, çevre köylerde yaşayanlar alışverişlerini
+    Kocaali Pazarı’ndan yapıyorlardı. Melen Irmağı’ndan Sakarya Nehri’nin batısına kadar olan bölgeyi idare eden Kadı,
+    Kocaali’de oturuyordu. 17. yüzyılda Kocaali Kadısı olan Recep Efendi’nin bölgeye pek çok hizmetleri dokunmuştur.
+    Kadıköprü/Kadıköy isminin bu şekilde oluştuğu düşünülmektedir.</p>
+
+    <p>18. yüzyılda Karasu Kazası’na bağlı bir köy statüsünde olan Kocaali, Karasu Naibi tarafından atanan “Bey” tarafından
+    yönetiliyordu. 1790-1812 tarihlerinde Kocaali Beyi, Hacı Yusuf Ağa’dır. Hacı Yusuf Ağa vefat ettikten sonra oğlu
+    İsmail Ağa da 1825 tarihine kadar Kocaali Beyi olmuştur.</p>
+
+    <p>Sultan II. Mahmud tarafından Ayanlık Müessesi’nin otoritesi büyük ölçüde ortadan kaldırıldıktan sonra 1829 tarihinde
+    muhtarlıklar kuruldu ve zaman içinde taşrada muhtarlık müessesi oluşmaya başladı. Osmanlı Arşiv Belgelerine göre ilk
+    Kocaali Muhtarı Akbalta oğlu Yakup Bey’dir. 1845’e kadar muhtarlığa devam etmiştir. Sonraki yıllarda Sinanoğlu aile
+    bireyleri uzunca müddet Kocaali’nin muhtarlığını yapmışlardır. Melen Köyü muhtarları da genellikle Sinanoğlu
+    ailesinden seçilmiştir. Kocaali, 1884-1887 yıllarında Karasu Nahiyesi’nin merkezi haline getirilmiş fakat Ada Bazarı
+    Kazası’na uzak olduğu gerekçesiyle nahiye merkezi İncirli yapılmıştır.</p>
+
+    <p>Kocaali’ye ilk dış göçü 1830’lu yıllarda Filibe ve Yanya’dan gelen oluşturmaktadır. 1856 Kırım Savaşı’ndan sonra
+    Tatarlar, 1877-1878 Osmanlı-Rus Savaşı’ndan (93 Harbi) sonra Gürcü, Çerkes, Abaza, Bulgar, Boşnak ve Pontus Rumları
+    Kocaali’ye göçmüşlerdir. Bu tarihten önce Kocaali’de tek bir Rum dahi bulunmamaktadır. Madencilikle geçinen Rumlar
+    1923’ten sonra nüfus mübadelesi dâhilinde Yunanistan’ın Vodina bölgesine gönderilmişlerdir.</p>
+
+    <p>1954 yılına kadar Karasu İlçesi’ne bağlı bir köy olan Kocaali, bu tarihte bucak merkezi olmuş ve 1956 yılında
+    belediye teşkilatı kurulmuştur. 1956 seçimlerinde Rıza Samrıoğlu Kocaali’nin ilk bucak belediye başkanı olmuştur.
+    04.07.1987 tarihinde Hamza Ekşi’nin Belediye Başkanlığı döneminde Kocaali ilçe olmuştur. Günümüzde, Sakarya iline
+    bağlı bir ilçe olarak teşkilatlandırılmış olup kaymakam ve belediye başkanı tarafından idare edilmektedir.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

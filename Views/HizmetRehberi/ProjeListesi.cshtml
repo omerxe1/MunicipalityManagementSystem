@@ -1,0 +1,148 @@
+@model List<kocaaliv2.Models.Calisma>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = ViewBag.SeciliDurum ?? "Projeler";
+}
+
+<div class="proje-liste-container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="proje-liste-grid">
+            @foreach (var proje in Model)
+            {
+                <div class="proje-liste-kart">
+                    @if (!string.IsNullOrEmpty(proje.ImageUrl))
+                    {
+                        <div class="proje-liste-image">
+                            <img src="@proje.ImageUrl" alt="@proje.Title" />
+                        </div>
+                    }
+                    <div class="proje-liste-content">
+                        <h3 class="proje-liste-baslik">@proje.Title</h3>
+                        <p class="proje-liste-aciklama">@proje.Description</p>
+                        <p class="proje-liste-tarih">
+                            <i class="fas fa-calendar-alt"></i>
+                            @proje.PublishDate.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="proje-liste-bos">
+            <p>Bu kategoride henüz proje bulunmamaktadır.</p>
+        </div>
+    }
+</div>
+
+<style>
+    .proje-liste-container {
+        padding: 2rem 0;
+    }
+
+    .proje-liste-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .proje-liste-kart {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .proje-liste-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .proje-liste-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        background: #f8f9fa;
+    }
+
+    .proje-liste-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .proje-liste-content {
+        padding: 1.5rem;
+    }
+
+    .proje-liste-baslik {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 1rem 0;
+        line-height: 1.3;
+    }
+
+    .proje-liste-aciklama {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.6;
+        margin: 0 0 1rem 0;
+    }
+
+    .proje-liste-tarih {
+        font-size: 0.9rem;
+        color: #999;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .proje-liste-tarih i {
+        color: rgb(4, 22, 85);
+    }
+
+    .proje-liste-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .proje-liste-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .proje-liste-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .proje-liste-image {
+            height: 200px;
+        }
+
+        .proje-liste-content {
+            padding: 1.25rem;
+        }
+
+        .proje-liste-baslik {
+            font-size: 1.1rem;
+        }
+
+        .proje-liste-aciklama {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+

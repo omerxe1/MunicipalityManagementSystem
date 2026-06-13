@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - T.C Kocaali Belediyesi Resmi Web Sitesi</title>
+    <link rel="icon" type="image/x-icon" href="~/images/Kocaali_Belediyesi_logo.svg (1).png">
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" href="~/css/kocaali.css?v=2025011005" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/panels.css" asp-append-version="true" />
+</head>
+<body style="background-color: black;">
+  
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <div class="preloader-logos">
+        <div class="preloader-logo-circle">
+          <img src="~/images/Kocaali_Belediyesi_logo.svg (1).png" alt="Kocaali Belediyesi">
+        </div>
+        <div class="preloader-divider"></div>
+        <div class="preloader-logo-text">
+          <img src="~/images/text-logo.png" alt="Çalışan belediye" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span style="display:none; flex-direction: column; align-items: center; font-size: 64px; font-weight: 700; color: white; letter-spacing: 4px;">
+            <span>ÇALIŞAN</span>
+            <span>BELEDİYE</span>
+          </span>
+        </div>
+      </div>
+      <div class="preloader-spinner">
+        <div class="spinner-circle"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="background-slideshow" id="backgroundSlideshow">
+    <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1570939274717-7eda259b50ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')"></div>
+  </div>
+
+  <header>
+    @if (ViewBag.HideNavbar != true)
+    {
+    <div class="topbar">
+      <a href="https://www.facebook.com/kocaalibld/"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://x.com/KocaaliBld"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/kocaali.bld/"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/channel/UCRjAX4lvO2lnac0lDmLTaBQ"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    
+    <div class="center-logo-slot">
+      <img src="~/images/Kocaali_Belediyesi_logo.svg (1).png" alt="Kocaali Belediyesi">
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark main-navbar">
+      <div class="container-fluid px-4 position-relative">
+        <button class="navbar-toggler ms-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          
+          <ul class="navbar-nav gap-lg-3 me-auto align-items-lg-center">
+            <li class="nav-item has-mega position-static">
+              <a class="nav-link" href="#">Başkan</a>
+              <div class="mega-menu">
+                <div class="mega-inner">
+                  <a asp-controller="Kurumsal" asp-action="Baskan" class="mega-link">Başkan'ın Özgeçmişi</a>
+                  <a href="#" class="mega-link">Başkan'a Mesaj</a>
+                  <a asp-controller="Kurumsal" asp-action="BaskanFotograflari" class="mega-link">Başkan'ın Fotoğrafları</a>
+                  <a href="#" class="mega-link">Başkan'ın Videoları</a>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item has-mega position-static" id="nav-belediyemiz">
+              <a class="nav-link" href="#">Belediyemiz</a>
+              <div class="mega-menu">
+                <div class="mega-inner">
+                  <div class="mega-column">
+                    <div class="mega-column-title">Kurumsal</div>
+                    <a asp-controller="Kurumsal" asp-action="KurumsalYapi" class="mega-link">Kurumsal Yapı</a>
+                    <a asp-controller="Kurumsal" asp-action="BaskanYardimcilari" class="mega-link">Başkan Yardımcıları</a>
+                    <a asp-controller="Kurumsal" asp-action="MeclisUyeleri" class="mega-link">Meclis Üyeleri</a>
+                    <a asp-controller="Kurumsal" asp-action="MeclisKararlari" class="mega-link">Meclis Kararları</a>
+                    <a asp-controller="Kurumsal" asp-action="BelediyeEncumenleri" class="mega-link">Encümenler</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">Organizasyon</div>
+                    <a asp-controller="Kurumsal" asp-action="Mudurlukler" class="mega-link">Müdürlükler</a>
+                    <a asp-controller="Kurumsal" asp-action="EskiBaskanlar" class="mega-link">Eski Başkanlar</a>
+                    <a href="#" class="mega-link">Organizasyon Şeması</a>
+                    <a href="#" class="mega-link">Muhtarlıklar</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">Dokümanlar</div>
+                    <a asp-controller="Kurumsal" asp-action="Yonetmelikler" class="mega-link">Yönetmelikler</a>
+                    <a asp-controller="Kurumsal" asp-action="Kvkk" class="mega-link">KVKK</a>
+                    <a href="#" class="mega-link">Kamu Spotu</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item has-mega position-static" id="nav-kocaali">
+              <a class="nav-link" href="#">Kocaali</a>
+              <div class="mega-menu">
+                <div class="mega-inner">
+                    <div class="mega-column">
+                    <div class="mega-column-title">Hakkında</div>
+                    <a asp-controller="Kocaali" asp-action="Hakkinda" class="mega-link">Kocaali Hakkında</a>
+                    <a href="#" class="mega-link">Milletvekillerimiz</a>
+                    <a asp-controller="Kocaali" asp-action="KardesSehirlerimiz" class="mega-link">Kardeş Belediyelerimiz</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">Tarih & Kültür</div>
+                    <a href="#" class="mega-link">Şehitlerimiz</a>
+                    <a asp-controller="Kocaali" asp-action="TarihVeTurizmHaritasi" class="mega-link">Kocaali Tarih ve Turizm Haritası</a>
+                    <a href="https://keos.kocaali.bel.tr/Keos/" target="_blank" class="mega-link">Kocaali Rehberi</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">Galeri</div>
+                    <a asp-controller="Kocaali" asp-action="Galeri" class="mega-link">Galeri</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item has-mega position-static">
+              <a class="nav-link" href="#">Güncel</a>
+              <div class="mega-menu">
+                <div class="mega-inner">
+                  <div class="mega-column">
+                    <div class="mega-column-title">Hizmetler</div>
+                    <a asp-controller="Guncel" asp-action="NobetciEczaneler" class="mega-link">Nöbetçi Eczaneler</a>
+                    <a href="#" class="mega-link">Nöbetçi Zabıta Listesi</a>
+                    <a asp-controller="Guncel" asp-action="AfadAcilToplanmaAlanlari" class="mega-link">Afad Acil Toplanma Alanları</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">İçerik</div>
+                    <a asp-controller="Guncel" asp-action="Etkinlikler" class="mega-link">Etkinlikler</a>
+                  
+                    <a asp-controller="Guncel" asp-action="Duyurular" class="mega-link">Duyurular</a>
+                  </div>
+                  <div class="mega-column">
+                    <div class="mega-column-title">İhaleler</div>
+                    <a asp-controller="Guncel" asp-action="Ihaleler" class="mega-link">İhaleler</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item d-lg-none"><a class="nav-link" href="#">Sahiplen</a></li>
+            <li class="nav-item d-lg-none"><a class="nav-link" href="#">E-İmar</a></li>
+          </ul>
+
+          
+          <ul class="navbar-nav gap-lg-3 align-items-lg-center d-none d-lg-flex">
+            <li class="nav-item"><a class="nav-link" href="#">Sahiplen</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://keos.kocaali.bel.tr/imardurumu/index.aspx" target="_blank">E-İmar</a></li>
+          </ul>
+
+          
+          <button class="btn btn-link nav-link search-btn d-none d-lg-inline-flex ms-3" type="button" aria-label="Ara">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+      </div>
+    </nav>
+    }
+
+    
+    @if (ViewBag.HideNavbar != true)
+    {
+    <div class="subnav">
+      <div class="container-fluid px-4">
+        <ul class="subnav-list">
+          <li class="subitem has-submega" id="sub-plan">
+            <a href="#">Planlar-Raporlar</a>
+            <div class="submega" id="submega-panel">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="PlanlarRaporlar" asp-action="FaaliyetRaporlari" class="submega-link">Faaliyet Raporları</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="ImarPlanlari" class="submega-link">İmar Planları</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="IcKontrolUyumEylemPlanlari" class="submega-link">İç Kontrol Uyum Eylem Planları</a>
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="PlanlarRaporlar" asp-action="PerformansProgrami" class="submega-link">Performans Programı</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="StratejikPlanlar" class="submega-link">Stratejik Planlar</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="KaliteYonetimSistemi" class="submega-link">Kalite Yönetim Sistemi</a> ,
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem has-submega" id="sub-hizmet">
+            <a href="#">Hizmet Rehberi</a>
+            <div class="submega" id="submega-hizmet">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="HizmetRehberi" asp-action="Projeler" class="submega-link">Projeler</a>
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="HizmetRehberi" asp-action="BasvuruKilavuzu" class="submega-link">Başvuru Kılavuzu</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem has-submega" id="sub-iletisim">
+            <a href="#">İletişim</a>
+            <div class="submega" id="submega-iletisim">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="Iletisim" asp-action="BizeUlasin" class="submega-link">Bize Ulaşın</a>
+                  <a asp-controller="Iletisim" asp-action="BilgiEdinme" class="submega-link">Bilgi Edinme</a>
+                  <a asp-controller="Iletisim" asp-action="IstekVeOneri" class="submega-link">İstek ve Öneri</a>
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="Iletisim" asp-action="TelefonRehberi" class="submega-link">Telefon Rehberi</a>
+                  <a asp-controller="Iletisim" asp-action="YararliLinkler" class="submega-link">Yararlı Linkler</a>
+                  <a href="#" class="submega-link">Sıkça Sorulan Sorular</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem"><a href="https://turkiye.gov.tr/kocaali-belediyesi-borc-odeme" target="_blank" id="sub-pay">Online Ödeme</a></li>
+        </ul>
+      </div>
+    </div>
+    }
+
+  </header>
+
+  
+  <div class="search-panel" id="searchPanel">
+    <div class="search-panel-content">
+      
+      <div class="search-panel-left">
+        <div class="search-panel-header">
+          <div class="search-panel-title">
+            <i class="fas fa-bars"></i>
+            <span>HIZLI MENÜ</span>
+          </div>
+          <button class="search-panel-close" id="closeSearchPanel">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="search-panel-menu">
+          <div class="search-panel-item">
+            <i class="fas fa-sitemap"></i>
+            <span>ORGANİZASYON ŞEMASI</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-pills"></i>
+            <span>NÖBETÇİ ECZANELER</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>KONUM BİLGİLERİ</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-phone"></i>
+            <span>İLETİŞİM</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="search-panel-right">
+        <div class="search-panel-search">
+          <input type="text" placeholder="Site içi arama..." class="search-panel-input">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="fullscreen-mega-menu" id="megaMenu">
+    <div class="mega-menu-content">
+      <div class="mega-menu-header">
+        <button class="mega-menu-close" id="closeMegaMenu">
+          <span>X KAPAT</span>
+        </button>
+      </div>
+      
+      
+      <div class="mega-menu-logo">
+        <img src="~/images/Kocaali_Belediyesi_logo.svg (1).png" alt="Kocaali Belediyesi">
+      </div>
+      
+      <div class="mega-menu-sections">
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">BELEDİYEMİZ</h3>
+          <ul class="mega-menu-list">
+            <li><a href="@Url.Action("KurumsalYapi", "Kurumsal")">Kurumsal Yapı</a></li>
+            <li><a href="@Url.Action("BaskanYardimcilari", "Kurumsal")">Başkan Yardımcıları</a></li>
+            <li><a href="@Url.Action("MeclisUyeleri", "Kurumsal")">Meclis Üyeleri</a></li>
+            <li><a href="@Url.Action("MeclisKararlari", "Kurumsal")">Meclis Kararları</a></li>
+            <li><a href="@Url.Action("BelediyeEncumenleri", "Kurumsal")">Encümenler</a></li>
+            <li><a href="@Url.Action("Mudurlukler", "Kurumsal")">Müdürlükler</a></li>
+            <li><a href="@Url.Action("EskiBaskanlar", "Kurumsal")">Eski Başkanlar</a></li>
+            <li><a href="#">Organizasyon Şeması</a></li>
+            <li><a href="#">Muhtarlıklar</a></li>
+            <li><a href="@Url.Action("Yonetmelikler", "Kurumsal")">Yönetmelikler</a></li>
+            <li><a href="@Url.Action("Kvkk", "Kurumsal")">KVKK</a></li>
+            <li><a href="#">Kamu Spotu</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">KOCAALİ</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Kocaali" asp-action="Hakkinda">Kocaali Hakkında</a></li>
+            <li><a href="#">Milletvekillerimiz</a></li>
+            <li><a asp-controller="Kocaali" asp-action="KardesSehirlerimiz">Kardeş Belediyelerimiz</a></li>
+            <li><a href="#">Şehitlerimiz</a></li>
+            <li><a asp-controller="Kocaali" asp-action="TarihVeTurizmHaritasi">Kocaali Tarih ve Turizm Haritası</a></li>
+            <li><a href="https://keos.kocaali.bel.tr/Keos/" target="_blank">Kocaali Rehberi</a></li>
+            <li><a asp-controller="Kocaali" asp-action="Galeri">Galeri</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">GÜNCEL</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Guncel" asp-action="NobetciEczaneler">Nöbetçi Eczaneler</a></li>
+            <li><a href="#">Haberler</a></li>
+            <li><a asp-controller="Guncel" asp-action="Duyurular">Duyurular</a></li>
+            <li><a asp-controller="Guncel" asp-action="Ihaleler">İhaleler</a></li>
+            <li><a asp-controller="Guncel" asp-action="Etkinlikler">Etkinlikler</a></li>
+            <li><a href="#">Nöbetçi Zabıta Listesi</a></li>
+            <li><a asp-controller="Guncel" asp-action="AfadAcilToplanmaAlanlari">Afad Acil Toplanma Alanları</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">PLANLAR-RAPORLAR</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="PlanlarRaporlar" asp-action="FaaliyetRaporlari">Faaliyet Raporları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="PerformansProgrami">Performans Programı</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="ImarPlanlari">İmar Planları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="StratejikPlanlar">Stratejik Planlar</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="IcKontrolUyumEylemPlanlari">İç Kontrol Uyum Eylem Planları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="KaliteYonetimSistemi">Kalite Yönetim Sistemi</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">HİZMET REHBERİ</h3>
+          <ul class="mega-menu-list">
+            <li><a href="#">Projeler</a></li>
+            <li><a href="#">Başvuru Kılavuzu</a></li>
+            <li><a href="#">Salon Tahsis</a></li>
+            <li><a href="#">Ulaşım Bizden</a></li>
+            <li><a href="#">Başarı Sizden</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">İLETİŞİM</h3>
+          <ul class="mega-menu-list">
+            <li><a href="@Url.Action("BizeUlasin", "Iletisim")">Bize Ulaşın</a></li>
+            <li><a href="@Url.Action("BilgiEdinme", "Iletisim")">Bilgi Edinme</a></li>
+            <li><a href="@Url.Action("IstekVeOneri", "Iletisim")">İstek ve Öneri</a></li>
+            <li><a href="@Url.Action("TelefonRehberi", "Iletisim")">Telefon Rehberi</a></li>
+            <li><a href="@Url.Action("YararliLinkler", "Iletisim")">Yararlı Linkler</a></li>
+            <li><a href="#">Sıkça Sorulan Sorular</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">E-BELEDİYE</h3>
+          <ul class="mega-menu-list">
+            <li><a href="#">Sicil Bilgileri</a></li>
+            <li><a href="https://turkiye.gov.tr/kocaali-belediyesi-borc-odeme" target="_blank">Borç Ödeme</a></li>
+            <li><a href="#">Rayiç Değer</a></li>
+            <li><a href="#">Beyanlar</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mega-menu-footer">
+        <div class="contact-item contact-left">
+          <span class="contact-label">Çağrı Merkezi</span>
+          <div class="contact-phone">
+            <i class="fas fa-phone"></i>
+            <span>0224 372 10 01</span>
+          </div>
+        </div>
+        
+        <div class="contact-social contact-center">
+          <a href="https://www.facebook.com/kocaalibld/"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/KocaaliBld"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/kocaali.bld/"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/channel/UCRjAX4lvO2lnac0lDmLTaBQ"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <div class="contact-item contact-right">
+          <span class="contact-label">Whatsapp Hattımız</span>
+          <div class="contact-phone">
+            <i class="fab fa-whatsapp"></i>
+            <span>0224 372 10 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    @RenderBody()
+
+  
+  <div id="popupAnnouncementsModal" class="popup-announcements-modal">
+    <div class="popup-announcements-content">
+      
+      <button class="popup-close-btn" id="closePopupBtn">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="popup-container">
+        
+        <div class="popup-left-panel">
+          <h3 class="popup-left-title">POPUP DUYURULAR</h3>
+          <div class="popup-announcements-list" id="popupAnnouncementsList">
+            
+          </div>
+        </div>
+        
+        
+        <div class="popup-right-panel">
+          <div class="popup-announcement-detail" id="popupAnnouncementDetail">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <footer class="main-footer">
+    <div class="footer-container">
+      
+      <div class="footer-top">
+        <div class="footer-row">
+          
+          <div class="footer-column">
+            <h4>BELEDİYEMİZ</h4>
+            <ul class="footer-links">
+              <li><a href="@Url.Action("KurumsalYapi", "Kurumsal")">Kurumsal Yapı</a></li>
+              <li><a href="@Url.Action("BaskanYardimcilari", "Kurumsal")">Başkan Yardımcıları</a></li>
+              <li><a href="@Url.Action("MeclisUyeleri", "Kurumsal")">Meclis Üyeleri</a></li>
+              <li><a href="@Url.Action("MeclisKararlari", "Kurumsal")">Meclis Kararları</a></li>
+              <li><a href="@Url.Action("BelediyeEncumenleri", "Kurumsal")">Encümenler</a></li>
+              <li><a href="@Url.Action("Mudurlukler", "Kurumsal")">Müdürlükler</a></li>
+              <li><a href="@Url.Action("EskiBaskanlar", "Kurumsal")">Eski Başkanlar</a></li>
+              <li><a href="#">Organizasyon Şeması</a></li>
+              <li><a href="#">Muhtarlıklar</a></li>
+              <li><a href="@Url.Action("Yonetmelikler", "Kurumsal")">Yönetmelikler</a></li>
+              <li><a asp-controller="Kurumsal" asp-action="Kvkk">KVKK</a></li>
+              <li><a href="#">Kamu Spotu</a></li>
+            </ul>
+          </div>
+
+          
+          <div class="footer-column">
+            <h4>KOCAALİ</h4>
+            <ul class="footer-links">
+              <li><a href="#">Kocaali Hakkında</a></li>
+              <li><a href="#">Milletvekillerimiz</a></li>
+              <li><a asp-controller="Kocaali" asp-action="KardesSehirlerimiz">Kardeş Belediyelerimiz</a></li>
+              <li><a href="#">Şehitlerimiz</a></li>
+              <li><a asp-controller="Kocaali" asp-action="TarihVeTurizmHaritasi">Kocaali Tarih ve Turizm Haritası</a></li>
+              <li><a href="https://keos.kocaali.bel.tr/Keos/" target="_blank">Kocaali Rehberi</a></li>
+              <li><a asp-controller="Kocaali" asp-action="Galeri">Galeri</a></li>
+            </ul>
+          </div>
+
+          
+          <div class="footer-column">
+            <h4>GÜNCEL</h4>
+            <ul class="footer-links">
+              <li><a asp-controller="Guncel" asp-action="NobetciEczaneler">Nöbetçi Eczaneler</a></li>
+              <li><a asp-controller="Guncel" asp-action="Haberler">Haberler</a></li>
+              <li><a asp-controller="Guncel" asp-action="Duyurular">Duyurular</a></li>
+              <li><a asp-controller="Guncel" asp-action="Ihaleler">İhaleler</a></li>
+              <li><a asp-controller="Guncel" asp-action="Etkinlikler">Etkinlikler</a></li>
+              <li><a href="#">Nöbetçi Zabıta Listesi</a></li>
+              <li><a asp-controller="Guncel" asp-action="AfadAcilToplanmaAlanlari">Afad Acil Toplanma Alanları</a></li>
+            </ul>
+          </div>
+
+          
+          <div class="footer-column">
+            <h4>PLANLAR-RAPORLAR</h4>
+            <ul class="footer-links">
+              <li><a asp-controller="PlanlarRaporlar" asp-action="FaaliyetRaporlari">Faaliyet Raporları</a></li>
+              <li><a asp-controller="PlanlarRaporlar" asp-action="PerformansProgrami">Performans Programı</a></li>
+              <li><a asp-controller="PlanlarRaporlar" asp-action="ImarPlanlari">İmar Planları</a></li>
+              <li><a asp-controller="PlanlarRaporlar" asp-action="StratejikPlanlar">Stratejik Planlar</a></li>
+              <li><a asp-controller="PlanlarRaporlar" asp-action="IcKontrolUyumEylemPlanlari">İç Kontrol Uyum Eylem Planları</a></li>
+              <li><a asp-controller="PlanlarRaporlar" asp-action="KaliteYonetimSistemi">Kalite Yönetim Sistemi</a></li>
+            </ul>
+          </div>
+
+          
+          <div class="footer-column">
+            <h4>HİZMET REHBERİ</h4>
+            <ul class="footer-links">
+              <li><a asp-controller="HizmetRehberi" asp-action="Projeler">Projeler</a></li>
+              <li><a asp-controller="HizmetRehberi" asp-action="BasvuruKilavuzu">Başvuru Kılavuzu</a></li>
+            </ul>
+          </div>
+
+          
+          <div class="footer-column">
+            <h4>İLETİŞİM</h4>
+            <ul class="footer-links">
+              <li><a href="@Url.Action("BizeUlasin", "Iletisim")">Bize Ulaşın</a></li>
+              <li><a href="@Url.Action("BilgiEdinme", "Iletisim")">Bilgi Edinme</a></li>
+              <li><a href="@Url.Action("IstekVeOneri", "Iletisim")">İstek ve Öneri</a></li>
+              <li><a href="@Url.Action("TelefonRehberi", "Iletisim")">Telefon Rehberi</a></li>
+              <li><a href="@Url.Action("YararliLinkler", "Iletisim")">Yararlı Linkler</a></li>
+              <li><a href="#">Sıkça Sorulan Sorular</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="footer-bottom-contact">
+        <div class="footer-contact-section">
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-info">
+              <span class="contact-label">İletişim Merkezi</span>
+              <span class="contact-number">0224 372 10 01</span>
+            </div>
+          </div>
+          
+          <div class="footer-contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <div class="contact-info">
+              <span class="contact-label">Whatsapp Hattımız</span>
+              <span class="contact-number">0224 372 10 01</span>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="footer-contact-details">
+          <div class="contact-detail-item">
+            <span class="detail-label">E-Mail:</span>
+            <span class="detail-value">belediye@kocaali.bel.tr</span>
+          </div>
+          <div class="contact-detail-item">
+            <span class="detail-label">Belediye Adresi:</span>
+            <span class="detail-value">Merkez Mah. Atatürk Cad. No:1 Kocaali / SAKARYA</span>
+          </div>
+          <div class="contact-detail-item">
+            <span class="detail-label">Fax:</span>
+            <span class="detail-value">0224 372 81 82</span>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="footer-logos-section">
+        <div class="footer-logos-container">
+          <div class="footer-logo">
+             <a href="https://www.cimer.gov.tr/"></a> <img src="~/images/footerlogo/cimer_logo.png" alt="CİMER" >
+          </div>
+          <div class="footer-logo">
+             <a href="https://www.tccb.gov.tr/"></a> <img src="~/images/footerlogo/tccb-kurumsal-logo.png" alt="TCBB" >
+          </div>
+          <div class="footer-logo">
+             <a href="https://www.turkiyegov.gov.tr/"></a> <img src="~/images/footerlogo/turkiye.png" alt="TÜRKİYEGOV">
+          </div>
+          <div class="footer-logo">
+             <a href="https://ilan.gov.tr/"> <img src="~/images/footerlogo/ilangov.png" alt="ilan.gov.tr" ></a>
+          </div>
+          <div class="footer-logo">
+              <a href="https://www.ombudsman.gov.tr/"> <img src="~/images/footerlogo/Kamu_Denetçiliği_Kurumu_logo.svg.png" alt="KDK"></a>
+          </div>
+          <div class="footer-logo">
+             <a href="https://www.icisleri.gov.tr/"></a> <img src="~/images/footerlogo/içişleri.png" alt="İÇİŞLERİ"> 
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+    
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    
+    <script>
+      (function() {
+        const preloader = document.getElementById('preloader');
+        if (!preloader) return;
+        
+        const minDisplayTime = 500; // Minimum display time in ms
+        const fadeOutDuration = 500; // Fade out animation duration
+        const startTime = Date.now();
+        
+        function hidePreloader() {
+          if (preloader.classList.contains('hide')) return;
+          
+          // Add hide class for fade out animation
+          preloader.classList.add('hide');
+          
+          // Remove preloader from DOM after animation completes
+          setTimeout(function() {
+            preloader.style.display = 'none';
+            
+            // Logo animasyonunu başlat
+            const centerLogo = document.querySelector('.center-logo-slot');
+            if (centerLogo) {
+              centerLogo.classList.add('show');
+            }
+            
+            // Show popup after preloader is hidden (sadece ilk girişte)
+            if (!localStorage.getItem('popupClosed')) {
+              showPopupAnnouncements();
+            }
+          }, fadeOutDuration);
+        }
+        
+        // Hide preloader when page is fully loaded
+        window.addEventListener('load', function() {
+          const elapsed = Date.now() - startTime;
+          const remaining = Math.max(0, minDisplayTime - elapsed);
+          
+          setTimeout(hidePreloader, remaining);
+        });
+      })();
+    </script>
+    
+    
+    <script>
+      // Popup Announcements Data (veritabanından)
+      @{
+        var popupAnnouncements = ViewBag.PopupAnnouncements as List<kocaaliv2.Models.PopupAnnouncement> ?? new List<kocaaliv2.Models.PopupAnnouncement>();
+        var popupDataJson = System.Text.Json.JsonSerializer.Serialize(
+          popupAnnouncements.Select(p => new {
+            id = p.Id,
+            title = p.Title,
+            content = new { imageUrl = p.ImageUrl ?? "" },
+            icon = p.Icon ?? "fas fa-bullhorn"
+          })
+        );
+      }
+      const popupAnnouncementsData = @Html.Raw(popupDataJson);
+      
+      let currentSelectedAnnouncement = null;
+      
+      function showPopupAnnouncements() {
+        // localStorage kontrolü - eğer daha önce kapatıldıysa gösterme
+        if (localStorage.getItem('popupClosed')) {
+          return;
+        }
+        
+        const modal = document.getElementById('popupAnnouncementsModal');
+        if (!modal) return;
+        
+        // Load announcements list
+        loadPopupAnnouncementsList();
+        
+        // Select first announcement by default
+        if (popupAnnouncementsData.length > 0) {
+          selectAnnouncement(popupAnnouncementsData[0].id);
+        }
+        
+        // Show modal
+        setTimeout(function() {
+          modal.classList.add('show');
+        }, 100);
+      }
+      
+      function loadPopupAnnouncementsList() {
+        const list = document.getElementById('popupAnnouncementsList');
+        if (!list) return;
+        
+        list.innerHTML = '';
+        
+        popupAnnouncementsData.forEach(function(announcement) {
+          const item = document.createElement('div');
+          item.className = 'popup-announcement-item';
+          item.dataset.id = announcement.id;
+          item.onclick = function() {
+            selectAnnouncement(announcement.id);
+          };
+          
+          item.innerHTML = `
+            <div class="popup-announcement-item-icon">
+              <i class="${announcement.icon}"></i>
+            </div>
+            <div class="popup-announcement-item-content">
+              <h4 class="popup-announcement-item-title">${announcement.title}</h4>
+            </div>
+          `;
+          
+          list.appendChild(item);
+        });
+      }
+      
+      function selectAnnouncement(id) {
+        const announcement = popupAnnouncementsData.find(function(a) {
+          return a.id === id;
+        });
+        
+        if (!announcement) return;
+        
+        currentSelectedAnnouncement = announcement;
+        
+        // Update active state
+        document.querySelectorAll('.popup-announcement-item').forEach(function(item) {
+          item.classList.remove('active');
+          if (parseInt(item.dataset.id) === id) {
+            item.classList.add('active');
+          }
+        });
+        
+        // Display announcement details
+        displayAnnouncementDetail(announcement);
+      }
+      
+      function displayAnnouncementDetail(announcement) {
+        const detailContainer = document.getElementById('popupAnnouncementDetail');
+        if (!detailContainer) return;
+        
+        const content = announcement.content;
+        let html = `
+          <h2 class="popup-detail-title">${announcement.title}</h2>
+          <div class="popup-detail-content">
+            <div class="popup-detail-image-container">
+        `;
+        
+        // Görsel gösterimi
+        if (content.imageUrl) {
+          html += `<img src="${content.imageUrl}" alt="${announcement.title}" class="popup-detail-image">`;
+        } else {
+          // Görsel yoksa placeholder
+          html += `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-size: 16px;">Görsel eklenmemiş</div>`;
+        }
+        
+        html += `
+            </div>
+          </div>
+        `;
+        
+        detailContainer.innerHTML = html;
+      }
+      
+      // Close button handler
+      document.addEventListener('DOMContentLoaded', function() {
+        const closeBtn = document.getElementById('closePopupBtn');
+        const modal = document.getElementById('popupAnnouncementsModal');
+        
+        function closePopup() {
+          modal.classList.remove('show');
+          // localStorage'a kapatıldığını kaydet
+          localStorage.setItem('popupClosed', 'true');
+        }
+        
+        if (closeBtn && modal) {
+          closeBtn.addEventListener('click', closePopup);
+        }
+        
+        // Close on background click
+        if (modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+              closePopup();
+            }
+          });
+        }
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+            closePopup();
+          }
+        });
+      });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+    
+</body>
+</html>

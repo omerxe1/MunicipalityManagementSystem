@@ -1,0 +1,117 @@
+@model List<kocaaliv2.Models.BasvuruKilavuzu>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Başvuru Kılavuzları";
+}
+
+<div class="basvuru-kilavuzu-container">
+    <div class="basvuru-kilavuzu-kartlari">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var kilavuz in Model)
+            {
+                <a href="@Url.Action("BasvuruKilavuzuDetay", "HizmetRehberi", new { id = kilavuz.Id })" class="basvuru-kilavuzu-kart-link-wrapper">
+                    <div class="basvuru-kilavuzu-kart">
+                        <div class="basvuru-kilavuzu-kart-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h3 class="basvuru-kilavuzu-kart-baslik">@kilavuz.Baslik</h3>
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+            <p class="basvuru-kilavuzu-bos">Henüz başvuru kılavuzu eklenmemiş.</p>
+        }
+    </div>
+</div>
+
+<style>
+    .basvuru-kilavuzu-container {
+        padding: 2rem 0;
+    }
+
+    .basvuru-kilavuzu-kartlari {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .basvuru-kilavuzu-kart-link-wrapper {
+        text-decoration: none;
+        display: block;
+    }
+
+    .basvuru-kilavuzu-kart {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 150px;
+        cursor: pointer;
+    }
+
+    .basvuru-kilavuzu-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .basvuru-kilavuzu-kart-icon {
+        font-size: 2rem;
+        color: #495057;
+        margin-bottom: 1rem;
+    }
+
+    .basvuru-kilavuzu-kart-baslik {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #495057;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.4;
+    }
+
+
+    .basvuru-kilavuzu-bos {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+
+    @@media (max-width: 992px) {
+        .basvuru-kilavuzu-kartlari {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .basvuru-kilavuzu-kartlari {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .basvuru-kilavuzu-kart {
+            padding: 1.25rem 1rem;
+            min-height: 140px;
+        }
+
+        .basvuru-kilavuzu-kart-icon {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .basvuru-kilavuzu-kart-baslik {
+            font-size: 1rem;
+        }
+    }
+</style>
+

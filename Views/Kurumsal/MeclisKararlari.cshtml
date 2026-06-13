@@ -1,0 +1,307 @@
+@model List<kocaaliv2.Models.MeclisKarari>
+@{
+    // Meclis Kararları sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Meclis Kararları";
+    ViewData["PageTitle"] = "Meclis Kararları";
+    ViewData["ContentTitle"] = "Meclis Kararları";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Belediyemiz", Url = (string?)"#" },
+        new { Text = "Meclis Kararları", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = true },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+    
+    // Ay isimleri
+    var ayIsimleri = new Dictionary<int, string>
+    {
+        { 1, "Ocak" }, { 2, "Şubat" }, { 3, "Mart" }, { 4, "Nisan" },
+        { 5, "Mayıs" }, { 6, "Haziran" }, { 7, "Temmuz" }, { 8, "Ağustos" },
+        { 9, "Eylül" }, { 10, "Ekim" }, { 11, "Kasım" }, { 12, "Aralık" }
+    };
+    
+    // Gün isimleri
+    var gunIsimleri = new Dictionary<DayOfWeek, string>
+    {
+        { DayOfWeek.Monday, "Pazartesi" },
+        { DayOfWeek.Tuesday, "Salı" },
+        { DayOfWeek.Wednesday, "Çarşamba" },
+        { DayOfWeek.Thursday, "Perşembe" },
+        { DayOfWeek.Friday, "Cuma" },
+        { DayOfWeek.Saturday, "Cumartesi" },
+        { DayOfWeek.Sunday, "Pazar" }
+    };
+}
+
+<style>
+    .meclis-kararlari-container {
+        padding: 20px 0;
+    }
+
+    .filtreleme-bolumu {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+
+    .filtreleme-form {
+        display: flex;
+        gap: 20px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .filtre-grup {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .filtre-grup label {
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .filtre-grup select {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        min-width: 150px;
+        background: white;
+        cursor: pointer;
+    }
+
+    .filtre-grup select:focus {
+        outline: none;
+        border-color: #041655;
+    }
+
+    .karar-getir-btn {
+        padding: 10px 30px;
+        background: #041655;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .karar-getir-btn:hover {
+        background: #052a7a;
+    }
+
+    .meclis-kararlari-listesi {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .meclis-karari-item {
+        background: #041655;
+        color: white;
+        padding: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .meclis-karari-item:hover {
+        background: #052a7a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .meclis-karari-item.active {
+        background: #052a7a;
+    }
+
+    .meclis-karari-baslik {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .meclis-karari-bilgi {
+        font-size: 13px;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+
+    .meclis-karari-chevron {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    .meclis-karari-item.active .meclis-karari-chevron {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    .meclis-karari-detay {
+        display: none;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .meclis-karari-item.active .meclis-karari-detay {
+        display: block;
+    }
+
+    .meclis-karari-aciklama {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .meclis-karari-pdf-link {
+        display: inline-block;
+        padding: 8px 20px;
+        background: white;
+        color: #041655;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.3s ease;
+    }
+
+    .meclis-karari-pdf-link:hover {
+        background: #f0f0f0;
+    }
+
+    .karar-bulunamadi {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-size: 16px;
+    }
+</style>
+
+<div class="meclis-kararlari-container">
+    <!-- Filtreleme Bölümü -->
+    <div class="filtreleme-bolumu">
+        <form method="get" action="@Url.Action("MeclisKararlari", "Kurumsal")" class="filtreleme-form">
+            <div class="filtre-grup">
+                <label for="ay">AY</label>
+                <select name="ay" id="ay">
+                    <option value="">Seçiniz</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" selected="@(ViewBag.SeciliAy != null && ViewBag.SeciliAy == i)">@ayIsimleri[i]</option>
+                    }
+                </select>
+            </div>
+            
+            <div class="filtre-grup">
+                <label for="yil">YIL</label>
+                <select name="yil" id="yil">
+                    <option value="">Seçiniz</option>
+                    @if (ViewBag.MevcutYillar != null)
+                    {
+                        @foreach (var yil in ViewBag.MevcutYillar as List<int> ?? new List<int>())
+                        {
+                            <option value="@yil" selected="@(ViewBag.SeciliYil != null && ViewBag.SeciliYil == yil)">@yil</option>
+                        }
+                    }
+                </select>
+            </div>
+            
+            <button type="submit" class="karar-getir-btn">Karar Getir</button>
+        </form>
+    </div>
+
+    <!-- Meclis Kararları Listesi -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="meclis-kararlari-listesi">
+            @foreach (var karar in Model)
+            {
+                var tarihStr = karar.Tarih.ToString("dd.MM.yyyy");
+                var gunAdi = gunIsimleri[karar.Tarih.DayOfWeek];
+                var ayAdi = ayIsimleri[karar.Tarih.Month];
+                var kararNoStr = !string.IsNullOrEmpty(karar.KararNo) ? karar.KararNo : "--";
+                
+                <div class="meclis-karari-item" onclick="toggleKarar(this)">
+                    <div class="meclis-karari-baslik">
+                        @tarihStr TARİHİ @gunAdi.ToUpper() GÜNÜ BELEDİYE MECLİSİNDE GÖRÜŞÜLEN KONULARIN KARAR ÖZETLERİ
+                    </div>
+                    <div class="meclis-karari-bilgi">
+                        KARAR NO: @kararNoStr - TARİH: @karar.Tarih.ToString("yyyy-MM-dd")
+                    </div>
+                    <i class="fas fa-chevron-down meclis-karari-chevron"></i>
+                    
+                    <div class="meclis-karari-detay">
+                        @if (!string.IsNullOrEmpty(karar.Aciklama))
+                        {
+                            <div class="meclis-karari-aciklama">
+                                @Html.Raw(karar.Aciklama.Replace("\n", "<br/>"))
+                            </div>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(karar.PdfUrl))
+                        {
+                            <a href="@karar.PdfUrl" target="_blank" class="meclis-karari-pdf-link">
+                                <i class="fas fa-file-pdf"></i> PDF İndir
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="karar-bulunamadi">
+            <p>Seçilen kriterlere uygun meclis kararı bulunamadı.</p>
+        </div>
+    }
+</div>
+
+<script>
+    function toggleKarar(element) {
+        // Tüm kararları kapat
+        document.querySelectorAll('.meclis-karari-item').forEach(item => {
+            if (item !== element) {
+                item.classList.remove('active');
+            }
+        });
+        
+        // Tıklanan kararı aç/kapat
+        element.classList.toggle('active');
+    }
+</script>
+

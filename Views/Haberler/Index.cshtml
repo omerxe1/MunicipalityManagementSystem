@@ -1,0 +1,21 @@
+@model IEnumerable<kocaaliv2.Models.Haber>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Haberler</h2>
+    <div class="row">
+        @foreach (var haber in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <img src="@haber.ResimYolu" class="card-img-top" alt="@haber.Baslik">
+                    <div class="card-body">
+                        <h5>@haber.Baslik</h5>
+                        <p>@haber.Icerik.Substring(0, Math.Min(haber.Icerik.Length, 100))...</p>
+                        <small class="text-muted">@haber.Tarih.ToShortDateString()</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

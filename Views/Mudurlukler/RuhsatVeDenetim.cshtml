@@ -1,0 +1,46 @@
+@{
+    // Ruhsat ve Denetim Müdürlüğü sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Ruhsat ve Denetim Müdürlüğü";
+    ViewData["PageTitle"] = "Ruhsat ve Denetim Müdürlüğü";
+    ViewData["ContentTitle"] = "Ruhsat ve Denetim Müdürlüğü";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Belediyemiz", Url = (string?)"#" },
+        new { Text = "Müdürlükler", Url = (string?)(Url.Action("Mudurlukler", "Kurumsal") ?? "#") },
+        new { Text = "Ruhsat ve Denetim Müdürlüğü", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)"#", IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)"#", IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)"#", IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Müdürlük Detay İçeriği -->
+<div class="mudurluk-detay-icerik">
+    <div class="mudurluk-detay-foto">
+        <img src="~/images/Mudurlukler/RuhsatveDenetimSavaşAlemdar.png" alt="Savaş Alemdar" />
+    </div>
+    <div class="mudurluk-detay-bilgi">
+        <h3 class="mudurluk-detay-isim">Savaş Alemdar</h3>
+        <p class="mudurluk-detay-unvan">Ruhsat ve Denetim Müdürü</p>
+    </div>
+</div>
+

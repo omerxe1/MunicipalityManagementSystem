@@ -1,0 +1,74 @@
+@model kocaaliv2.Models.PopupAnnouncement
+@{
+    ViewData["Title"] = "Popup Duyuru Düzenle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-edit me-2"></i>Popup Duyuru Düzenle</h4>
+    <a href="@Url.Action("Index", "PopupAnnouncement", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="OlusturmaTarihi" />
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Başlık <span class="text-danger">*</span></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ImageUrl" class="form-label">Görsel URL</label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Icon" class="form-label">İkon Sınıfı</label>
+                <input asp-for="Icon" class="form-control" placeholder="fas fa-bullhorn" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SiraNo" class="form-label">Sıra No</label>
+                    <input asp-for="SiraNo" type="number" class="form-control" />
+                    <span asp-validation-for="SiraNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-check mt-4">
+                        <input asp-for="AktifMi" class="form-check-input" type="checkbox" />
+                        <label asp-for="AktifMi" class="form-check-label">Aktif</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Güncelle
+                </button>
+                <a href="@Url.Action("Index", "PopupAnnouncement", new { area = "Admin" })" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+

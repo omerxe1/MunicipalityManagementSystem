@@ -1,0 +1,1862 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: Arial, sans-serif;
+}
+/* Background Slideshow */
+.background-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+.background-slideshow .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: all 3s ease-in-out;
+}
+.background-slideshow .slide.active {
+  opacity: 1;
+  transform: scale(1);
+  animation: kenBurns 15s ease-out infinite alternate;
+}
+.background-slideshow .slide.fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+}
+/* Slideshow overlay for better text readability */
+.background-slideshow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+/* Ken Burns effect - slow zoom animation */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+/* Topbar */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px; /* 40px'den 30px'e küçültüldü */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 15px; /* 20px'den 15px'e küçültüldü */
+  background: transparent; /* Tamamen saydam */
+  z-index: 1000;
+}
+.topbar a {
+  color: white;
+  margin-left: 12px; /* 15px'den 12px'e küçültüldü */
+  font-size: 12px; /* 14px'den 12px'e küçültüldü */
+  transition: color 0.3s;
+}
+.topbar a:hover {
+  color: #0dcaf0;
+}
+/* Navbar */
+/* Navbar genel ayarları */
+.main-navbar {
+  position: fixed;
+  top: 30px; /* Topbar küçüldüğü için 40px'den 30px'e */
+  left: 0;
+  width: 100%;
+  background: rgba(8, 26, 68, 0.586);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+  padding: 0;
+}
+.main-navbar .container-fluid {
+  padding: 0 25px; /* 30px'den 25px'e küçültüldü */
+  height: 55px; /* 70px'den 55px'e küçültüldü */
+  display: flex;
+  align-items: center;
+}
+/* Menü itemleri */
+.main-navbar .nav-link {
+  color: white !important;
+  font-weight: 600;
+  font-size: 11px; /* 12px'den 11px'e küçültüldü */
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* 0.5px'den 0.4px'e küçültüldü */
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0 14px; /* 16px'den 14px'e küçültüldü */
+  height: 55px; /* Navbar yüksekliğini al - 70px'den 55px'e */
+  display: flex;
+  align-items: center;
+  z-index: 1; /* yazı üstte kalsın */
+}
+/* Hover arka planı */
+.main-navbar .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Navbar yüksekliğini tamamen kapla */
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+/* Hover efekti */
+.main-navbar .nav-link:hover {
+  color: #1e3a8a !important; /* Mavi yazı */
+}
+.main-navbar .nav-link:hover::before {
+  opacity: 1;
+}
+/* Mega Menü - Kocaali Belediyesi Tarzı */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  width: 500px; /* 600px'den 500px'e küçültüldü */
+  padding: 15px; /* 20px'den 15px'e küçültüldü */
+  border-top: 3px solid rgba(8, 26, 68, 0.586);
+  margin-left: 20px; /* 24px'den 20px'e küçültüldü */
+}
+.mega-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* Mega menü hover efektleri - JavaScript olmadan çalışması için */
+.has-mega:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.mega-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 sütunlu yapı */
+  gap: 15px; /* 20px'den 15px'e küçültüldü */
+}
+.mega-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mega-column-title {
+  color: #1e3a8a;
+  font-weight: bold;
+  font-size: 10px; /* 11px'den 10px'e küçültüldü */
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* 0.5px'den 0.4px'e küçültüldü */
+  margin-bottom: 8px; /* 10px'den 8px'e küçültüldü */
+  padding-bottom: 5px; /* 6px'den 5px'e küçültüldü */
+  border-bottom: 2px solid #e5e7eb;
+}
+.mega-link {
+  color: #374151;
+  text-decoration: none;
+  font-size: 10px; /* 11px'den 10px'e küçültüldü */
+  padding: 6px 0; /* 8px'den 6px'e küçültüldü */
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 8px'den 6px'e küçültüldü */
+}
+.mega-link:hover {
+  color: #1e3a8a;
+  padding-left: 8px;
+}
+.mega-link::before {
+  content: "→";
+  color: #22c55e;
+  font-weight: bold;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.mega-link:hover::before {
+  opacity: 1;
+}
+/* Center Logo */
+.center-logo-slot {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1100;
+}
+.center-logo-slot img {
+  width: 90px; /* 120px'den 90px'e küçültüldü */
+  height: 90px; /* 120px'den 90px'e küçültüldü */
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: logoSlideDown 1.2s ease-out forwards;
+}
+@keyframes logoSlideDown {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+    scale: 0.8;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0.7;
+    scale: 1.1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    scale: 1;
+  }
+}
+/* Search Button */
+.search-btn {
+  color: white !important;
+  font-size: 14px; /* 16px'den 14px'e küçültüldü */
+  padding: 6px !important; /* 8px'den 6px'e küçültüldü */
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+.search-btn:hover {
+  color: #00c3ff !important;
+}
+/* Arama Paneli */
+.search-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: none;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.search-panel.open {
+  opacity: 1;
+  visibility: visible;
+}
+.search-panel-content {
+  width: 650px; /* 800px'den 650px'e daha da küçültüldü */
+  height: 60vh; /* 70vh'den 60vh'e daha da küçültüldü */
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row;
+  transform: translateY(-50px);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+.search-panel.open .search-panel-content {
+  transform: translateY(0);
+}
+/* Sol taraf - 250px mavi */
+.search-panel-left {
+  width: 250px; /* 300px'den 250px'e daha da küçültüldü */
+  background: rgba(8, 26, 68, 0.95);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+}
+/* Sağ taraf - 400px beyaz */
+.search-panel-right {
+  width: 400px; /* 500px'den 400px'e daha da küçültüldü */
+  background: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+}
+.search-panel-header {
+  background: transparent;
+  padding: 12px; /* 15px'den 12px'e daha da küçültüldü */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.search-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 8px'den 6px'e daha da küçültüldü */
+  color: white;
+  font-size: 11px; /* 12px'den 11px'e daha da küçültüldü */
+  font-weight: bold;
+}
+.search-panel-title i {
+  font-size: 14px; /* 16px'den 14px'e daha da küçültüldü */
+}
+.search-panel-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px; /* 18px'den 16px'e daha da küçültüldü */
+  cursor: pointer;
+  padding: 3px; /* 4px'den 3px'e daha da küçültüldü */
+  transition: color 0.3s ease;
+}
+.search-panel-close:hover {
+  color: #00c3ff;
+}
+.search-panel-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.search-panel-search {
+  padding: 12px; /* 15px'den 12px'e daha da küçültüldü */
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+.search-panel-input {
+  width: 100%;
+  padding: 10px; /* 12px'den 10px'e daha da küçültüldü */
+  border: 1px solid #d1d5db;
+  border-radius: 5px; /* 6px'den 5px'e daha da küçültüldü */
+  font-size: 13px; /* 14px'den 13px'e daha da küçültüldü */
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.search-panel-input:focus {
+  border-color: #1e3a8a;
+}
+.search-panel-search {
+  padding: 10px; /* 12px'den 10px'e daha da küçültüldü */
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-panel-menu {
+  flex: 1;
+  background: transparent;
+  padding: 12px; /* 15px'den 12px'e daha da küçültüldü */
+  overflow-y: auto;
+}
+.search-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 12px'den 10px'e daha da küçültüldü */
+  color: white;
+  font-size: 11px; /* 12px'den 11px'e daha da küçültüldü */
+  padding: 10px 0; /* 12px'den 10px'e daha da küçültüldü */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.search-panel-item:last-child {
+  border-bottom: none;
+}
+.search-panel-item:hover {
+  color: white;
+  padding-left: 0;
+}
+.search-panel-search {
+  padding: 12px; /* 15px'den 12px'e daha da küçültüldü */
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+.search-panel-item i {
+  font-size: 12px; /* 14px'den 12px'e daha da küçültüldü */
+  width: 16px; /* 18px'den 16px'e daha da küçültüldü */
+  text-align: center;
+}
+/* Full Screen Mega Menü */
+.fullscreen-mega-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(8, 26, 68, 0.95);
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.fullscreen-mega-menu.open {
+  opacity: 1;
+  visibility: visible;
+}
+.mega-menu-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 45px; /* 40px 60px'den 30px 45px'e küçültüldü */
+  justify-content: space-between; /* İçeriği eşit dağıt */
+  min-height: 100vh; /* Tam ekran yüksekliği */
+  position: relative; /* Logo watermark için */
+}
+.mega-menu-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px; /* 40px'den 30px'e küçültüldü */
+}
+.mega-menu-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px; /* 18px'den 16px'e küçültüldü */
+  cursor: pointer;
+  padding: 8px 16px; /* 10px 20px'den 8px 16px'e küçültüldü */
+  transition: color 0.3s ease;
+}
+.mega-menu-close:hover {
+  color: #00c3ff;
+}
+/* Logo Watermark */
+.mega-menu-logo {
+  position: absolute;
+  bottom: 30px;
+  right: 45px;
+  opacity: 0.3;
+  z-index: 1;
+}
+.mega-menu-logo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  filter: brightness(0) invert(1); /* Beyaz yap */
+  opacity: 0.4;
+}
+.mega-menu-sections {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  flex: 1;
+  margin-bottom: 30px;
+  width: 100%;
+  padding: 0 5px;
+}
+.mega-menu-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.mega-menu-title {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+.mega-menu-title::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: #00c3ff;
+}
+.mega-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mega-menu-list li {
+  margin-bottom: 0px;
+  position: relative;
+  padding-left: 8px;
+}
+.mega-menu-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: black;
+  font-size: 14px;
+}
+.mega-menu-list a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px; /* 14px'den 12px'e küçültüldü */
+  transition: color 0.3s ease;
+}
+.mega-menu-list a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  padding: 0;
+  display: block;
+  border-radius: 4px;
+  line-height: 1.3;
+}
+.mega-menu-list a:hover {
+  color: #00c3ff;
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 8px;
+  transform: translateX(5px);
+}
+.mega-menu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 25px 0;
+  margin-top: auto;
+  min-height: 100px;
+}
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
+}
+.contact-left {
+  align-items: flex-start;
+}
+.contact-right {
+  align-items: flex-end;
+}
+.contact-center {
+  align-items: center;
+}
+.contact-label {
+  color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  white-space: nowrap;
+}
+.contact-phone i {
+  font-size: 24px !important;
+  flex-shrink: 0;
+}
+.contact-social {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+.contact-social a {
+  color: white;
+  font-size: 28px !important;
+  transition: all 0.3s ease;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-social a:hover {
+  color: #00c3ff;
+  transform: scale(1.1); /* Hover'da büyütme efekti */
+  background: rgba(255, 255, 255, 0.1); /* Hafif arka plan */
+}
+/* Subnav (Alt Menü) - Görseldeki gibi tasarım */
+.subnav {
+  position: fixed;
+  top: 85px; /* Navbar küçüldüğü için 110px'den 85px'e */
+  right: 0;
+  width: auto; /* Otomatik genişlik */
+  background: transparent; /* Saydam arka plan */
+  z-index: 998;
+  padding: 0;
+  border-radius: 0; /* Keskin köşeler */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 35px; /* 45px'den 35px'e küçültüldü */
+  display: flex;
+  align-items: center;
+  margin-right: 0; /* Sağdan boşluk kaldırıldı */
+}
+.subnav-list {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0; /* Fazla padding kaldırıldı */
+  height: 100%;
+}
+.subitem {
+  position: relative;
+}
+.subitem a {
+  color: white; /* Normal durumda beyaz yazı */
+  text-decoration: none;
+  font-size: 10px; /* 12px'den 10px'e küçültüldü */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* 0.5px'den 0.4px'e küçültüldü */
+  padding: 10px 16px; /* 12px 20px'den 10px 16px'e küçültüldü */
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  /* Seçenekler arasındaki çizgi kaldırıldı */
+}
+.subitem:last-child a {
+  border-right: none; /* Son öğede çizgi yok */
+}
+.subitem a:hover {
+  background: white; /* Hover'da beyaz arka plan */
+  color: #1e3a8a; /* Hover'da mavi yazı */
+}
+/* Online Ödeme seçeneği artık normal subitem olarak davranıyor */
+/* Submega Menüler - Sabit görünür */
+.submega {
+  position: absolute;
+  top: 100%;
+  left: 0%; /* Sol kenardan başla */
+  width: 600px; /* Navbar menüsüyle aynı genişlik */
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Navbar menüsüyle aynı gölge */
+  opacity: 1; /* Her zaman görünür */
+  visibility: visible; /* Her zaman görünür */
+  transform: none; /* Animasyon kaldırıldı */
+  transition: none; /* Geçiş efekti kaldırıldı */
+  z-index: 1000;
+  padding: 20px; /* Navbar menüsüyle aynı padding */
+  border-top: 3px solid rgba(8, 26, 68, 0.586); /* Navbar menüsüyle aynı border */
+}
+/* Submega Menüler - Subnav ile bitişik */
+.submega {
+  position: fixed; /* Fixed positioning */
+  top: 120px; /* Subnav küçüldüğü için 155px'den 120px'e */
+  left: 745px; /* Raporlar kelimesinin R harfine hizalı */
+  width: 500px; /* 600px'den 500px'e küçültüldü */
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Navbar menüsüyle aynı gölge */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* Navbar animasyonu gibi */
+  transition: all 0.3s ease; /* Navbar animasyonu gibi */
+  z-index: 1000;
+  padding: 15px; /* 20px'den 15px'e küçültüldü */
+  border-top: 3px solid rgba(8, 26, 68, 0.586); /* Navbar menüsüyle aynı border */
+}
+.submega.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Navbar animasyonu gibi */
+}
+/* Hover ile açılma - Planlar-Raporlar'ın altından başlayacak şekilde */
+.has-submega:hover .submega {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Navbar animasyonu gibi */
+}
+/* İç yapı - Navbar menüsüyle aynı düzen */
+.submega-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 sütunlu yapı - navbar gibi */
+  gap: 15px; /* 20px'den 15px'e küçültüldü */
+}
+.submega-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Linkler - Tamamen sabit, hiçbir efekt yok */
+.submega-link {
+  color: #1e3a8a !important; /* Sabit mavi renk */
+  text-decoration: none !important;
+  font-size: 10px !important; /* 11px'den 10px'e küçültüldü */
+  padding: 6px 0 !important; /* 8px'den 6px'e küçültüldü */
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important; /* 8px'den 6px'e küçültüldü */
+  transition: none !important; /* Hiçbir geçiş efekti yok */
+  transform: none !important; /* Hiçbir transform yok */
+  animation: none !important; /* Hiçbir animasyon yok */
+}
+.submega-link:hover,
+.submega-link:focus,
+.submega-link:active {
+  color: #1e3a8a !important; /* Hover'da da aynı mavi renk */
+  padding-left: 0 !important; /* Hover'da hareket yok */
+  padding-right: 0 !important; /* Hover'da hareket yok */
+  background: none !important; /* Hover'da arka plan yok */
+  text-decoration: none !important;
+  transform: none !important; /* Hover'da transform yok */
+  transition: none !important; /* Hover'da geçiş yok */
+}
+/* Ok işareti efekti - Tamamen sabit */
+.submega-link::before {
+  content: "→";
+  color: #0f5c2b !important; /* Sabit yeşil renk */
+  font-weight: bold !important;
+  font-size: 12px !important;
+  opacity: 1 !important; /* Her zaman görünür */
+  transition: none !important; /* Animasyon yok */
+  transform: none !important; /* Transform yok */
+  animation: none !important; /* Animasyon yok */
+}
+.submega-link:hover::before,
+.submega-link:focus::before,
+.submega-link:active::before {
+  opacity: 1 !important; /* Hover'da da aynı */
+  color: #0f5c2b !important; /* Hover'da da aynı renk */
+  transform: none !important; /* Hover'da transform yok */
+  transition: none !important; /* Hover'da geçiş yok */
+}
+/* Logo */
+.logo {
+  position: absolute;
+  top: 0px; /* Topbar (40px) + Navbar (60px) => toplam 100px yüksekliğin ortasına gelsin */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1100;
+  animation: slideDown 1s ease-out forwards;
+}
+.logo img {
+  width: 120px;
+  height: auto;
+  border-radius: 50%;
+}
+/* Animasyon */
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -150px); /* yukardan gelsin */
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0); /* tam yerine otursun */
+    opacity: 1;
+  }
+}
+/* Header sabit kalması için */
+header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1002 !important;
+}
+/* Hero bölümü ve arama kutusu */
+.hero {
+  position: fixed; /* Sabit konumlandırma */
+  top: 50%; /* Dikey ortala */
+  left: 50%; /* Yatay ortala */
+  transform: translate(-50%, -50%); /* Tam ortala */
+  z-index: 1000; /* Diğer elementlerin üstünde */
+  width: auto; /* Otomatik genişlik */
+  height: auto; /* Otomatik yükseklik */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Padding kaldır */
+}
+.search-wrap {
+  display: flex;
+  flex-direction: row; /* Yan yana düzen */
+  align-items: center;
+  gap: 0; /* Aralarında boşluk yok */
+  background: transparent; /* Şeffaf arka plan */
+  border-radius: 8px; /* Yuvarlak köşeler */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Belirgin gölge */
+  backdrop-filter: blur(10px); /* Blur efekti */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Hafif border */
+  overflow: hidden; /* İçeriği sınırla */
+}
+.search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95); /* Beyaz arka plan sadece arama kısmında */
+  border-radius: 8px 0 0 8px; /* Sol köşeleri yuvarlat */
+  padding: 0; /* Padding kaldırıldı */
+  overflow: hidden; /* Köşeleri düzgün yapmak için */
+}
+.search-field i {
+  color: #666;
+  margin-left: 15px; /* Sol kenardan boşluk */
+  font-size: 16px;
+}
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 350px; /* 400px'den 350px'e küçültüldü */
+  font-size: 13px; /* 14px'den 13px'e küçültüldü */
+  color: #333;
+  padding: 14px 8px; /* 16px 10px'den 14px 8px'e küçültüldü */
+}
+.search-input::placeholder {
+  color: #999;
+}
+.quick-menu {
+  background: rgba(8, 26, 68, 0.9); /* Biraz daha opak mavi arka plan */
+  color: white;
+  border: none;
+  border-radius: 0 8px 8px 0; /* Sağ köşeleri yuvarlat */
+  padding: 14px 20px; /* 16px 24px'den 14px 20px'e küçültüldü */
+  font-size: 13px; /* 14px'den 13px'e küçültüldü */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 12px'den 10px'e küçültüldü */
+  white-space: nowrap; /* Yazı kırılmasın */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  min-height: 42px; /* 48px'den 42px'e küçültüldü */
+  position: relative; /* Relative positioning */
+  z-index: 2; /* Üstte kalsın */
+}
+.quick-menu:hover {
+  background: rgba(8, 26, 68, 1); /* Hover'da tam opak mavi */
+  transform: none; /* Hover'da hareket yok */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Hover'da daha belirgin gölge */
+}
+/* Üst Menü Bölümü */
+.top-menu-section {
+  position: fixed;
+  bottom: 100px; /* 120px'den 100px'e küçültüldü */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1002; /* Ana menüden daha üstte */
+  opacity: 0; /* Başlangıçta gizli */
+  visibility: hidden; /* Başlangıçta gizli */
+  transition: all 0.3s ease;
+}
+.top-menu-section:hover,
+.top-menu-section.show {
+  opacity: 1;
+  visibility: visible;
+}
+.top-menu-container {
+  display: flex;
+  justify-content: center;
+}
+.top-menu-box {
+  background: rgba(8, 26, 68, 0.586);
+  border-radius: 10px; /* 12px'den 10px'e küçültüldü */
+  padding: 15px; /* 20px'den 15px'e küçültüldü */
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.top-menu-title {
+  color: white;
+  font-size: 10px; /* 11px'den 10px'e küçültüldü */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* 0.5px'den 0.4px'e küçültüldü */
+  margin-bottom: 10px; /* 12px'den 10px'e küçültüldü */
+}
+.top-menu-divider {
+  width: 100%;
+  height: 1px;
+  background: white;
+  margin-bottom: 12px; /* 15px'den 12px'e küçültüldü */
+}
+.top-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.top-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 8px'den 6px'e küçültüldü */
+  color: white;
+  font-size: 8px; /* 9px'den 8px'e küçültüldü */
+  padding: 5px 0; /* 6px'den 5px'e küçültüldü */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.top-menu-item:last-child {
+  border-bottom: none;
+}
+.top-menu-item:hover {
+  color: #0dcaf0;
+  padding-left: 5px;
+}
+.top-menu-item i {
+  font-size: 10px; /* 12px'den 10px'e küçültüldü */
+  width: 14px; /* 16px'den 14px'e küçültüldü */
+  text-align: center;
+}
+/* Ana Hızlı Menü Bölümü */
+.main-quick-menu {
+  position: fixed !important;
+  bottom: 5px; /* Eski yerine geri döndü */
+  left: 0;
+  width: 100%;
+  background: transparent; /* Eski haline geri döndü */
+  z-index: 1001 !important;
+  padding: 12px 0; /* 15px'den 12px'e küçültüldü */
+  z-index: 1001; /* Diğer elementlerden daha üstte olsun */
+}
+.quick-menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* 20px'den 15px'e küçültüldü */
+  max-width: 1000px; /* 1200px'den 1000px'e küçültüldü */
+  margin: 0 auto;
+  padding: 0 15px; /* 20px'den 15px'e küçültüldü */
+}
+.quick-menu-item {
+  background: rgba(8, 26, 68, 0.586); /* Eski mavi arka plan */
+  border-radius: 10px; /* 12px'den 10px'e küçültüldü */
+  padding: 15px 12px; /* 20px 15px'den 15px 12px'e küçültüldü */
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px; /* 180px'den 150px'e küçültüldü */
+  flex: 1;
+  max-width: 170px; /* 200px'den 170px'e küçültüldü */
+  display: flex;
+  align-items: center;
+  gap: 12px; /* 15px'den 12px'e küçültüldü */
+}
+.quick-menu-item:hover {
+  background: rgb(8, 26, 68); /* Eski hover rengi */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+.qm-special {
+  background: #374151 !important; /* Eski gri arka plan */
+}
+.qm-special:hover {
+  background: #4b5563 !important; /* Eski hover rengi */
+}
+.qm-icon {
+  font-size: 18px; /* 20px'den 18px'e küçültüldü */
+  color: white; /* Eski beyaz renk */
+  flex-shrink: 0;
+}
+.qm-title {
+  font-size: 11px; /* 12px'den 11px'e küçültüldü */
+  font-weight: bold;
+  color: white; /* Eski beyaz renk */
+  text-transform: uppercase;
+  letter-spacing: 0.4px; /* 0.5px'den 0.4px'e küçültüldü */
+  line-height: 1.2;
+}
+/* Responsive tasarım */
+@media (max-width: 768px) {
+  /* Hero bölümü mobil */
+  .hero {
+    position: fixed; /* Mobilde de sabit */
+    top: 50%; /* Dikey ortala */
+    left: 50%; /* Yatay ortala */
+    transform: translate(-50%, -50%); /* Tam ortala */
+    width: 95%; /* Mobilde biraz daha geniş */
+    z-index: 1000;
+  }
+  .search-input {
+    width: 280px; /* 300px'den 280px'e küçültüldü */
+    font-size: 12px; /* 14px'den 12px'e küçültüldü */
+    padding: 12px 6px; /* 14px 8px'den 12px 6px'e küçültüldü */
+  }
+  .search-wrap {
+    width: 100%; /* Mobilde tam genişlik */
+    max-width: 400px; /* Maksimum genişlik */
+  }
+  .quick-menu {
+    padding: 12px 16px; /* 14px 18px'den 12px 16px'e küçültüldü */
+    font-size: 12px; /* 13px'den 12px'e küçültüldü */
+    min-height: 38px; /* 42px'den 38px'e küçültüldü */
+  }
+  /* Üst menü mobil */
+  .top-menu-section {
+    position: fixed; /* Mobilde de sabit kalsın */
+    bottom: 75px; /* 90px'den 75px'e küçültüldü */
+    z-index: 1002; /* Sabit z-index */
+    opacity: 0; /* Başlangıçta gizli */
+    visibility: hidden; /* Başlangıçta gizli */
+  }
+  .top-menu-section:hover,
+  .top-menu-section.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .top-menu-box {
+    min-width: 180px; /* 200px'den 180px'e küçültüldü */
+    padding: 10px; /* 12px'den 10px'e küçültüldü */
+  }
+  .top-menu-title {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .top-menu-divider {
+    margin-bottom: 10px;
+  }
+  .top-menu-item {
+    font-size: 10px;
+    padding: 5px 0;
+    gap: 6px;
+  }
+  .top-menu-item i {
+    font-size: 9px;
+    width: 12px;
+  }
+  /* Ana hızlı menü mobil */
+  .main-quick-menu {
+    position: fixed; /* Mobilde de sabit kalsın */
+    bottom: 5px; /* Eski yerine geri döndü */
+    padding: 10px 0;
+    z-index: 1001; /* Sabit z-index */
+  }
+  .quick-menu-container {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 15px;
+  }
+  .quick-menu-item {
+    min-width: auto;
+    max-width: none;
+    padding: 15px 20px;
+    gap: 12px;
+  }
+  .qm-icon {
+    font-size: 20px;
+  }
+  .qm-title {
+    font-size: 12px;
+  }
+  /* Navbar mobil */
+  .main-navbar .container-fluid {
+    padding: 10px 20px;
+  }
+  .main-navbar .navbar-nav {
+    gap: 15px;
+  }
+  .main-navbar .nav-link {
+    font-size: 13px;
+  }
+  .center-logo-slot img {
+    width: 80px; /* Mobilde biraz küçük */
+    height: 80px; /* Mobilde biraz küçük */
+  }
+  /* Subnav mobil - Temiz tasarım */
+  .subnav {
+    top: 85px; /* Küçültülmüş navbar için 110px'den 85px'e */
+    right: 0;
+    width: auto;
+    height: 32px; /* 40px'den 32px'e küçültüldü */
+  }
+  .submega {
+    width: 300px;
+    padding: 15px 20px;
+    right: 0;
+  }
+  .submega-inner {
+    gap: 20px;
+    flex-direction: column;
+  }
+  .subnav-list {
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 0 15px;
+  }
+  .subitem a {
+    font-size: 10px; /* 12px'den 10px'e küçültüldü */
+    padding: 6px 12px; /* 8px 15px'den 6px 12px'e küçültüldü */
+  }
+  /* Mega menü mobil */
+  .mega-menu {
+    width: 90vw;
+    max-width: 600px;
+    padding: 20px;
+  }
+  .mega-inner {
+    grid-template-columns: 1fr; /* Mobilde tek sütun */
+    gap: 20px;
+  }
+  .mega-column-title {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .mega-link {
+    font-size: 12px;
+    padding: 6px 0;
+  }
+  .submega {
+    min-width: 300px;
+    padding: 15px;
+  }
+  .submega-inner {
+    gap: 20px;
+  }
+  .submega-link {
+    font-size: 12px;
+    padding: 6px 0;
+    color: #1e3a8a !important; /* Sabit mavi renk */
+    transition: none !important; /* Animasyon yok */
+  }
+  /* Arama Paneli Mobil */
+  .search-panel {
+    width: 90%; /* 85%'den 90%'a çıkarıldı - küçük panelde daha geniş olabilir */
+  }
+  .search-panel-header {
+    padding: 15px;
+  }
+  .search-panel-title {
+    font-size: 10px; /* 12px'den 10px'e daha da küçültüldü */
+  }
+  .search-panel-search {
+    padding: 15px;
+  }
+  .search-panel-input {
+    padding: 12px;
+    font-size: 14px;
+  }
+  .search-panel-menu {
+    padding: 10px; /* 12px'den 10px'e daha da küçültüldü */
+  }
+  .search-panel-item {
+    font-size: 10px; /* 11px'den 10px'e daha da küçültüldü */
+    padding: 8px 0; /* 10px'den 8px'e daha da küçültüldü */
+    gap: 8px; /* 10px'den 8px'e daha da küçültüldü */
+  }
+  .search-panel-item i {
+    font-size: 10px; /* 12px'den 10px'e daha da küçültüldü */
+    width: 14px; /* 16px'den 14px'e daha da küçültüldü */
+  }
+}
+@media (max-width: 480px) {
+  /* Çok küçük ekranlar */
+  .hero {
+    position: fixed; /* Çok küçük ekranlarda da sabit */
+    top: 50%; /* Dikey ortala */
+    left: 50%; /* Yatay ortala */
+    transform: translate(-50%, -50%); /* Tam ortala */
+    width: 98%; /* Daha geniş */
+    z-index: 1000;
+  }
+  .search-wrap {
+    width: 100%; /* Tam genişlik */
+    max-width: 350px; /* Daha küçük maksimum genişlik */
+  }
+  .search-input {
+    width: 230px; /* 250px'den 230px'e küçültüldü */
+    font-size: 11px; /* 13px'den 11px'e küçültüldü */
+    padding: 10px 5px; /* 12px 6px'den 10px 5px'e küçültüldü */
+  }
+  .quick-menu {
+    padding: 10px 12px; /* 12px 14px'den 10px 12px'e küçültüldü */
+    font-size: 11px; /* 12px'den 11px'e küçültüldü */
+    min-height: 34px; /* 38px'den 34px'e küçültüldü */
+  }
+  /* Üst menü çok küçük ekranlar */
+  .top-menu-section {
+    position: fixed; /* Çok küçük ekranlarda da sabit kalsın */
+    bottom: 60px; /* 70px'den 60px'e küçültüldü */
+    z-index: 1002; /* Sabit z-index */
+    opacity: 0; /* Başlangıçta gizli */
+    visibility: hidden; /* Başlangıçta gizli */
+  }
+  .top-menu-section:hover,
+  .top-menu-section.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .top-menu-box {
+    min-width: 160px; /* 180px'den 160px'e küçültüldü */
+    padding: 8px; /* 10px'den 8px'e küçültüldü */
+  }
+  .top-menu-title {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+  .top-menu-divider {
+    margin-bottom: 8px;
+  }
+  .top-menu-item {
+    font-size: 9px;
+    padding: 4px 0;
+    gap: 5px;
+  }
+  .top-menu-item i {
+    font-size: 8px;
+    width: 10px;
+  }
+  /* Ana hızlı menü çok küçük ekranlar */
+  .main-quick-menu {
+    position: fixed; /* Çok küçük ekranlarda da sabit kalsın */
+    bottom: 5px; /* Eski yerine geri döndü */
+    padding: 8px 0;
+    z-index: 1001; /* Sabit z-index */
+  }
+  .quick-menu-item {
+    padding: 12px 15px;
+    gap: 10px;
+  }
+  .qm-icon {
+    font-size: 18px;
+  }
+  .qm-title {
+    font-size: 11px;
+  }
+  .subnav {
+    height: 28px; /* 35px'den 28px'e küçültüldü */
+  }
+  .subnav-list {
+    gap: 0;
+    padding: 0 10px;
+  }
+  .subitem a {
+    font-size: 9px; /* 11px'den 9px'e küçültüldü */
+    padding: 5px 10px; /* 6px 12px'den 5px 10px'e küçültüldü */
+  }
+  .submega {
+    width: 280px;
+    padding: 12px 15px;
+  }
+  /* Arama Paneli Responsive */
+  .search-panel-content {
+    width: 95%; /* 90%'den 95%'e çıkarıldı - küçük ekranlarda daha geniş */
+    max-width: none;
+    margin: 10px; /* 15px'den 10px'e daha da küçültüldü */
+    flex-direction: column;
+  }
+  .search-panel-left {
+    width: 100%;
+    border-radius: 0;
+  }
+  .search-panel-right {
+    width: 100%;
+    border-radius: 0;
+  }
+  .search-panel-header {
+    padding: 15px;
+  }
+  .search-panel-title {
+    font-size: 12px; /* 14px'den 12px'e daha da küçültüldü */
+  }
+}
+/* Hakkımızda ve Hizmetler Bölümü */
+.about-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+.about-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.about-header h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #081a44;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.about-header p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+.about-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.about-text h3 {
+  font-size: 24px;
+  color: #081a44;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+.about-text h3:first-child {
+  margin-top: 0;
+}
+.about-text p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 20px;
+}
+.about-image {
+  text-align: center;
+}
+.about-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.services-section {
+  padding: 80px 0;
+  background: white;
+}
+.services-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.services-header h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #081a44;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.services-header p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+.service-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.service-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #081a44, #0dcaf0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+}
+.service-icon i {
+  font-size: 32px;
+  color: white;
+}
+.service-card h3 {
+  font-size: 20px;
+  color: #081a44;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.service-card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+/* News Panel Styles */
+.news-panel-half {
+  width: 50%;
+  height: 100vh;
+  float: left;
+  background: #f8f9fa;
+  overflow-y: auto;
+}
+.news-panel-container {
+  padding: 20px;
+  height: 100%;
+}
+.news-panel-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 15px;
+}
+.news-panel-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.news-panel-controls {
+  display: flex;
+  gap: 10px;
+}
+.panel-tab {
+  padding: 8px 16px;
+  border: none;
+  background: #e9ecef;
+  color: #6c757d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.panel-tab.active {
+  background: #007bff;
+  color: white;
+}
+.panel-tab:hover {
+  background: #007bff;
+  color: white;
+}
+.news-panel-content {
+  height: 135px; /* Requested height */
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.panel-tab-content {
+  display: none;
+}
+.panel-tab-content.active {
+  display: block;
+}
+/* News Slider Container */
+.news-slider-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.news-slider-wrapper {
+  height: 100%;
+  width: 100%;
+}
+.news-slide {
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+.news-slide.active {
+  display: flex !important;
+}
+/* Main News Card in Slide */
+.main-news-card {
+  flex: 1;
+  margin-bottom: 10px;
+}
+.main-news-image {
+  position: relative;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.main-news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.news-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  color: white;
+  padding: 8px;
+}
+.news-overlay h3 {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+.news-overlay p {
+  font-size: 9px;
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+.read-full {
+  color: #0dcaf0;
+  font-size: 9px;
+  text-decoration: none;
+}
+/* News List in Slide */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+.news-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+.news-item-image {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.news-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.news-item-content {
+  flex: 1;
+}
+.news-item-content h4 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.news-item-content p {
+  font-size: 9px;
+  color: #6c757d;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.news-item-date {
+  font-size: 8px;
+  color: #007bff;
+}
+/* Announcements Panel */
+.announcements-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.announcement-panel-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+.announcement-icon {
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.announcement-content {
+  flex: 1;
+}
+.announcement-content h4 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.announcement-content p {
+  font-size: 9px;
+  color: #6c757d;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.announcement-date {
+  font-size: 8px;
+  color: #007bff;
+}
+/* Empty Half */
+.empty-half {
+  width: 50%;
+  height: 100vh;
+  float: right;
+  background: white;
+}
+/* News Slider Navigation - Hidden for auto-rotating slides */
+.news-slider-nav {
+  display: none;
+}
+/* Slide Indicators */
+.news-slide-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+.news-slide-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e9ecef;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.news-slide-indicator.active {
+  background: #007bff;
+}
+.news-slide-indicator:hover {
+  background: #007bff;
+  opacity: 0.7;
+}
+/* News Pagination */
+.news-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-top: 1px solid #e9ecef;
+}
+.pagination-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e9ecef;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 12px;
+}
+.pagination-btn:hover {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+.pagination-numbers {
+  display: flex;
+  gap: 5px;
+}
+.page-number {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #e9ecef;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 10px;
+}
+.page-number.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+.page-number:hover {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+.page-dots {
+  color: #6c757d;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+}
+.view-all-btn {
+  padding: 6px 12px;
+  border: 1px solid #007bff;
+  background: white;
+  color: #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.view-all-btn:hover {
+  background: #007bff;
+  color: white;
+}
+/* Mobil Responsive */
+@media (max-width: 768px) {
+  .news-panel-half {
+    width: 100%;
+    height: auto;
+    float: none;
+  }
+  .empty-half {
+    display: none;
+  }
+  .news-panel-content {
+    height: 135px; /* Keep the same height on mobile */
+  }
+  .news-panel-header h2 {
+    font-size: 16px;
+  }
+  .panel-tab {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  .news-slide {
+    padding: 8px;
+  }
+  .main-news-image {
+    height: 50px;
+  }
+  .news-overlay h3 {
+    font-size: 10px;
+  }
+  .news-overlay p {
+    font-size: 8px;
+  }
+  .news-item-image {
+    width: 30px;
+    height: 30px;
+  }
+  .news-item-content h4 {
+    font-size: 9px;
+  }
+  .news-item-content p {
+    font-size: 7px;
+  }
+  .news-slider-nav {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+  .news-slide-indicator {
+    width: 6px;
+    height: 6px;
+  }
+  .announcement-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+  .announcement-content h4 {
+    font-size: 10px;
+  }
+  .announcement-content p {
+    font-size: 8px;
+  }
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about-header h2,
+  .services-header h2 {
+    font-size: 28px;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  }
+  .search-panel-search {
+    padding: 15px;
+  }
+  .search-panel-input {
+    padding: 12px;
+    font-size: 14px;
+  }
+  .search-panel-menu {
+    padding: 10px; /* 12px'den 10px'e daha da küçültüldü */
+    max-height: 200px; /* 250px'den 200px'e daha da küçültüldü */
+  }
+  .search-panel-item {
+    font-size: 10px; /* 11px'den 10px'e daha da küçültüldü */
+    padding: 8px 0; /* 10px'den 8px'e daha da küçültüldü */
+  }
+  /* Full Screen Mega Menü Responsive */
+  .fullscreen-mega-menu .mega-menu-content {
+    padding: 15px 25px; /* 20px 30px'den 15px 25px'e küçültüldü */
+  }
+  .fullscreen-mega-menu .mega-menu-sections {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 0 5px;
+  }
+  .fullscreen-mega-menu .mega-menu-title {
+    font-size: 14px; /* 12px'den 14px'e büyütüldü */
+    margin-bottom: 8px; /* 6px'den 8px'e büyütüldü */
+  }
+  .fullscreen-mega-menu .mega-menu-list a {
+    font-size: 12px; /* 10px'den 12px'e büyütüldü */
+  }
+  .fullscreen-mega-menu .mega-menu-footer {
+    flex-direction: row;
+    gap: 20px;
+    text-align: center;
+    padding: 20px 0;
+    min-height: 120px;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .fullscreen-mega-menu .contact-item {
+    align-items: center !important;
+  }
+  .fullscreen-mega-menu .contact-left {
+    align-items: flex-start !important;
+  }
+  .fullscreen-mega-menu .contact-right {
+    align-items: flex-end !important;
+  }
+  .fullscreen-mega-menu .contact-center {
+    align-items: center !important;
+  }
+  .fullscreen-mega-menu .contact-phone {
+    font-size: 20px !important;
+    margin: 5px 0;
+  }
+  .fullscreen-mega-menu .contact-phone i {
+    font-size: 20px !important;
+    margin-right: 8px;
+  }
+  .fullscreen-mega-menu .contact-social a {
+    font-size: 24px !important;
+    padding: 6px;
+  }
+  .fullscreen-mega-menu .contact-label {
+    font-size: 12px; /* 11px'den 12px'e artırıldı */
+    margin-bottom: 8px; /* Alt margin eklendi */
+  }
+}
+

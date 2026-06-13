@@ -1,0 +1,77 @@
+@{
+    // Kocaali Hakkında sayfası - Alt sayfa layout'unu kullanır
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Kocaali Hakkında";
+    ViewData["PageTitle"] = "Kocaali Hakkında";
+    ViewData["ContentTitle"] = "KOCAALİ HAKKINDA";
+    
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Kocaali", Url = (string?)"#" },
+        new { Text = "Kocaali Hakkında", Url = (string?)null }
+    };
+    
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = true },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)"#", IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)"#", IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Index", "Etkinlik") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Zabıta Listesi", Url = (string?)"#", IsActive = false },
+        new { Text = "Afad Acil Toplanma Alanları", Url = (string?)"#", IsActive = false },
+        new { Text = "Salon Tahsis", Url = (string?)"#", IsActive = false },
+        new { Text = "Ulaşım Bizden Başarı Sizden", Url = (string?)"#", IsActive = false }
+    };
+    
+    ViewBag.ShowBackButton = true;
+}
+
+<style>
+    .kocaali-hakkinda-kartlar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 30px;
+        width: 100%;
+    }
+
+    @@media (max-width: 768px) {
+        .kocaali-hakkinda-kartlar {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Kocaali Hakkında İçerik Kartları -->
+<div class="alt-sayfa-content-cards kocaali-hakkinda-kartlar">
+    <!-- Tarihçe Kartı -->
+    <a asp-controller="Kocaali" asp-action="Tarihce" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-history"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">TARİHÇE</h5>
+    </a>
+    
+    <!-- İklim ve Coğrafya Kartı -->
+    <a asp-controller="Kocaali" asp-action="IklimVeCografya" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">İKLİM VE COĞRAFYA</h5>
+    </a>
+    
+    <!-- Kültür Kartı -->
+    <a href="https://kocaali.bel.tr/E-KITAP/mobile/index.html" target="_blank" class="alt-sayfa-content-card">
+        <div class="alt-sayfa-content-card-icon">
+            <i class="fas fa-theater-masks"></i>
+        </div>
+        <h5 class="alt-sayfa-content-card-title">KÜLTÜR</h5>
+    </a>
+</div>
+

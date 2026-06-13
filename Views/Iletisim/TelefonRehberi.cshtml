@@ -1,0 +1,123 @@
+@model List<kocaaliv2.Models.TelefonRehberi>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Telefon Rehberi";
+}
+
+<div class="telefon-rehberi-container">
+    <div class="telefon-rehberi-table-wrapper">
+        <table class="telefon-rehberi-table">
+            <thead>
+                <tr>
+                    <th>Kurum Adı</th>
+                    <th>Telefon</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.KurumAdi</td>
+                            <td>@item.Telefon</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">Henüz telefon rehberi kaydı bulunmamaktadır.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .telefon-rehberi-container {
+        padding: 2rem 0;
+    }
+
+    .telefon-rehberi-table-wrapper {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .telefon-rehberi-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .telefon-rehberi-table thead {
+        background-color: #1e3a8a;
+        color: white;
+    }
+
+    .telefon-rehberi-table th {
+        padding: 1rem 1.5rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 16px;
+        border-bottom: 2px solid #1e3a8a;
+    }
+
+    .telefon-rehberi-table tbody tr {
+        border-bottom: 1px solid #e0e0e0;
+        transition: background-color 0.2s ease;
+    }
+
+    .telefon-rehberi-table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .telefon-rehberi-table tbody tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    .telefon-rehberi-table tbody tr:hover {
+        background-color: #e3f2fd;
+    }
+
+    .telefon-rehberi-table td {
+        padding: 1rem 1.5rem;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .telefon-rehberi-table td:first-child {
+        font-weight: 500;
+        color: #1e3a8a;
+    }
+
+    .telefon-rehberi-table td:last-child {
+        color: #666;
+    }
+
+    .text-center {
+        text-align: center;
+        padding: 2rem;
+        color: #999;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .telefon-rehberi-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .telefon-rehberi-table {
+            min-width: 600px;
+        }
+
+        .telefon-rehberi-table th,
+        .telefon-rehberi-table td {
+            padding: 0.75rem 1rem;
+            font-size: 13px;
+        }
+    }
+</style>
+

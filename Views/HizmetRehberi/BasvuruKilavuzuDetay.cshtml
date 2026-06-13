@@ -1,0 +1,117 @@
+@model kocaaliv2.Models.BasvuruKilavuzu
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = Model.Baslik;
+    ViewData["PageTitle"] = null;
+    ViewData["ContentTitle"] = Model.Baslik.ToUpper();
+}
+
+<div class="basvuru-kilavuzu-detay-container">
+    <div class="basvuru-kilavuzu-detay-aciklama">
+        @if (!string.IsNullOrEmpty(Model.Aciklama))
+        {
+            <p>@Model.Aciklama</p>
+        }
+        
+        @if (!string.IsNullOrEmpty(Model.PdfUrl))
+        {
+            <div class="basvuru-kilavuzu-detay-pdf">
+                <a href="@Model.PdfUrl" target="_blank" class="basvuru-kilavuzu-pdf-button">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDF Görüntüle</span>
+                </a>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(Model.DosyaUrl))
+        {
+            <div class="basvuru-kilavuzu-detay-pdf">
+                <a href="@Model.DosyaUrl" target="_blank" class="basvuru-kilavuzu-pdf-button">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDF Görüntüle</span>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .basvuru-kilavuzu-detay-container {
+        padding: 2rem 0;
+    }
+
+    .basvuru-kilavuzu-detay-aciklama {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        padding-right: 180px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .basvuru-kilavuzu-detay-aciklama p {
+        margin: 0;
+        color: #495057;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .basvuru-kilavuzu-detay-pdf {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+    }
+
+    .basvuru-kilavuzu-pdf-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: rgb(4, 22, 85);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .basvuru-kilavuzu-pdf-button:hover {
+        background-color: rgb(3, 18, 70);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        color: white;
+        text-decoration: none;
+    }
+
+    .basvuru-kilavuzu-pdf-button i {
+        font-size: 1rem;
+    }
+
+    @@media (max-width: 768px) {
+        .basvuru-kilavuzu-detay-container {
+            padding: 1.5rem 0;
+        }
+
+        .basvuru-kilavuzu-detay-aciklama {
+            padding: 1rem;
+            padding-right: 1rem;
+            padding-top: 3.5rem;
+        }
+
+        .basvuru-kilavuzu-detay-pdf {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .basvuru-kilavuzu-pdf-button {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.8rem;
+        }
+
+        .basvuru-kilavuzu-pdf-button i {
+            font-size: 0.875rem;
+        }
+    }
+</style>
+

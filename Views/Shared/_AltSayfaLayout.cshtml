@@ -1,0 +1,143 @@
+@{
+    // Alt sayfa layout - Ana layout'u extend eder
+    // Header, navbar, footer ve arka plan sabit kalır
+    // Sadece içerik alanı değişir
+    Layout = "_Layout";
+}
+
+
+<link rel="stylesheet" href="~/css/altsayfa.css" asp-append-version="true" />
+
+
+<section class="alt-sayfa-section">
+    
+    
+    <div class="alt-sayfa-banner">
+        <div class="alt-sayfa-banner-overlay"></div>
+        <div class="container-fluid">
+            <div class="alt-sayfa-banner-content">
+                <h1 class="alt-sayfa-title">@(ViewData["PageTitle"] ?? ViewData["Title"])</h1>
+                
+                @if (ViewBag.Breadcrumbs != null)
+                {
+                    <nav aria-label="breadcrumb" class="alt-sayfa-breadcrumb">
+                        <ol class="breadcrumb">
+                            @foreach (var breadcrumb in ViewBag.Breadcrumbs)
+                            {
+                                <li class="breadcrumb-item">
+                                    @if (breadcrumb.Url != null)
+                                    {
+                                        <a href="@breadcrumb.Url">@breadcrumb.Text</a>
+                                    }
+                                    else
+                                    {
+                                        <span>@breadcrumb.Text</span>
+                                    }
+                                </li>
+                            }
+                        </ol>
+                    </nav>
+                }
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="alt-sayfa-content-wrapper">
+        <div class="container-fluid">
+            <div class="row g-0">
+               
+                <div class="col-lg-4 col-md-12">
+                    <aside class="alt-sayfa-sidebar">
+                        <div class="alt-sayfa-sidebar-inner">
+                            
+                            <div class="alt-sayfa-sidebar-logo-bg">
+                                <img src="~/images/Kocaali_Belediyesi_logo(4).svg.PNG" alt="Kocaali Belediyesi" class="alt-sayfa-sidebar-logo">
+                            </div>
+                            
+                            
+                            <h3 class="alt-sayfa-sidebar-title">HIZLI MENÜ</h3>
+                            
+                            
+                            <nav class="alt-sayfa-quick-menu">
+                                @if (ViewBag.QuickMenuItems != null)
+                                {
+                                    @foreach (var item in ViewBag.QuickMenuItems)
+                                    {
+                                        <a href="@(item.Url ?? "#")" class="alt-sayfa-quick-menu-item @(item.IsActive ? "active" : "")">
+                                            <i class="fas fa-chevron-right"></i>
+                                            <span>@item.Text</span>
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+                                    
+                                    <a asp-controller="Kurumsal" asp-action="MeclisUyeleri" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Meclis Üyeleri</span>
+                                    </a>
+                                    <a asp-controller="Kurumsal" asp-action="MeclisKararlari" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Meclis Kararları</span>
+                                    </a>
+                                    <a asp-controller="Kocaali" asp-action="Hakkinda" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Kocaali Hakkında</span>
+                                    </a>
+                                    <a asp-controller="Guncel" asp-action="NobetciEczaneler" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Nöbetçi Eczaneler</span>
+                                    </a>
+                                    <a href="#" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Haberler</span>
+                                    </a>
+                                    <a asp-controller="Guncel" asp-action="Duyurular" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Duyurular</span>
+                                    </a>
+                                    <a asp-controller="Guncel" asp-action="Etkinlikler" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Etkinlikler</span>
+                                    </a>
+                                    <a href="#" class="alt-sayfa-quick-menu-item">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span>Nöbetçi Zabıta Listesi</span>
+                                    </a>
+                                }
+                            </nav>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="col-lg-8 col-md-12">
+                    <main class="alt-sayfa-main-content">
+
+    <div class="alt-sayfa-content-header">
+        <h2 class="alt-sayfa-content-title">@(ViewData["ContentTitle"] ?? ViewData["Title"])</h2>
+        @if (ViewBag.ShowBackButton != false)
+        {
+            <div class="alt-sayfa-header-actions">
+                <button type="button" class="alt-sayfa-back-btn" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="alt-sayfa-content-body">
+        @RenderBody()
+    </div>
+
+</main>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+
+@await RenderSectionAsync("AltSayfaScripts", required: false)

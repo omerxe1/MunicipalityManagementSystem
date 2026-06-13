@@ -1,0 +1,1355 @@
+@model List<kocaaliv2.Models.Haber>
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+  
+  <div class="background-slideshow" id="backgroundSlideshow">
+    <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1570939274717-7eda259b50ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80')"></div>
+  </div>
+
+  <header>
+    
+    <div class="topbar">
+      <a href="https://www.facebook.com/kocaalibld/"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://x.com/KocaaliBld"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/kocaali.bld/"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/channel/UCRjAX4lvO2lnac0lDmLTaBQ"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    
+<nav class="navbar navbar-expand-lg navbar-dark main-navbar">
+  <div class="container-fluid px-4 position-relative">
+    <button class="navbar-toggler ms-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      
+      <ul class="navbar-nav gap-lg-3 me-auto align-items-lg-center">
+        <li class="nav-item has-mega position-static">
+          <a class="nav-link" href="#">Başkan</a>
+              <div class="mega-menu">
+                <div class="mega-inner">
+                  <a asp-controller="Kurumsal" asp-action="Baskan" class="mega-link">Başkan'ın Özgeçmişi</a>
+                  <a asp-controller="Kurumsal" asp-action="BaskanMesaj" class="mega-link">Başkan'a Mesaj</a>
+                  <a asp-controller="Kurumsal" asp-action="BaskanFotograflari" class="mega-link">Başkan'ın Fotoğrafları</a>
+                  <a href="#" class="mega-link">Başkan'ın Videoları</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item has-mega position-static" id="nav-belediyemiz">
+          <a class="nav-link" href="#">Belediyemiz</a>
+          <div class="mega-menu">
+            <div class="mega-inner">
+              <div class="mega-column">
+                <div class="mega-column-title">Kurumsal</div>
+                <a asp-controller="Kurumsal" asp-action="KurumsalYapi" class="mega-link">Kurumsal Yapı</a>
+                <a asp-controller="Kurumsal" asp-action="BaskanYardimcilari" class="mega-link">Başkan Yardımcıları</a>
+                <a asp-controller="Kurumsal" asp-action="MeclisUyeleri" class="mega-link">Meclis Üyeleri</a>
+                <a asp-controller="Kurumsal" asp-action="MeclisKararlari" class="mega-link">Meclis Kararları</a>
+                <a asp-controller="Kurumsal" asp-action="BelediyeEncumenleri" class="mega-link">Encümenler</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">Organizasyon</div>
+                <a asp-controller="Kurumsal" asp-action="Mudurlukler" class="mega-link">Müdürlükler</a>
+                <a asp-controller="Kurumsal" asp-action="EskiBaskanlar" class="mega-link">Eski Başkanlar</a>
+                <a asp-controller="Kurumsal" asp-action="OrganizasyonSemasi" class="mega-link">Organizasyon Şeması</a>
+                <a href="#" class="mega-link">Muhtarlıklar</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">Dokümanlar</div>
+                <a asp-controller="Kurumsal" asp-action="Yonetmelikler" class="mega-link">Yönetmelikler</a>
+                <a asp-controller="Kurumsal" asp-action="Kvkk" class="mega-link">KVKK</a>
+                <a href="#" class="mega-link">Kamu Spotu</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item has-mega position-static" id="nav-kocaali">
+          <a class="nav-link" href="#">Kocaali</a>
+          <div class="mega-menu">
+            <div class="mega-inner">
+              <div class="mega-column">
+                <div class="mega-column-title">Hakkında</div>
+                <a asp-controller="Kocaali" asp-action="Hakkinda" class="mega-link">Kocaali Hakkında</a>
+                <a href="#" class="mega-link">Milletvekillerimiz</a>
+                <a asp-controller="Kocaali" asp-action="KardesSehirlerimiz" class="mega-link">Kardeş Belediyelerimiz</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">Tarih & Kültür</div>
+                <a href="#" class="mega-link">Şehitlerimiz</a>
+                <a asp-controller="Kocaali" asp-action="TarihVeTurizmHaritasi" class="mega-link">Kocaali Tarih ve Turizm Haritası</a>
+                <a href="https://keos.kocaali.bel.tr/Keos/" target="_blank" class="mega-link">Kocaali Rehberi</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">Galeri</div>
+                <a asp-controller="Kocaali" asp-action="Galeri" class="mega-link">Galeri</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item has-mega position-static">
+          <a class="nav-link" href="#">Güncel</a>
+          <div class="mega-menu">
+            <div class="mega-inner">
+              <div class="mega-column">
+                <div class="mega-column-title">Hizmetler</div>
+                <a asp-controller="Guncel" asp-action="NobetciEczaneler" class="mega-link">Nöbetçi Eczaneler</a>
+                <a href="#" class="mega-link">Nöbetçi Zabıta Listesi</a>
+                <a asp-controller="Guncel" asp-action="AfadAcilToplanmaAlanlari" class="mega-link">Afad Acil Toplanma Alanları</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">İçerik</div>
+                <a asp-controller="Guncel" asp-action="Etkinlikler" class="mega-link">Etkinlikler</a>
+                
+                <a asp-controller="Guncel" asp-action="Duyurular" class="mega-link">Duyurular</a>
+              </div>
+              <div class="mega-column">
+                <div class="mega-column-title">İhaleler</div>
+                <a asp-controller="Guncel" asp-action="Ihaleler" class="mega-link">İhaleler</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item d-lg-none"><a class="nav-link" href="#">Sahiplen</a></li>
+        <li class="nav-item d-lg-none"><a class="nav-link" href="#">E-İmar</a></li>
+      </ul>
+
+      
+      <ul class="navbar-nav gap-lg-3 align-items-lg-center d-none d-lg-flex">
+        <li class="nav-item"><a class="nav-link" href="#">Sahiplen</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://keos.kocaali.bel.tr/imardurumu/index.aspx" target="_blank">E-İmar</a></li>
+      </ul>
+
+      
+      <button class="btn btn-link nav-link search-btn d-none d-lg-inline-flex ms-3" type="button" aria-label="Ara">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+    
+    <div class="subnav">
+      <div class="container-fluid px-4">
+        <ul class="subnav-list">
+          <li class="subitem has-submega" id="sub-plan">
+            <a href="#">Planlar-Raporlar</a>
+            <div class="submega" id="submega-panel">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="PlanlarRaporlar" asp-action="FaaliyetRaporlari" class="submega-link">Faaliyet Raporları</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="ImarPlanlari" class="submega-link">İmar Planları</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="IcKontrolUyumEylemPlanlari" class="submega-link">İç Kontrol Uyum Eylem Planları</a>
+                  
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="PlanlarRaporlar" asp-action="PerformansProgrami" class="submega-link">Performans Programı</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="StratejikPlanlar" class="submega-link">Stratejik Planlar</a>
+                  <a asp-controller="PlanlarRaporlar" asp-action="KaliteYonetimSistemi" class="submega-link">Kalite Yönetim Sistemi</a>>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem has-submega" id="sub-hizmet">
+            <a href="#">Hizmet Rehberi</a>
+            <div class="submega" id="submega-hizmet">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="HizmetRehberi" asp-action="Projeler" class="submega-link">Projeler</a>
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="HizmetRehberi" asp-action="BasvuruKilavuzu" class="submega-link">Başvuru Kılavuzu</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem has-submega" id="sub-iletisim">
+            <a href="#">İletişim</a>
+            <div class="submega" id="submega-iletisim">
+              <div class="submega-inner">
+                <div class="submega-column">
+                  <a asp-controller="Iletisim" asp-action="BizeUlasin" class="submega-link">Bize Ulaşın</a>
+                  <a asp-controller="Iletisim" asp-action="BilgiEdinme" class="submega-link">Bilgi Edinme</a>
+                  <a asp-controller="Iletisim" asp-action="IstekVeOneri" class="submega-link">İstek ve Öneri</a>
+                </div>
+                <div class="submega-column">
+                  <a asp-controller="Iletisim" asp-action="TelefonRehberi" class="submega-link">Telefon Rehberi</a>
+                  <a asp-controller="Iletisim" asp-action="Yararlilinkler" class="submega-link">Yararlı Linkler</a>
+                  <a href="#" class="submega-link">Sıkça Sorulan Sorular</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="subitem"><a href="https://turkiye.gov.tr/kocaali-belediyesi-borc-odeme" target="_blank" id="sub-pay">Online Ödeme</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </header>
+
+  
+  <div class="search-panel" id="searchPanel">
+    <div class="search-panel-content">
+      
+      <div class="search-panel-left">
+        <div class="search-panel-header">
+          <div class="search-panel-title">
+            <i class="fas fa-bars"></i>
+            <span>HIZLI MENÜ</span>
+          </div>
+          <button class="search-panel-close" id="closeSearchPanel">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="search-panel-menu">
+          <div class="search-panel-item">
+            <i class="fas fa-sitemap"></i>
+            <span>ORGANİZASYON ŞEMASI</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-pills"></i>
+            <span>NÖBETÇİ ECZANELER</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>KONUM BİLGİLERİ</span>
+          </div>
+          <div class="search-panel-item">
+            <i class="fas fa-phone"></i>
+            <span>İLETİŞİM</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="search-panel-right">
+        <div class="search-panel-search">
+          <input type="text" placeholder="Site içi arama..." class="search-panel-input">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="fullscreen-mega-menu" id="megaMenu">
+    <div class="mega-menu-content">
+      <div class="mega-menu-header">
+        <button class="mega-menu-close" id="closeMegaMenu">
+          <span>X KAPAT</span>
+        </button>
+      </div>
+      
+      
+      <div class="mega-menu-logo">
+        <img src="~/images/Kocaali_Belediyesi_logo.svg (1).png" alt="Kocaali Belediyesi">
+      </div>
+      
+      <div class="mega-menu-sections">
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">BELEDİYEMİZ</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Kurumsal" asp-action="KurumsalYapi">Kurumsal Yapı</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="BaskanYardimcilari">Başkan Yardımcıları</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="MeclisUyeleri">Meclis Üyeleri</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="MeclisKararlari">Meclis Kararları</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="BelediyeEncumenleri">Encümenler</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="Mudurlukler">Müdürlükler</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="EskiBaskanlar">Eski Başkanlar</a></li>
+            <li><a href="#">Organizasyon Şeması</a></li>
+            <li><a href="#">Muhtarlıklar</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="Yonetmelikler">Yönetmelikler</a></li>
+            <li><a asp-controller="Kurumsal" asp-action="Kvkk">KVKK</a></li>
+            <li><a href="#">Kamu Spotu</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">KOCAALİ</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Kocaali" asp-action="Hakkinda">Kocaali Hakkında</a></li>
+            <li><a href="#">Milletvekillerimiz</a></li>
+            <li><a asp-controller="Kocaali" asp-action="KardesSehirlerimiz">Kardeş Belediyelerimiz</a></li>
+            <li><a href="#">Şehitlerimiz</a></li>
+            <li><a asp-controller="Kocaali" asp-action="TarihVeTurizmHaritasi">Kocaali Tarih ve Turizm Haritası</a></li>
+            <li><a href="https://keos.kocaali.bel.tr/Keos/" target="_blank">Kocaali Rehberi</a></li>
+            <li><a asp-controller="Kocaali" asp-action="Galeri">Galeri</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">GÜNCEL</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Guncel" asp-action="NobetciEczaneler">Nöbetçi Eczaneler</a></li>
+            <li><a href="#">Haberler</a></li>
+            <li><a asp-controller="Guncel" asp-action="Duyurular">Duyurular</a></li>
+            <li><a asp-controller="Guncel" asp-action="Ihaleler">İhaleler</a></li>
+            <li><a asp-controller="Guncel" asp-action="Etkinlikler">Etkinlikler</a></li>
+            <li><a href="#">Nöbetçi Zabıta Listesi</a></li>
+            <li><a asp-controller="Guncel" asp-action="AfadAcilToplanmaAlanlari">Afad Acil Toplanma Alanları</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">PLANLAR-RAPORLAR</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="PlanlarRaporlar" asp-action="FaaliyetRaporlari">Faaliyet Raporları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="PerformansProgrami">Performans Programı</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="ImarPlanlari">İmar Planları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="StratejikPlanlar">Stratejik Planlar</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="IcKontrolUyumEylemPlanlari">İç Kontrol Uyum Eylem Planları</a></li>
+            <li><a asp-controller="PlanlarRaporlar" asp-action="KaliteYonetimSistemi">Kalite Yönetim Sistemi</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">HİZMET REHBERİ</h3>
+          <ul class="mega-menu-list">
+            <li><a href="#">Projeler</a></li>
+            <li><a href="#">Başvuru Kılavuzu</a></li>
+            <li><a href="#">Salon Tahsis</a></li>
+            <li><a href="#">Ulaşım Bizden</a></li>
+            <li><a href="#">Başarı Sizden</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">İLETİŞİM</h3>
+          <ul class="mega-menu-list">
+            <li><a asp-controller="Iletisim" asp-action="BizeUlasin">Bize Ulaşın</a></li>
+            <li><a asp-controller="Iletisim" asp-action="BilgiEdinme">Bilgi Edinme</a></li>
+            <li><a asp-controller="Iletisim" asp-action="IstekVeOneri">İstek ve Öneri</a></li>
+            <li><a asp-controller="Iletisim" asp-action="TelefonRehberi">Telefon Rehberi</a></li>
+            <li><a asp-controller="Iletisim" asp-action="YararliLinkler">Yararlı Linkler</a></li>
+            <li><a href="#">Sıkça Sorulan Sorular</a></li>
+          </ul>
+        </div>
+        
+        
+        <div class="mega-menu-section">
+          <h3 class="mega-menu-title">E-BELEDİYE</h3>
+          <ul class="mega-menu-list">
+            <li><a href="#">Sicil Bilgileri</a></li>
+            <li><a href="https://turkiye.gov.tr/kocaali-belediyesi-borc-odeme" target="_blank">Borç Ödeme</a></li>
+            <li><a href="#">Rayiç Değer</a></li>
+            <li><a href="#">Beyanlar</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mega-menu-footer">
+        <div class="contact-item contact-left">
+          <span class="contact-label">Çağrı Merkezi</span>
+          <div class="contact-phone">
+            <i class="fas fa-phone"></i>
+            <span>0224 372 10 01</span>
+          </div>
+        </div>
+        
+        <div class="contact-social contact-center">
+          <a href="https://www.facebook.com/kocaalibld/"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/KocaaliBld"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/kocaali.bld/"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/channel/UCRjAX4lvO2lnac0lDmLTaBQ"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <div class="contact-item contact-right">
+          <span class="contact-label">Whatsapp Hattımız</span>
+          <div class="contact-phone">
+            <i class="fab fa-whatsapp"></i>
+            <span>0224 372 10 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <section class="hero">
+    <div class="search-wrap">
+      <div class="search-field">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="Site İçi Arama">
+      </div>
+      <button class="quick-menu" type="button">
+        <i class="fas fa-th-large"></i>
+        <span>Hızlı Menü</span>
+      </button>
+    </div>
+  </section>
+
+  
+  <section class="top-menu-section kocaali-menu">
+    <div class="top-menu-container">
+      <div class="top-menu-box">
+        <div class="top-menu-title">KOCAALİ</div>
+        <div class="top-menu-divider"></div>
+        <div class="top-menu-items">
+          <a asp-controller="Kocaali" asp-action="Hakkinda" class="top-menu-item">
+            <i class="fas fa-users"></i>
+            <span>KOCAALİ</span>
+          </a>
+          <a asp-controller="Guncel" asp-action="Etkinlikler" class="top-menu-item">
+            <i class="fas fa-users"></i>
+            <span>ETKİNLİKLER</span>
+          </a>
+          <a asp-controller="Kocaali" asp-action="Galeri" class="top-menu-item">
+            <i class="fas fa-users"></i>
+            <span>GALERİ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="top-menu-section belediye-menu">
+    <div class="top-menu-container">
+      <div class="top-menu-box">
+        <div class="top-menu-title">BELEDİYE REHBERİ</div>
+        <div class="top-menu-divider"></div>
+        <div class="top-menu-items">
+          <a asp-controller="Kurumsal" asp-action="BaskanYardimcilari" class="top-menu-item">
+            <i class="fas fa-user-tie"></i>
+            <span>BAŞKAN YARDIMCILARI</span>
+          </a>
+          <a href="#" class="top-menu-item">
+            <i class="fas fa-diagram-project"></i>
+            <span>PROJELERİMİZ</span>
+          </a>
+          <a asp-controller="Kocaali" asp-action="KardesSehirlerimiz" class="top-menu-item">
+            <i class="fas fa-people-arrows"></i>
+            <span>KARDEŞ BELEDİYELERİMİZ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="top-menu-section ebelediye-menu">
+    <div class="top-menu-container">
+      <div class="top-menu-box">
+        <div class="top-menu-title">E-BELEDİYE</div>
+        <div class="top-menu-divider"></div>
+        <div class="top-menu-items">
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>E-BELEDİYE GİRİŞ</span>
+          </a>
+          <a href="https://turkiye.gov.tr/kocaali-belediyesi-borc-odeme" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>ONLİNE ÖDEME</span>
+          </a>
+          <a href="https://keos.kocaali.bel.tr/imardurumu/index.aspx" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>İMAR DURUMU</span>
+          </a>
+          <a href="https://keos.kocaali.bel.tr/Keos/" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>KENT REHBERİ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="top-menu-section eportal-menu">
+    <div class="top-menu-container">
+      <div class="top-menu-box">
+        <div class="top-menu-title">E-PORTAL</div>
+        <div class="top-menu-divider"></div>
+        <div class="top-menu-items">
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>DEĞERLEME BAŞVURU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>KONTROLÖR RANDEVU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>İŞ BİTİRME RANDEVU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>NUMARATAJ BAŞVURU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>E-İŞYERİ RUHSAT BAŞVURUSU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>İMAR RUHSAT BAŞVURUSU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>SONDAJ BAŞVURU FORMU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>ZEMİN ETÜT RAPOR BAŞVURUSU</span>
+          </a>
+          <a href="#" target="_blank" class="top-menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>KÜTÜPHANE</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="top-menu-section hizli-menu">
+    <div class="top-menu-container">
+      <div class="top-menu-box">
+        <div class="top-menu-title">HIZLI MENÜ</div>
+        <div class="top-menu-divider"></div>
+        <div class="top-menu-items">
+          <a href="#" class="top-menu-item">
+            <i class="fas fa-map-pin"></i>
+            <span>SOSYAL DESTEK</span>
+          </a>
+          <a href="#" class="top-menu-item">
+            <i class="fas fa-phone"></i>
+            <span>SALON REZERVASYONU</span>
+          </a>
+          <a asp-controller="Guncel" asp-action="NobetciEczaneler" class="top-menu-item">
+            <i class="fas fa-pills"></i>
+            <span>NÖBETÇİ ECZANELER</span>
+          </a>
+          <a asp-controller="Iletisim" asp-action="TelefonRehberi" class="top-menu-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>ÖNEMLİ TELEFONLAR</span>
+          </a>
+          <a href="#" class="top-menu-item">
+            <i class="fas fa-flag"></i>
+            <span>ŞEHİTLERİMİZ</span>
+          </a>
+          <a href="#" class="top-menu-item">
+            <i class="fas fa-question-circle"></i>
+            <span>SIKÇA SORULAN SORULAR</span>
+          </a>
+          <a asp-controller="Iletisim" asp-action="BilgiEdinme" class="top-menu-item">
+            <i class="fas fa-info-circle"></i>
+            <span>BİLGİ EDİNME</span>
+          </a>
+          <a asp-controller="Iletisim" asp-action="IstekVeOneri" class="top-menu-item">
+            <i class="fas fa-comment-dots"></i>
+            <span>İSTEK VE ÖNERİ</span>
+          </a>
+          <a asp-controller="Iletisim" asp-action="TelefonRehberi" class="top-menu-item">
+            <i class="fas fa-address-book"></i>
+            <span>TELEFON REHBERİ</span>
+          </a>
+          <a asp-controller="Iletisim" asp-action="YararliLinkler" class="top-menu-item">
+            <i class="fas fa-link"></i>
+            <span>YARARLI LİNKLER</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="main-quick-menu">
+    <div class="quick-menu-container">
+      <div class="quick-menu-item">
+        <div class="qm-icon">
+          <i class="fas fa-sync-alt"></i>
+        </div>
+        <div class="qm-title">KOCAALİ</div>
+      </div>
+      
+      <div class="quick-menu-item">
+        <div class="qm-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="qm-title">BELEDİYE REHBERİ</div>
+      </div>
+      
+      <div class="quick-menu-item qm-special">
+        <div class="qm-icon">
+          <i class="fas fa-laptop"></i>
+        </div>
+        <div class="qm-title">E-BELEDİYE</div>
+      </div>
+      
+      <div class="quick-menu-item">
+        <div class="qm-icon">
+          <i class="fas fa-globe"></i>
+        </div>
+        <div class="qm-title">E-PORTAL</div>
+      </div>
+      
+      <div class="quick-menu-item">
+        <div class="qm-icon">
+          <i class="fas fa-home"></i>
+        </div>
+        <div class="qm-title">HIZLI MENÜ</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="panels-section">
+    <div class="container-fluid">
+      <div class="row g-4">
+        
+        <div class="col-lg-6 col-md-12">
+          <div class="panel-card news-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">
+                <i class="fas fa-newspaper"></i>
+                Haberler
+              </h3>
+              <a href="#" class="panel-more">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            
+            <div class="news-slider-container-new">
+              <div class="news-slider-wrapper-new" id="newsSliderWrapper">
+                @if (Model != null && Model.Any())
+                {
+                  @for (int i = 0; i < Model.Count; i++)
+                  {
+                    var haber = Model[i];
+                    @if (haber != null)
+                    {
+                      <div class="news-slide-new @(i == 0 ? "active" : "")" data-index="@i">
+                        <div class="news-slide-image">
+                          @if (!string.IsNullOrEmpty(haber.ResimYolu))
+                          {
+                            <img src="@haber.ResimYolu" alt="@haber.Baslik" loading="lazy">
+                          }
+                          else
+                          {
+                            <img src="https://via.placeholder.com/800x500/4A90E2/FFFFFF?text=Haber" alt="@haber.Baslik" loading="lazy">
+                          }
+                          <div class="news-slide-overlay">
+                            <h2 class="news-slide-title">@haber.Baslik</h2>
+                            <p class="news-slide-description">@haber.Icerik</p>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  }
+                }
+                else
+                {
+                  <div class="news-slide-new active">
+                    <div class="news-slide-image">
+                      <img src="https://via.placeholder.com/800x500/4A90E2/FFFFFF?text=Henüz+Haber+Yok" alt="Henüz haber yok" loading="lazy">
+                      <div class="news-slide-overlay">
+                        <h2 class="news-slide-title">Henüz Haber Bulunmamaktadır</h2>
+                        <p class="news-slide-description">Yakında haberler burada görünecektir.</p>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+              
+              
+              <div class="news-pagination-bar">
+                <div class="pagination-left">
+                  <div class="pagination-numbers" id="newsPaginationNumbers">
+                    @if (Model != null && Model.Any())
+                    {
+                      int totalPages = Math.Min(Model.Count, 10);
+                      @for (int i = 1; i <= totalPages; i++)
+                      {
+                        <button class="pagination-number-new @(i == 1 ? "active" : "")" data-index="@(i - 1)">@i</button>
+                      }
+                    }
+                    else
+                    {
+                      <button class="pagination-number-new active" data-index="0">1</button>
+                    }
+                  </div>
+                  <div class="pagination-arrows">
+                    <button class="pagination-arrow" id="newsPrevBtn">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-arrow" id="newsNextBtn">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="pagination-right">
+                  <button class="pagination-view-all">
+                    <i class="fas fa-th"></i>
+                    Tümünü Gör
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-lg-6 col-md-12">
+          <div class="row g-4">
+            
+            <div class="col-lg-6 col-md-6">
+              <div class="panel-card facebook-panel">
+                <div class="panel-header">
+                  <h3 class="panel-title">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                  </h3>
+                  <a href="https://www.facebook.com/kocaalibld" target="_blank" class="panel-more">Sayfayı Ziyaret Et <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="facebook-content">
+                  <div class="facebook-iframe-container">
+                    <iframe 
+                      src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkocaalibld&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                      width="100%" 
+                      height="500" 
+                      style="border:none;overflow:hidden" 
+                      scrolling="no" 
+                      frameborder="0" 
+                      allowfullscreen="true" 
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
+                  </div>
+                  
+                  <div class="facebook-fallback">
+                    <div class="facebook-placeholder">
+                      <i class="fab fa-facebook fa-3x"></i>
+                      <h4>Facebook Sayfamızı Takip Edin</h4>
+                      <p>En güncel haberler ve duyurular için Facebook sayfamızı takip edebilirsiniz.</p>
+                      <a href="https://www.facebook.com/kocaalibld" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-facebook"></i> Sayfayı Ziyaret Et
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            <div class="col-lg-6 col-md-6">
+              <div class="panel-card announcements-panel">
+                <div class="panel-header">
+                  <h3 class="panel-title">
+                    <i class="fas fa-bullhorn"></i>
+                    Duyurular
+                  </h3>
+                  <a href="#" class="panel-more">Tümünü Gör <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="announcements-content">
+                  <div class="announcements-list" id="announcementsList">
+                    @if (ViewBag.Duyurular != null)
+                    {
+                      @foreach (var duyuru in (List<kocaaliv2.Models.Announcement>)ViewBag.Duyurular)
+                      {
+                        <div class="announcement-item">
+                          <div class="announcement-content">
+                            <div class="announcement-title">@duyuru.Title</div>
+                            <div class="announcement-date">@duyuru.PublishDate.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</div>
+                          </div>
+                        </div>
+                      }
+                    }
+                    else
+                    {
+                      <div class="announcement-item">
+                        <div class="announcement-content">
+                          <p>Henüz duyuru bulunmamaktadır.</p>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="calismalar-section">
+    <div class="container-fluid px-4">
+      <div class="section-header text-center">
+        <h2 class="section-title">ÇALIŞMALARIMIZ</h2>
+        <p class="section-subtitle">Belediyemizin gerçekleştirdiği projeler ve çalışmalar</p>
+      </div>
+      
+      @await Html.PartialAsync("_CalismalarPartial", (List<kocaaliv2.Models.Calisma>)(ViewBag.Calismalar ?? new List<kocaaliv2.Models.Calisma>()))
+    </div>
+  </section>
+
+  
+  <section class="takvim-etkinlikler-section">
+    <div class="container-fluid px-4">
+      <div class="row">
+        
+        <div class="col-lg-6 col-md-12">
+          <div class="takvim-container">
+            <div class="takvim-header">
+              <button class="takvim-today-btn">Bugün</button>
+              <h2 class="takvim-month" id="currentMonth">Ocak 2024</h2>
+              <div class="takvim-nav">
+                <button class="takvim-nav-btn" id="prevMonth">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="takvim-nav-btn" id="nextMonth">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+            
+            
+            <div class="takvim-weekdays">
+              <div class="weekday">Pzt</div>
+              <div class="weekday">Sal</div>
+              <div class="weekday">Çar</div>
+              <div class="weekday">Per</div>
+              <div class="weekday">Cum</div>
+              <div class="weekday">Cmt</div>
+              <div class="weekday">Paz</div>
+            </div>
+            
+            
+            <div class="takvim-grid" id="calendarGrid">
+              
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-lg-6 col-md-12">
+          <div class="etkinlikler-container">
+            <h2 class="etkinlikler-title">Etkinlikler</h2>
+            
+            
+            <div class="etkinlikler-grid" id="etkinliklerGrid">
+              
+              <div class="etkinlik-card">
+                <div class="etkinlik-image">
+                  <img src="https://via.placeholder.com/400x200/4A90E2/FFFFFF?text=Etkinlik+1" alt="Etkinlik 1">
+                  <div class="etkinlik-overlay">15 Ocak 2024</div>
+                </div>
+                <div class="etkinlik-content">
+                  <h3>Kültür ve Sanat Festivali</h3>
+                  <p class="etkinlik-date">15 Ocak 2024 - 18:00</p>
+                  <p>Şehrimizde düzenlenecek olan kültür ve sanat festivali tüm vatandaşlarımızı bekliyor.</p>
+                  <button class="etkinlik-btn">Detaylar</button>
+                </div>
+              </div>
+              
+              <div class="etkinlik-card">
+                <div class="etkinlik-image">
+                  <img src="https://via.placeholder.com/400x200/7ED321/FFFFFF?text=Etkinlik+2" alt="Etkinlik 2">
+                  <div class="etkinlik-overlay">20 Ocak 2024</div>
+                </div>
+                <div class="etkinlik-content">
+                  <h3>Çocuk Tiyatrosu</h3>
+                  <p class="etkinlik-date">20 Ocak 2024 - 14:00</p>
+                  <p>Çocuklarımız için özel olarak hazırlanan tiyatro gösterisi.</p>
+                  <button class="etkinlik-btn">Detaylar</button>
+                </div>
+              </div>
+              
+              <div class="etkinlik-card">
+                <div class="etkinlik-image">
+                  <img src="https://via.placeholder.com/400x200/F5A623/FFFFFF?text=Etkinlik+3" alt="Etkinlik 3">
+                  <div class="etkinlik-overlay">25 Ocak 2024</div>
+                </div>
+                <div class="etkinlik-content">
+                  <h3>Müzik Konseri</h3>
+                  <p class="etkinlik-date">25 Ocak 2024 - 19:30</p>
+                  <p>Yerel sanatçılarımızın katılacağı müzik konseri.</p>
+                  <button class="etkinlik-btn">Detaylar</button>
+                </div>
+              </div>
+              
+              <div class="etkinlik-card">
+                <div class="etkinlik-image">
+                  <img src="https://via.placeholder.com/400x200/E74C3C/FFFFFF?text=Etkinlik+4" alt="Etkinlik 4">
+                  <div class="etkinlik-overlay">30 Ocak 2024</div>
+                </div>
+                <div class="etkinlik-content">
+                  <h3>Spor Turnuvası</h3>
+                  <p class="etkinlik-date">30 Ocak 2024 - 10:00</p>
+                  <p>Belediyemiz tarafından düzenlenen spor turnuvası.</p>
+                  <button class="etkinlik-btn">Detaylar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Hover efektleri ve pozisyon hizalama
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Background Slideshow Functionality
+      const slides = document.querySelectorAll('.background-slideshow .slide');
+        let currentSlide = 0;
+        
+        function nextSlide() {
+        // Mevcut slide'ı fade out yap
+          slides[currentSlide].classList.remove('active');
+        slides[currentSlide].classList.add('fade-out');
+          
+          // Sonraki slide'a geç
+          currentSlide = (currentSlide + 1) % slides.length;
+          
+        // Yeni slide'ı fade in yap
+        setTimeout(() => {
+          slides.forEach(slide => slide.classList.remove('fade-out'));
+            slides[currentSlide].classList.add('active');
+        }, 100);
+      }
+      
+      // Her 5 saniyede bir slide değiştir
+      setInterval(nextSlide, 5000);
+      
+      // İlk slide'ı aktif yap
+      if (slides.length > 0) {
+        slides[0].classList.add('active');
+      }
+      const kocaaliButton = document.querySelector('.quick-menu-item:nth-child(1)');
+      const belediyeButton = document.querySelector('.quick-menu-item:nth-child(2)');
+      const ebelediyeButton = document.querySelector('.quick-menu-item:nth-child(3)');
+      const eportalButton = document.querySelector('.quick-menu-item:nth-child(4)');
+      const hizliButton = document.querySelector('.quick-menu-item:nth-child(5)');
+      const kocaaliMenu = document.querySelector('.kocaali-menu');
+      const belediyeMenu = document.querySelector('.belediye-menu');
+      const ebelediyeMenu = document.querySelector('.ebelediye-menu');
+      const eportalMenu = document.querySelector('.eportal-menu');
+      const hizliMenu = document.querySelector('.hizli-menu');
+      
+      // Menü hover fonksiyonu
+      function setupMenuHover(button, menu) {
+        if (button && menu) {
+          function alignMenuToButton() {
+            const buttonRect = button.getBoundingClientRect();
+            const menuWidth = buttonRect.width;
+            const leftPosition = buttonRect.left + window.scrollX;
+            const menuHeight = menu.offsetHeight || 200; // Menü yüksekliği (tahmini)
+            const topPosition = buttonRect.top + window.scrollY - menuHeight - 10; // Butonun üstünde 10px yukarıda
+            
+            menu.style.left = leftPosition + 'px';
+            menu.style.width = menuWidth + 'px';
+            menu.style.bottom = 'auto';
+            menu.style.top = topPosition + 'px';
+            menu.style.transform = 'none';
+          }
+          
+          // Sayfa yüklendiğinde ve resize'da pozisyonu hesapla
+          alignMenuToButton();
+          window.addEventListener('resize', alignMenuToButton);
+          
+          button.addEventListener('mouseenter', function() {
+            alignMenuToButton();
+            menu.classList.add('visible');
+          });
+          
+          button.addEventListener('mouseleave', function() {
+            menu.classList.remove('visible');
+          });
+          
+          // Menüye hover'da da açık kalsın
+          menu.addEventListener('mouseenter', function() {
+            menu.classList.add('visible');
+          });
+          
+          menu.addEventListener('mouseleave', function() {
+            menu.classList.remove('visible');
+          });
+        }
+      }
+      
+      // Her beş menü için hover efektlerini ayarla
+      setupMenuHover(kocaaliButton, kocaaliMenu);
+      setupMenuHover(belediyeButton, belediyeMenu);
+      setupMenuHover(ebelediyeButton, ebelediyeMenu);
+      setupMenuHover(eportalButton, eportalMenu);
+      setupMenuHover(hizliButton, hizliMenu);
+      
+      // Arama Paneli Fonksiyonları
+      const searchBtn = document.querySelector('.search-btn');
+      const searchPanel = document.getElementById('searchPanel');
+      const closeSearchPanel = document.getElementById('closeSearchPanel');
+      
+      // Arama butonuna tıklama
+      if (searchBtn && searchPanel) {
+        searchBtn.addEventListener('click', function() {
+          searchPanel.classList.add('open');
+        });
+      }
+      
+      // Kapatma butonuna tıklama
+      if (closeSearchPanel && searchPanel) {
+        closeSearchPanel.addEventListener('click', function() {
+          searchPanel.classList.remove('open');
+        });
+      }
+      
+      // Panel dışına tıklama ile kapatma
+      if (searchPanel) {
+        searchPanel.addEventListener('click', function(e) {
+          if (e.target === searchPanel) {
+            searchPanel.classList.remove('open');
+          }
+        });
+      }
+      
+      // ESC tuşu ile kapatma
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchPanel.classList.contains('open')) {
+          searchPanel.classList.remove('open');
+        }
+      });
+      
+      // Mega Menü Fonksiyonları
+      const quickMenuButton = document.querySelector('.quick-menu'); // Hızlı Menü butonu
+      const megaMenu = document.getElementById('megaMenu');
+      const closeMegaMenu = document.getElementById('closeMegaMenu');
+      
+      // Hızlı Menü butonuna tıklama
+      if (quickMenuButton && megaMenu) {
+        quickMenuButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          megaMenu.classList.add('open');
+        });
+      }
+      
+      // Mega menü kapatma butonuna tıklama
+      if (closeMegaMenu && megaMenu) {
+        closeMegaMenu.addEventListener('click', function() {
+          megaMenu.classList.remove('open');
+        });
+      }
+      
+      // Mega menü dışına tıklama ile kapatma
+      if (megaMenu) {
+        megaMenu.addEventListener('click', function(e) {
+          if (e.target === megaMenu) {
+            megaMenu.classList.remove('open');
+          }
+        });
+      }
+      
+      // ESC tuşu ile mega menüyü kapatma
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && megaMenu.classList.contains('open')) {
+          megaMenu.classList.remove('open');
+        }
+      });
+      
+      // Alt Panel Verilerini Yükle
+      loadPanelsData();
+      
+      // Takvim Fonksiyonları
+      const calendarGrid = document.getElementById('calendarGrid');
+      if (calendarGrid) {
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        
+        const monthNames = [
+          'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+          'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+        
+        // Takvim günlerini veritabanından yükle
+        let takvimGunleriData = [];
+        
+        async function loadTakvimGunleri() {
+          try {
+            const response = await fetch(`/Home/GetTakvimGunleri?year=${currentYear}&month=${currentMonth + 1}`);
+            if (response.ok) {
+              takvimGunleriData = await response.json();
+            }
+          } catch (error) {
+            console.error('Takvim günleri yüklenirken hata:', error);
+          }
+        }
+        
+        // Başlık kaydet
+        async function saveTakvimGunuBaslik(tarih, baslik) {
+          try {
+            // Tarih zaten ISO formatında (YYYY-MM-DD)
+            const response = await fetch('/Home/SaveTakvimGunu', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                Tarih: tarih,
+                Baslik: baslik || null
+              })
+            });
+            
+            if (response.ok) {
+              const result = await response.json();
+              // Veritabanından güncel veriyi tekrar yükle
+              await loadTakvimGunleri();
+              return result;
+            }
+          } catch (error) {
+            console.error('Başlık kaydedilirken hata:', error);
+            return null;
+          }
+        }
+        
+        // Başlık ekleme/düzenleme modal'ı
+        function showBaslikModal(day, mevcutBaslik) {
+          const baslik = prompt('Başlık giriniz:', mevcutBaslik || '');
+          if (baslik !== null) {
+            // ISO formatında tarih oluştur (YYYY-MM-DD)
+            const tarihStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            saveTakvimGunuBaslik(tarihStr, baslik).then(result => {
+              if (result && result.success) {
+                updateCalendar();
+              }
+            });
+          }
+        }
+        
+        function updateCalendar() {
+          const firstDay = new Date(currentYear, currentMonth, 1);
+          const lastDay = new Date(currentYear, currentMonth + 1, 0);
+          const daysInMonth = lastDay.getDate();
+          const startingDayOfWeek = firstDay.getDay();
+          
+          // Pazartesi günü 0 olacak şekilde ayarla (Pazar = 6)
+          const adjustedStartingDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1;
+          
+          const currentMonthElement = document.getElementById('currentMonth');
+          if (currentMonthElement) {
+            currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+          }
+          
+          if (calendarGrid) {
+            calendarGrid.innerHTML = '';
+            
+            // Önceki ayın son günleri
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+            for (let i = adjustedStartingDay - 1; i >= 0; i--) {
+              const day = prevMonthLastDay - i;
+              const dayElement = document.createElement('div');
+              dayElement.className = 'takvim-day other-month';
+              dayElement.textContent = day;
+              calendarGrid.appendChild(dayElement);
+            }
+            
+            // Mevcut ayın günleri
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+              const dayElement = document.createElement('div');
+              dayElement.className = 'takvim-day';
+              
+              // Bugün mü kontrol et
+              if (day === today.getDate() && 
+                  currentMonth === today.getMonth() && 
+                  currentYear === today.getFullYear()) {
+                dayElement.classList.add('today');
+              }
+              
+              // Gün numarası
+              const dayNumber = document.createElement('div');
+              dayNumber.className = 'day-number';
+              dayNumber.textContent = day;
+              dayElement.appendChild(dayNumber);
+              
+              // Bu güne ait başlık var mı kontrol et
+              const currentDate = new Date(currentYear, currentMonth, day);
+              const takvimGunu = takvimGunleriData.find(t => {
+                if (!t.tarih) return false;
+                const tDate = new Date(t.tarih);
+                return tDate.getDate() === day &&
+                       tDate.getMonth() === currentMonth &&
+                       tDate.getFullYear() === currentYear;
+              });
+              
+              // Başlık göster
+              if (takvimGunu && takvimGunu.baslik) {
+                const baslikElement = document.createElement('div');
+                baslikElement.className = 'day-baslik';
+                baslikElement.textContent = takvimGunu.baslik;
+                dayElement.appendChild(baslikElement);
+              }
+              
+              // Çift tıklama ile başlık ekle/düzenle
+              dayElement.addEventListener('dblclick', function() {
+                showBaslikModal(day, takvimGunu ? takvimGunu.baslik : '');
+              });
+              
+              // Tek tıklama ile seç
+              dayElement.addEventListener('click', function() {
+                document.querySelectorAll('.takvim-day').forEach(d => d.classList.remove('selected'));
+                dayElement.classList.add('selected');
+              });
+              
+              calendarGrid.appendChild(dayElement);
+            }
+            
+            // Sonraki ayın ilk günleri (takvimi tamamlamak için)
+            const totalCells = calendarGrid.children.length;
+            const remainingCells = 42 - totalCells; // 6 hafta x 7 gün = 42
+            for (let day = 1; day <= remainingCells; day++) {
+              const dayElement = document.createElement('div');
+              dayElement.className = 'takvim-day other-month';
+              dayElement.textContent = day;
+              calendarGrid.appendChild(dayElement);
+            }
+          }
+        }
+        
+        // Önceki ay butonu
+        const prevMonthBtn = document.getElementById('prevMonth');
+        if (prevMonthBtn) {
+          prevMonthBtn.addEventListener('click', async function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+              currentMonth = 11;
+              currentYear--;
+            }
+            await loadTakvimGunleri();
+            updateCalendar();
+          });
+        }
+        
+        // Sonraki ay butonu
+        const nextMonthBtn = document.getElementById('nextMonth');
+        if (nextMonthBtn) {
+          nextMonthBtn.addEventListener('click', async function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+              currentMonth = 0;
+              currentYear++;
+            }
+            await loadTakvimGunleri();
+            updateCalendar();
+          });
+        }
+        
+        // Bugün butonu
+        const todayBtn = document.querySelector('.takvim-today-btn');
+        if (todayBtn) {
+          todayBtn.addEventListener('click', async function() {
+            currentDate = new Date();
+            currentMonth = currentDate.getMonth();
+            currentYear = currentDate.getFullYear();
+            await loadTakvimGunleri();
+            updateCalendar();
+          });
+        }
+        
+        // İlk yükleme
+        (async function() {
+          await loadTakvimGunleri();
+          updateCalendar();
+        })();
+      }
+    });
+    
+    // Alt Panel Verilerini Yükleme Fonksiyonu
+    function loadPanelsData() {
+      // Haberler ve Duyurular artık Razor ile render ediliyor, JavaScript ile yüklenmiyor
+      // loadNewsData(); // Devre dışı bırakıldı - veritabanından geliyor
+      
+      // Yeni Haberler Slider'ı başlat
+      initNewsSlider();
+    }
+    
+    // Haberler Slider Fonksiyonları
+    function initNewsSlider() {
+      const slides = document.querySelectorAll('.news-slide-new');
+      const paginationNumbers = document.querySelectorAll('.pagination-number-new');
+      const prevBtn = document.getElementById('newsPrevBtn');
+      const nextBtn = document.getElementById('newsNextBtn');
+      
+      if (slides.length === 0) return;
+      
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+      
+      // Slider'ı göster
+      function showSlide(index) {
+        // Index'i sınırla
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        
+        currentIndex = index;
+        
+        // Tüm slide'ları gizle
+        slides.forEach(slide => {
+          slide.classList.remove('active');
+        });
+        
+        // Aktif slide'ı göster
+        if (slides[currentIndex]) {
+          slides[currentIndex].classList.add('active');
+        }
+        
+        // Pagination numaralarını güncelle
+        paginationNumbers.forEach((btn, i) => {
+          btn.classList.remove('active');
+          if (i === currentIndex) {
+            btn.classList.add('active');
+          }
+        });
+      }
+      
+      // Pagination numaralarına tıklama
+      paginationNumbers.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+      
+      // Önceki buton
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          showSlide(currentIndex - 1);
+        });
+      }
+      
+      // Sonraki buton
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          showSlide(currentIndex + 1);
+        });
+      }
+      
+      // Otomatik geçiş (opsiyonel - 5 saniyede bir)
+      setInterval(() => {
+        if (totalSlides > 1) {
+          showSlide(currentIndex + 1);
+        }
+      }, 5000);
+    }
+    
+    // Haberler artık Razor ile veritabanından render ediliyor, JavaScript fonksiyonu kaldırıldı
+    
+    // Duyurular artık Razor ile render ediliyor, JavaScript fonksiyonu kaldırıldı
+  </script>
+
+

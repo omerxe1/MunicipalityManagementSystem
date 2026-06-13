@@ -1,0 +1,198 @@
+@model kocaaliv2.Models.ImarPlani
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İmar Planı Detay";
+    ViewData["PageTitle"] = "İmar Planı Detayı";
+    ViewData["ContentTitle"] = "İMAR PLANI DETAYI";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Planlar-Raporlar", Url = (string?)"#" },
+        new { Text = "İmar Planları", Url = (string?)(Url.Action("ImarPlanlari", "PlanlarRaporlar") ?? "#") },
+        new { Text = "İmar Planı Detayı", Url = (string?)null }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<div class="alt-sayfa-content-body">
+    <div class="imar-plani-detay-container">
+        @if (Model != null)
+        {
+            <div class="imar-plani-detay-card">
+                <div class="imar-plani-detay-header">
+                    <h2 class="imar-plani-detay-baslik">@Model.Baslik</h2>
+                    <div class="imar-plani-detay-meta">
+                        <span class="imar-plani-detay-tarih">
+                            <i class="fas fa-calendar"></i> @Model.OlusturmaTarihi.ToString("dd.MM.yyyy")
+                        </span>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Aciklama))
+                {
+                    <div class="imar-plani-detay-aciklama">
+                        <h4>İmar Planı Açıklaması</h4>
+                        <p>@Html.Raw(Model.Aciklama.Replace("\n", "<br>"))</p>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.PdfUrl))
+                {
+                    <div class="imar-plani-detay-actions">
+                        <a href="@Url.Action("ImarPlaniPdfGoruntule", "PlanlarRaporlar", new { id = Model.Id })" 
+                           target="_blank" 
+                           class="imar-plani-detay-btn btn-goruntule">
+                            <i class="fas fa-eye"></i> PDF'i Görüntüle
+                        </a>
+                        <a href="@Url.Action("ImarPlaniPdfIndir", "PlanlarRaporlar", new { id = Model.Id })" 
+                           class="imar-plani-detay-btn btn-indir">
+                            <i class="fas fa-download"></i> PDF'i İndir
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> İmar planı bulunamadı.
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .imar-plani-detay-container {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .imar-plani-detay-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .imar-plani-detay-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .imar-plani-detay-baslik {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.75rem;
+    }
+
+    .imar-plani-detay-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .imar-plani-detay-tarih {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .imar-plani-detay-aciklama {
+        margin-bottom: 1.5rem;
+    }
+
+    .imar-plani-detay-aciklama h4 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.75rem;
+    }
+
+    .imar-plani-detay-aciklama p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+
+    .imar-plani-detay-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .imar-plani-detay-btn {
+        flex: 1;
+        min-width: 200px;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .imar-plani-detay-btn.btn-goruntule {
+        background: rgb(4, 22, 85);
+        color: white;
+    }
+
+    .imar-plani-detay-btn.btn-goruntule:hover {
+        background: rgb(3, 18, 70);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(4, 22, 85, 0.3);
+    }
+
+    .imar-plani-detay-btn.btn-indir {
+        background: rgb(4, 22, 85);
+        color: white;
+    }
+
+    .imar-plani-detay-btn.btn-indir:hover {
+        background: rgb(3, 18, 70);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(4, 22, 85, 0.3);
+    }
+
+    @@media (max-width: 768px) {
+        .imar-plani-detay-container {
+            max-width: 100%;
+        }
+
+        .imar-plani-detay-card {
+            padding: 1.25rem;
+        }
+
+        .imar-plani-detay-baslik {
+            font-size: 1.3rem;
+        }
+
+        .imar-plani-detay-actions {
+            flex-direction: column;
+        }
+
+        .imar-plani-detay-btn {
+            width: 100%;
+        }
+    }
+</style>
+

@@ -1,0 +1,635 @@
+@model List<kocaaliv2.Models.Etkinlik>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Etkinlikler";
+}
+<!-- Etkinlikler İçerik Alanı -->
+<div class="etkinlikler-slider-container">
+        @if (Model != null && Model.Any())
+        {
+            <!-- Arka Plan Slideshow -->
+            <div class="etkinlikler-background-slideshow" id="etkinliklerBackgroundSlideshow">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var etkinlik = Model[i];
+                    var bgImage = !string.IsNullOrEmpty(etkinlik.ResimYolu) ? etkinlik.ResimYolu : "https://via.placeholder.com/1920x1080/4A90E2/FFFFFF?text=Etkinlik";
+                    <div class="etkinlik-slide-bg @(i == 0 ? "active" : "")" 
+                         style="background-image: url('@bgImage');" 
+                         data-index="@i"></div>
+                }
+            </div>
+
+            <!-- Ana İçerik -->
+            <div class="etkinlikler-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row g-0 h-100">
+                    <!-- Sol Panel - Etkinlik Detayları -->
+                    <div class="col-lg-6 col-md-12">
+                        <div class="etkinlikler-detail-panel">
+                            <div class="etkinlikler-slider" id="etkinliklerSlider">
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    var etkinlik = Model[i];
+                                    <div class="etkinlik-slide @(i == 0 ? "active" : "")" data-index="@i">
+                                        <div class="etkinlik-detail-content">
+                                            <div class="etkinlik-detail-date">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                <span>@etkinlik.Tarih.ToString("d MMMM yyyy - HH:mm", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                            </div>
+                                            <h2 class="etkinlik-detail-title">@etkinlik.Baslik</h2>
+                                            <div class="etkinlik-detail-meta">
+                                                <div class="etkinlik-meta-item">
+                                                    <i class="fas fa-building"></i>
+                                                    <span>@(etkinlik.Kategori ?? "Etkinlik")</span>
+                                                </div>
+                                                <div class="etkinlik-meta-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>@(etkinlik.Mekan ?? "")</span>
+                                                </div>
+                                            </div>
+                                            <button class="etkinlik-detail-btn">Etkinlik Detayı</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="etkinlikler-poster-panel">
+                            <div class="etkinlikler-poster-slider" id="etkinliklerPosterSlider">
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    var etkinlik = Model[i];
+                                    var posterImage = !string.IsNullOrEmpty(etkinlik.ResimYolu) ? etkinlik.ResimYolu : "https://via.placeholder.com/800x1000/4A90E2/FFFFFF?text=Etkinlik+Afişi";
+                                    <div class="etkinlik-poster-slide @(i == 0 ? "active" : "")" data-index="@i">
+                                        <div class="etkinlik-poster-image">
+                                            <img src="@posterImage" alt="@etkinlik.Baslik" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info etkinlikler-bos">
+                <i class="fas fa-info-circle"></i> 
+                <p>Henüz etkinlik bulunmamaktadır.</p>
+            </div>
+        }
+</div>
+@if (ViewBag.SonEklenenEtkinlikler != null && ((List<kocaaliv2.Models.Etkinlik>)ViewBag.SonEklenenEtkinlikler).Any())
+{
+    var sonEtkinlikler = (List<kocaaliv2.Models.Etkinlik>)ViewBag.SonEklenenEtkinlikler;
+    <div class="son-etkinlikler-section">
+        <div class="container">
+            <h2 class="son-etkinlikler-baslik">Son Eklenen Etkinlikler</h2>
+            <div class="etkinlik-kartlari-grid">
+                @for (int i = 0; i < sonEtkinlikler.Count; i++)
+                {
+                    var etkinlik = sonEtkinlikler[i];
+                    var posterImage = !string.IsNullOrEmpty(etkinlik.ResimYolu) ? etkinlik.ResimYolu : "https://via.placeholder.com/400x500/4A90E2/FFFFFF?text=Etkinlik+Afişi";
+                    var kategori = etkinlik.Kategori ?? "Etkinlik";
+                    var mekan = etkinlik.Mekan ?? "";
+                    var tarih = etkinlik.Tarih;
+                    var gunAdi = tarih.ToString("dddd", System.Globalization.CultureInfo.GetCultureInfo("tr-TR")).ToUpper();
+                    var ayAdi = tarih.ToString("MMMM", System.Globalization.CultureInfo.GetCultureInfo("tr-TR")).ToUpper();
+                    var gun = tarih.Day;
+                    var saat = tarih.ToString("HH:mm");
+                    var baslikRenk = i % 3 == 0 ? "baslik-yesil" : "baslik-kirmizi";
+                    
+                    <div class="etkinlik-kart">
+                        <div class="etkinlik-kart-poster">
+                            <div class="poster-clips">
+                                <div class="clip clip-left"></div>
+                                <div class="clip clip-right"></div>
+                            </div>
+                            <img src="@posterImage" alt="@etkinlik.Baslik" />
+                        </div>
+                        <div class="etkinlik-kart-icerik">
+                            <h3 class="etkinlik-kart-baslik @baslikRenk">@etkinlik.Baslik</h3>
+                            <p class="etkinlik-kart-konu">@(etkinlik.Aciklama ?? "Etkinlik")</p>
+                            <div class="etkinlik-kart-bilgiler">
+                                <div class="etkinlik-bilgi-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>@gun @ayAdi @gunAdi - @saat</span>
+                                </div>
+                                <div class="etkinlik-bilgi-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>@mekan.ToUpper()</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .etkinlikler-slider-container {
+        position: relative;
+        min-height: calc(100vh - 200px);
+        overflow: hidden;
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    .etkinlikler-background-slideshow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .etkinlik-slide-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transform: scale(1.1);
+        transition: all 3s ease-in-out;
+    }
+
+    .etkinlik-slide-bg.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .etkinlikler-background-slideshow::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
+    .etkinlikler-content-wrapper {
+        position: relative;
+        z-index: 2;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+    }
+
+    .etkinlikler-content-wrapper .row {
+        min-height: calc(100vh - 200px);
+    }
+
+    .etkinlikler-detail-panel {
+        height: 100%;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 3rem;
+        background: transparent;
+        position: relative;
+    }
+
+    .etkinlikler-slider {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .etkinlik-slide {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.5s ease-in-out;
+        pointer-events: none;
+    }
+
+    .etkinlik-slide.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: all;
+    }
+
+    .etkinlik-detail-content {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .etkinlik-detail-date {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .etkinlik-detail-date i {
+        font-size: 1.3rem;
+        color: white;
+    }
+
+    .etkinlik-detail-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        line-height: 1.2;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .etkinlik-detail-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .etkinlik-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .etkinlik-meta-item i {
+        font-size: 1.2rem;
+        color: white;
+        width: 24px;
+        text-align: center;
+    }
+
+    .etkinlik-detail-btn {
+        background: rgb(4, 22, 85);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+        margin-top: 1rem;
+    }
+
+    .etkinlik-detail-btn:hover {
+        background: rgb(3, 18, 70);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .etkinlikler-poster-panel {
+        height: 100%;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        padding: 3rem;
+        position: relative;
+    }
+
+    .etkinlikler-poster-slider {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        aspect-ratio: 1/1;
+    }
+
+    .etkinlik-poster-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.5s ease-in-out;
+        pointer-events: none;
+    }
+
+    .etkinlik-poster-slide.active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: all;
+    }
+
+    .etkinlik-poster-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .etkinlik-poster-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .etkinlikler-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .etkinlikler-bos i {
+        font-size: 3rem;
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .etkinlikler-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    .son-etkinlikler-section {
+        background: white;
+        padding: 4rem 0;
+        margin-top: 0;
+    }
+
+    .son-etkinlikler-baslik {
+        text-align: center;
+        font-size: 3rem;
+        font-weight: 700;
+        color: rgb(4, 22, 85);
+        margin-bottom: 3rem;
+        font-style: italic;
+        letter-spacing: 2px;
+    }
+
+    .etkinlik-kartlari-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .etkinlik-kart {
+        background: white;
+        border-radius: 0;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .etkinlik-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .etkinlik-kart-poster {
+        position: relative;
+        padding: 1rem;
+        background: #f8f9fa;
+        margin: 0 1rem;
+        border-radius: 0;
+    }
+
+    .poster-clips {
+        position: absolute;
+        top: 0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 2rem;
+        z-index: 3;
+    }
+
+    .clip {
+        width: 20px;
+        height: 20px;
+        background: #333;
+        border-radius: 2px;
+        position: relative;
+    }
+
+    .clip::after {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 8px;
+        background: #333;
+        border-radius: 2px 2px 0 0;
+    }
+
+    .etkinlik-kart-poster img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0;
+        display: block;
+    }
+
+    .etkinlik-kart-icerik {
+        padding: 1.5rem;
+        flex: 1;
+    }
+
+    .etkinlik-kart-baslik {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .baslik-yesil {
+        color: #1a5f1a;
+    }
+
+    .baslik-kirmizi {
+        color: #8b0000;
+    }
+
+    .etkinlik-kart-konu {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 1rem;
+    }
+
+    .etkinlik-kart-bilgiler {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .etkinlik-bilgi-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .etkinlik-bilgi-item i {
+        color: rgb(4, 22, 85);
+        width: 20px;
+    }
+
+    @@media (max-width: 1200px) {
+        .etkinlik-kartlari-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .etkinlikler-detail-panel {
+            padding: 2rem;
+        }
+
+        .etkinlik-detail-title {
+            font-size: 2.2rem;
+        }
+
+        .etkinlikler-poster-panel {
+            padding: 2rem;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .etkinlikler-content-wrapper .row {
+            flex-direction: column;
+        }
+
+        .etkinlikler-detail-panel {
+            min-height: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .etkinlikler-poster-panel {
+            min-height: 60vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .etkinlik-detail-title {
+            font-size: 1.8rem;
+        }
+
+        .etkinlik-detail-date {
+            font-size: 1rem;
+        }
+
+        .etkinlik-meta-item {
+            font-size: 0.9rem;
+        }
+
+        .etkinlik-detail-btn {
+            padding: 0.875rem 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .etkinlikler-poster-slider {
+            max-width: 100%;
+        }
+
+        .son-etkinlikler-section {
+            padding: 2rem 0;
+        }
+
+        .son-etkinlikler-baslik {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .etkinlik-kartlari-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.etkinlik-slide');
+        const posterSlides = document.querySelectorAll('.etkinlik-poster-slide');
+        const bgSlides = document.querySelectorAll('.etkinlik-slide-bg');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let autoSlideInterval;
+
+        function showSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            
+            currentIndex = index;
+            
+            // Tüm slide'ları gizle
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            posterSlides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            bgSlides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Aktif slide'ı göster
+            if (slides[currentIndex]) {
+                slides[currentIndex].classList.add('active');
+            }
+            
+            if (posterSlides[currentIndex]) {
+                posterSlides[currentIndex].classList.add('active');
+            }
+            
+            if (bgSlides[currentIndex]) {
+                bgSlides[currentIndex].classList.add('active');
+            }
+        }
+        
+        function startAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => {
+                if (totalSlides > 1) {
+                    showSlide(currentIndex + 1);
+                }
+            }, 5000);
+        }
+        
+        // İlk slide'ı göster
+        if (totalSlides > 0) {
+            showSlide(0);
+            startAutoSlide();
+        }
+    });
+</script>
+

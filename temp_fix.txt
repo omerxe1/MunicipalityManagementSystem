@@ -1,0 +1,19 @@
+Satır 81: <a asp-controller="Kocaali" asp-action="KardesSehirlerimiz" class="mega-link">Kardeş Belediyelerimiz</a>
+Satır 280: <li><a asp-controller="Kocaali" asp-action="KardesSehirlerimiz">Kardeş Belediyelerimiz</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

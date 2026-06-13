@@ -1,0 +1,254 @@
+@model List<kocaaliv2.Models.IcKontrolUyumEylemPlani>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "İç Kontrol Uyum Eylem Planları";
+    ViewData["PageTitle"] = "İç Kontrol Uyum Eylem Planları";
+    ViewData["ContentTitle"] = "İÇ KONTROL UYUM EYLEM PLANLARI";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Planlar-Raporlar", Url = (string?)"#" },
+        new { Text = "İç Kontrol Uyum Eylem Planları", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)(Url.Action("NobetciEczaneler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)(Url.Action("Duyurular", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Etkinlikler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Faaliyet Raporları", Url = (string?)(Url.Action("FaaliyetRaporlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "İmar Planları", Url = (string?)(Url.Action("ImarPlanlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "İç Kontrol Uyum Eylem Planları", Url = (string?)(Url.Action("IcKontrolUyumEylemPlanlari", "PlanlarRaporlar") ?? "#"), IsActive = true }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- İç Kontrol Uyum Eylem Planları İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <div class="ic-kontrol-container">
+        @if (Model != null && Model.Any())
+        {
+            <div class="ic-kontrol-grid">
+                @foreach (var plan in Model)
+                {
+                    <div class="ic-kontrol-card">
+                        <div class="ic-kontrol-card-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="ic-kontrol-card-content">
+                            <h4 class="ic-kontrol-card-baslik">@plan.Baslik</h4>
+                            @if (!string.IsNullOrEmpty(plan.PdfUrl))
+                            {
+                                <div class="ic-kontrol-card-actions">
+                                    <a href="@Url.Action("IcKontrolUyumEylemPlaniPdfGoruntule", "PlanlarRaporlar", new { id = plan.Id })" 
+                                       target="_blank" 
+                                       class="ic-kontrol-btn btn-goruntule">
+                                        <i class="fas fa-eye"></i> Görüntüle
+                                    </a>
+                                    <a href="@Url.Action("IcKontrolUyumEylemPlaniPdfIndir", "PlanlarRaporlar", new { id = plan.Id })" 
+                                       class="ic-kontrol-btn btn-indir">
+                                        <i class="fas fa-download"></i> İndir
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="ic-kontrol-card-actions">
+                                    <span class="ic-kontrol-btn btn-disabled">
+                                        <i class="fas fa-exclamation-circle"></i> PDF Yok
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info ic-kontrol-bos">
+                <i class="fas fa-info-circle"></i> 
+                <p>Henüz iç kontrol uyum eylem planı bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .ic-kontrol-container {
+        max-width: 100%;
+    }
+
+    .ic-kontrol-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .ic-kontrol-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-height: 250px;
+    }
+
+    .ic-kontrol-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+
+    .ic-kontrol-card-icon {
+        width: 80px;
+        height: 80px;
+        background: #f0f7ff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .ic-kontrol-card-icon i {
+        font-size: 3rem;
+        color: #dc3545;
+    }
+
+    .ic-kontrol-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .ic-kontrol-card-baslik {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 1.5rem 0;
+        line-height: 1.4;
+        min-height: 2.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ic-kontrol-card-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+        margin-top: auto;
+    }
+
+    .ic-kontrol-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .btn-goruntule {
+        background: #0066cc;
+        color: white;
+    }
+
+    .btn-goruntule:hover {
+        background: #0052a3;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0,102,204,0.3);
+    }
+
+    .btn-indir {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-indir:hover {
+        background: #218838;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(40,167,69,0.3);
+    }
+
+    .btn-disabled {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .ic-kontrol-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .ic-kontrol-bos i {
+        font-size: 3rem;
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .ic-kontrol-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 992px) {
+        .ic-kontrol-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .ic-kontrol-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .ic-kontrol-card {
+            min-height: 220px;
+        }
+
+        .ic-kontrol-card-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+        .ic-kontrol-card-icon i {
+            font-size: 2.5rem;
+        }
+
+        .ic-kontrol-card-baslik {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+

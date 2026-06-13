@@ -1,0 +1,322 @@
+@model kocaaliv2.Models.Haber
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = Model.Baslik;
+    ViewData["PageTitle"] = null;
+    ViewData["ContentTitle"] = Model.Baslik;
+    var sonHaberler = ViewBag.SonHaberler as List<kocaaliv2.Models.Haber> ?? new List<kocaaliv2.Models.Haber>();
+}
+
+<div class="haber-detay-container">
+    @* Haber Resmi *@
+    @if (!string.IsNullOrEmpty(Model.ResimYolu))
+    {
+        <div class="haber-detay-resim">
+            <img src="@Model.ResimYolu" alt="@Model.Baslik" />
+        </div>
+    }
+
+    @* Haber Başlığı *@
+    <h1 class="haber-detay-baslik">@Model.Baslik</h1>
+
+    @* Haber Tarihi *@
+    <p class="haber-detay-tarih">
+        <i class="far fa-calendar"></i>
+        @Model.Tarih.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))
+    </p>
+
+    @* Haber İçeriği (XSS koruması ile sanitize edilmiş) *@
+    <div class="haber-detay-icerik">
+        @Html.Raw(ViewBag.SafeIcerik ?? string.Empty)
+    </div>
+
+    @* Son Eklenen 3 Haber *@
+    @if (sonHaberler != null && sonHaberler.Any())
+    {
+        <div class="son-haberler-section">
+            <h2 class="son-haberler-baslik">Son Haberler</h2>
+            <div class="son-haberler-grid">
+                @foreach (var sonHaber in sonHaberler)
+                {
+                    <div class="son-haber-kart">
+                        @if (!string.IsNullOrEmpty(sonHaber.ResimYolu))
+                        {
+                            <div class="son-haber-resim">
+                                <img src="@sonHaber.ResimYolu" alt="@sonHaber.Baslik" />
+                                <div class="son-haber-tarih-badge">
+                                    @sonHaber.Tarih.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="son-haber-resim son-haber-resim-placeholder">
+                                <i class="fas fa-newspaper"></i>
+                                <div class="son-haber-tarih-badge">
+                                    @sonHaber.Tarih.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))
+                                </div>
+                            </div>
+                        }
+                        <div class="son-haber-icerik">
+                            <h3 class="son-haber-baslik">@sonHaber.Baslik</h3>
+                            @if (!string.IsNullOrEmpty(sonHaber.Icerik))
+                            {
+                                var kisaIcerik = sonHaber.Icerik.Length > 120 ? sonHaber.Icerik.Substring(0, 120) + "..." : sonHaber.Icerik;
+                                <p class="son-haber-aciklama">@kisaIcerik</p>
+                            }
+                            <a href="@Url.Action("Detay", "Haberler", new { id = sonHaber.Id })" class="son-haber-devam-link">
+                                DEVAMINI OKU→
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .haber-detay-container {
+        padding: 2rem 0;
+        max-width: 100%;
+    }
+
+    .haber-detay-resim {
+        width: 100%;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .haber-detay-resim img {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: 500px;
+        object-fit: cover;
+    }
+
+    .haber-detay-baslik {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 1rem 0;
+        line-height: 1.3;
+    }
+
+    .haber-detay-tarih {
+        font-size: 0.95rem;
+        color: #666;
+        margin: 0 0 2rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .haber-detay-tarih i {
+        color: rgb(4, 22, 85);
+    }
+
+    .haber-detay-icerik {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        line-height: 1.8;
+        color: #333;
+        font-size: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .haber-detay-icerik h1,
+    .haber-detay-icerik h2,
+    .haber-detay-icerik h3,
+    .haber-detay-icerik h4,
+    .haber-detay-icerik h5,
+    .haber-detay-icerik h6 {
+        color: rgb(4, 22, 85);
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .haber-detay-icerik p {
+        margin-bottom: 1rem;
+    }
+
+    .haber-detay-icerik img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+
+    .haber-detay-icerik ul,
+    .haber-detay-icerik ol {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+    }
+
+    .haber-detay-icerik li {
+        margin-bottom: 0.5rem;
+    }
+
+    .haber-detay-icerik a {
+        color: rgb(4, 22, 85);
+        text-decoration: underline;
+    }
+
+    .haber-detay-icerik a:hover {
+        color: #0dcaf0;
+    }
+
+    /* Son Haberler Bölümü */
+    .son-haberler-section {
+        margin-top: 4rem;
+        padding-top: 3rem;
+        border-top: 2px solid #e9ecef;
+    }
+
+    .son-haberler-baslik {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: rgb(4, 22, 85);
+        margin-bottom: 2rem;
+    }
+
+    .son-haberler-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .son-haber-kart {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .son-haber-kart:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .son-haber-resim {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #f5f5f5;
+    }
+
+    .son-haber-resim img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .son-haber-kart:hover .son-haber-resim img {
+        transform: scale(1.05);
+    }
+
+    .son-haber-resim-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .son-haber-resim-placeholder i {
+        font-size: 3rem;
+        color: white;
+        opacity: 0.7;
+    }
+
+    .son-haber-tarih-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(4, 22, 85, 0.9);
+        color: white;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        backdrop-filter: blur(5px);
+    }
+
+    .son-haber-icerik {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+    }
+
+    .son-haber-baslik {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #333;
+        margin: 0;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .son-haber-aciklama {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .son-haber-devam-link {
+        font-size: 0.85rem;
+        color: rgb(4, 22, 85);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+        align-self: flex-start;
+        margin-top: auto;
+    }
+
+    .son-haber-devam-link:hover {
+        color: #0dcaf0;
+    }
+
+    @@media (max-width: 992px) {
+        .son-haberler-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .haber-detay-baslik {
+            font-size: 1.5rem;
+        }
+
+        .haber-detay-icerik {
+            padding: 1.5rem;
+        }
+
+        .son-haberler-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .son-haber-resim {
+            height: 180px;
+        }
+    }
+</style>

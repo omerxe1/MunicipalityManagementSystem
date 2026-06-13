@@ -1,0 +1,104 @@
+@model kocaaliv2.Models.IletisimFormu
+@{
+    ViewData["Title"] = "İletişim Formu Detayı";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4><i class="fas fa-envelope-open me-2"></i>İletişim Formu Detayı</h4>
+    <a href="@Url.Action("Index", "IletisimFormu", new { area = "Admin" })" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Geri Dön
+    </a>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Ad:</strong>
+                <p>@Model.Ad</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Soyad:</strong>
+                <p>@Model.Soyad</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Kimlik No:</strong>
+                <p>@(Model.KimlikNo ?? "-")</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Doğum Tarihi:</strong>
+                <p>@(Model.DogumGunu > 0 && Model.DogumAyi > 0 ? $"{Model.DogumGunu}.{Model.DogumAyi}.{Model.DogumYili}" : "-")</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Cep Telefonu:</strong>
+                <p>@(Model.CepTelefonu ?? "-")</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Email:</strong>
+                <p>@(Model.Email ?? "-")</p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <strong>Başvuru Metni:</strong>
+            <div class="border p-3 mt-2" style="background-color: #f8f9fa; border-radius: 5px;">
+                @Model.BasvuruMetni
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Kişi Bilgilerimi Gizle:</strong>
+                <p>@(Model.KisiBilgilerimiGizle ? "Evet" : "Hayır")</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Tarih:</strong>
+                <p>@Model.OlusturmaTarihi.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <strong>Durum:</strong>
+            @if (Model.OkunduMu)
+            {
+                <span class="badge bg-success">Okundu</span>
+            }
+            else
+            {
+                <span class="badge bg-warning">Okunmadı</span>
+            }
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("Index", "IletisimFormu", new { area = "Admin" })" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Geri Dön
+            </a>
+            <form method="post" action="@Url.Action("Delete", "IletisimFormu", new { area = "Admin", id = Model.Id })" style="display:inline;" onsubmit="return confirm('Bu başvuruyu silmek istediğinize emin misiniz?');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i>Sil
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

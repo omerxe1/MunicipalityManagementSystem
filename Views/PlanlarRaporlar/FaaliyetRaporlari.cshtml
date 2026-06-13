@@ -1,0 +1,263 @@
+@model List<kocaaliv2.Models.FaaliyetRaporu>
+@{
+    Layout = "_AltSayfaLayout";
+    ViewData["Title"] = "Faaliyet Raporları";
+    ViewData["PageTitle"] = "Faaliyet Raporları";
+    ViewData["ContentTitle"] = "FAALİYET RAPORLARI";
+
+    // Breadcrumb verileri
+    ViewBag.Breadcrumbs = new[]
+    {
+        new { Text = "Anasayfa", Url = (string?)(Url.Action("Index", "Home") ?? "#") },
+        new { Text = "Planlar-Raporlar", Url = (string?)"#" },
+        new { Text = "Faaliyet Raporları", Url = (string?)null }
+    };
+
+    // Hızlı menü öğeleri
+    ViewBag.QuickMenuItems = new[]
+    {
+        new { Text = "Meclis Üyeleri", Url = (string?)(Url.Action("MeclisUyeleri", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Meclis Kararları", Url = (string?)(Url.Action("MeclisKararlari", "Kurumsal") ?? "#"), IsActive = false },
+        new { Text = "Kocaali Hakkında", Url = (string?)(Url.Action("Hakkinda", "Kocaali") ?? "#"), IsActive = false },
+        new { Text = "Nöbetçi Eczaneler", Url = (string?)(Url.Action("NobetciEczaneler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Haberler", Url = (string?)(Url.Action("Index", "Haberler") ?? "#"), IsActive = false },
+        new { Text = "Duyurular", Url = (string?)(Url.Action("Duyurular", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "Etkinlikler", Url = (string?)(Url.Action("Etkinlikler", "Guncel") ?? "#"), IsActive = false },
+        new { Text = "İmar Planları", Url = (string?)(Url.Action("ImarPlanlari", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "Stratejik Planlar", Url = (string?)(Url.Action("StratejikPlanlar", "PlanlarRaporlar") ?? "#"), IsActive = false },
+        new { Text = "Faaliyet Raporları", Url = (string?)(Url.Action("FaaliyetRaporlari", "PlanlarRaporlar") ?? "#"), IsActive = true }
+    };
+
+    ViewBag.ShowBackButton = true;
+}
+
+<!-- Faaliyet Raporları İçerik Alanı -->
+<div class="alt-sayfa-content-body">
+    <div class="faaliyet-raporlari-container">
+        @if (Model != null && Model.Any())
+        {
+            <div class="faaliyet-raporlari-list">
+                @foreach (var rapor in Model)
+                {
+                    <div class="faaliyet-rapor-card">
+                        <div class="faaliyet-rapor-content">
+                            <div class="faaliyet-rapor-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="faaliyet-rapor-info">
+                                <h4 class="faaliyet-rapor-baslik">@rapor.Yil Yılı Faaliyet Raporu</h4>
+                                <p class="faaliyet-rapor-tarih">
+                                    <i class="fas fa-calendar"></i> 
+                                    Oluşturulma: @rapor.OlusturmaTarihi.ToString("dd.MM.yyyy")
+                                </p>
+                            </div>
+                        </div>
+                        <div class="faaliyet-rapor-actions">
+                            @if (!string.IsNullOrEmpty(rapor.Url))
+                            {
+                                <a href="@Url.Action("FaaliyetRaporuPdfGoruntule", "PlanlarRaporlar", new { id = rapor.Id })" 
+                                   target="_blank" 
+                                   class="faaliyet-rapor-btn btn-goruntule"
+                                   title="PDF'i Görüntüle">
+                                    <i class="fas fa-eye"></i>
+                                    <span>Görüntüle</span>
+                                </a>
+                                <a href="@Url.Action("FaaliyetRaporuPdfIndir", "PlanlarRaporlar", new { id = rapor.Id })" 
+                                   class="faaliyet-rapor-btn btn-indir"
+                                   title="PDF'i İndir">
+                                    <i class="fas fa-download"></i>
+                                    <span>İndir</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="faaliyet-rapor-btn btn-disabled" title="PDF mevcut değil">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>PDF Yok</span>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info faaliyet-rapor-bos">
+                <i class="fas fa-info-circle"></i> 
+                <p>Henüz faaliyet raporu bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .faaliyet-raporlari-container {
+        max-width: 100%;
+    }
+
+    .faaliyet-raporlari-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .faaliyet-rapor-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid #0066cc;
+    }
+
+    .faaliyet-rapor-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+
+    .faaliyet-rapor-content {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 1.5rem;
+    }
+
+    .faaliyet-rapor-icon {
+        width: 60px;
+        height: 60px;
+        background: #f0f7ff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .faaliyet-rapor-icon i {
+        font-size: 2rem;
+        color: #dc3545;
+    }
+
+    .faaliyet-rapor-info {
+        flex: 1;
+    }
+
+    .faaliyet-rapor-baslik {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .faaliyet-rapor-tarih {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .faaliyet-rapor-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .faaliyet-rapor-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-goruntule {
+        background: rgb(4, 22, 85);
+        color: white;
+    }
+
+    .btn-goruntule:hover {
+        background: rgb(3, 18, 70);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(4, 22, 85, 0.3);
+    }
+
+    .btn-indir {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-indir:hover {
+        background: #218838;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(40,167,69,0.3);
+    }
+
+    .btn-disabled {
+        background: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .faaliyet-rapor-bos {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .faaliyet-rapor-bos i {
+        font-size: 3rem;
+        color: #0066cc;
+        margin-bottom: 1rem;
+    }
+
+    .faaliyet-rapor-bos p {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .faaliyet-rapor-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .faaliyet-rapor-content {
+            width: 100%;
+        }
+
+        .faaliyet-rapor-actions {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .faaliyet-rapor-btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .faaliyet-rapor-baslik {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+
