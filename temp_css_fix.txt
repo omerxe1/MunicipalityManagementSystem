@@ -1,7 +1,0 @@
-/* Masaüstünde mobil navbar ve menüyü gizle */
-@media (min-width: 769px) {
-  .mobile-navbar,
-  .mobile-menu {
-    display: none !important;
-  }
-}
